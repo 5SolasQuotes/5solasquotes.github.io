@@ -1,0 +1,26 @@
+# 5 Solas Quotes: notes for whoever works on this site next
+
+Treat this folder as the source of truth. Do not regenerate the site from an older topic structure or old styling, or the changes below will be overwritten. If a generator builds the pages, update it to produce what is here, then continue from this version.
+
+## 1. Branding and style
+- The owner's logo (`assets/logo.png`, `logo-96.png`, `favicon.png`) is in the header, the home-page hero and the favicon. Keep it.
+- Dark gold/orange theme by default, plus a light theme and a sun/moon toggle in the nav. The choice is saved in localStorage. Colors are CSS variables in `assets/style.css`; keep using the variables so both themes keep working.
+
+## 2. Topics
+- 15 categories with subtopics, in classic loci order: Scripture, God, The Trinity, Decrees & Providence, Creation Angels & Man, The Fall & Sin, Covenant & Law, The Person of Christ, The Work of Christ, Salvation Applied, The Christian Life, The Church, Worship, Last Things, Polemics.
+- URLs: `topics/<category>.html` and `topics/<category>/<subtopic>.html`. Old topic URLs are redirect stubs.
+- Subtopics with no quotes show greyed out on `topics/index.html` with no page. A subtopic page is created once a quote is tagged to it.
+- Every quote has a list of topics, with its main topic first. All tags look the same (plain grey pills). On a topic page, the tag for the topic you are viewing is highlighted gold, so it is always clear why the quote is there. On a category page, every tag in that category is highlighted. Elsewhere (home, authors, collections, search, quote pages) nothing is highlighted. Do not bring back the gold/grey/dashed tag colors or the tag key.
+- Polemics tags (Rome: Mary, Rome: Saints, Rome: Images & Idolatry, Against Infant Baptism, etc.) are ordinary tags. A quote that mainly answers a specific error lists the polemics tag first, and also carries the doctrine tag.
+- Include all views. Infant baptism and Presbyterian covenant theology quotes are allowed. There are separate subtopics for Believer's Baptism, Infant Baptism, Mode of Baptism, and Covenant Theology: Baptist View / Presbyterian View.
+
+## 3. Sharing
+- Share on X must carry the FULL quote: the quote, then author, work and location, then the permalink. Do not truncate it.
+
+## 4. Data
+- `assets/quotes-index.json` is the master list. Each quote's `tg` array is `[name, root-relative url, css class]`, main topic first (css class is just `tag`). Keep the quote ids, the permalink pages in `quote/`, and the search working.
+
+## 5. Adding new quotes
+- File each quote into these topics: a main topic first, then any secondary topics.
+- If a quote does not fit any subtopic, tell the owner so they can decide on a new one.
+- Before changing the structure or restyling, ask the owner first.
