@@ -26,7 +26,7 @@ Treat this folder as the source of truth. Do not regenerate the site from an old
 - Before changing the structure or restyling, ask the owner first.
 
 ## 6. About and links pages
-- `about.html` is the real About page (no placeholder). `links.html` is a link-tree style page for Instagram/TikTok/YouTube bios. Accounts: X main @5Solas2, X quotes @TheVSolas, Instagram @_5solas_, TikTok @5.solas, YouTube channel "5 Solas" (UCwxNfXDulo42MjBxGiiQR1w). Update both pages if an account changes.
+- `about.html` is the real About page (no placeholder) and the single page for social links (the "Follow along" cards, `#follow`). `links.html` is only a redirect stub to `about.html`; keep it, because links.html is the URL in the owner's Instagram/TikTok/YouTube bios. The footer links only to About (no separate Follow link). Accounts: X main @5Solas2, X quotes @TheVSolas, Instagram @_5solas_, TikTok @5.solas, YouTube channel "5 Solas" (UCwxNfXDulo42MjBxGiiQR1w). Update the About cards if an account changes.
 
 ## 7. Collections
 - Collections are only for specific curated studies (currently: God Does Not Put Evil into Men's Hearts, Concupiscence Is Truly Sin, Mary Is Not the Queen of Heaven). Broad subjects like Providence and Union with Christ are topics, not collections; their old collection URLs redirect to the topic pages.

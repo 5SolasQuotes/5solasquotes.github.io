@@ -129,7 +129,7 @@ nav{display:flex;flex-wrap:wrap;align-items:center;gap:.3rem .85rem}nav a,nav a:
 .themelbl::before{content:"Light"}
 :root:not([data-theme=light]) .themelbl::before{content:"Dark"}
 .quote .mnote{font-size:.85rem;font-style:italic;color:var(--muted);margin:.2rem 0 .5rem}
-/* Link cards (links.html, about.html) */
+/* Link cards (about.html) */
 .linkcards .linkbtn2{flex-direction:row;align-items:center;gap:.9rem;padding:.8rem 1rem .8rem .8rem;border:1px solid color-mix(in srgb,var(--accent) 28%,transparent);border-radius:16px;box-shadow:0 2px 10px rgba(0,0,0,.12);transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease}
 .linkcards .linkbtn2 .txt{display:flex;flex-direction:column;gap:.15rem;flex:1;min-width:0}
 .linkcards .linkbtn2 .badge{flex:none;display:grid;place-items:center;width:46px;height:46px;border-radius:50%;background:color-mix(in srgb,var(--accent) 14%,transparent);color:var(--accent)}
