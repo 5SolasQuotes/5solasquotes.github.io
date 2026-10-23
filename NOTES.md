@@ -24,3 +24,6 @@ Treat this folder as the source of truth. Do not regenerate the site from an old
 - File each quote into these topics: a main topic first, then any secondary topics.
 - If a quote does not fit any subtopic, tell the owner so they can decide on a new one.
 - Before changing the structure or restyling, ask the owner first.
+
+## 6. About and links pages
+- `about.html` is the real About page (no placeholder). `links.html` is a link-tree style page for Instagram/TikTok/YouTube bios. Accounts: X main @5Solas2, X quotes @TheVSolas, Instagram @_5solas_, TikTok @5.solas, YouTube channel "5 Solas" (UCwxNfXDulo42MjBxGiiQR1w). Update both pages if an account changes.

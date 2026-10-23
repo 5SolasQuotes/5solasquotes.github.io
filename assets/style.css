@@ -115,3 +115,11 @@ nav{display:flex;flex-wrap:wrap;align-items:center;gap:.3rem .85rem}nav a,nav a:
 .tag:hover{border-color:var(--accent);color:var(--accent)}
 .tag.here,.tag.here:hover{background:var(--accent);border-color:var(--accent);color:#120c05;font-weight:600}
 :root[data-theme=light] .tag.here,:root[data-theme=light] .tag.here:hover{color:#fff}
+.linklist{display:grid;gap:.7rem;margin:1rem 0}
+.linkbtn2{display:flex;flex-direction:column;gap:.15rem;padding:.85rem 1.1rem;background:var(--card);border:1px solid var(--rule);border-radius:12px;text-decoration:none;color:var(--ink);transition:border-color .2s,box-shadow .2s,transform .15s}
+.linkbtn2:hover{border-color:var(--accent);box-shadow:0 0 22px var(--glow);transform:translateY(-1px)}
+.linkbtn2 .lt{font-size:1.05rem;font-weight:600;color:var(--accent)}.linkbtn2 .ls2{font-size:.85rem;color:var(--muted);font-family:system-ui,sans-serif}
+.linkbtn2.main{background:linear-gradient(135deg,var(--accent),var(--hot));border-color:var(--accent)}
+.linkbtn2.main .lt,.linkbtn2.main .ls2{color:#120c05}
+:root[data-theme=light] .linkbtn2.main .lt,:root[data-theme=light] .linkbtn2.main .ls2{color:#fff}
+.linkpage{max-width:520px;text-align:center}.linkpage .linklist{text-align:left}.linkpage .herotitle{font-size:1.9rem}
