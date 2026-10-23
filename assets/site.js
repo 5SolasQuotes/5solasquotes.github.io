@@ -40,5 +40,5 @@ const ex=document.getElementById('expand');if(ex){ex.addEventListener('click',()
 
 (function(){var b=document.getElementById('themebtn');if(!b)return;var r=document.documentElement;
 function cur(){return r.getAttribute('data-theme')==='light'?'light':'dark'}
-function paint(){var l=cur()==='light';b.textContent=l?'\u263E':'\u2600';b.title=l?'Switch to dark theme':'Switch to light theme'}
+function paint(){var l=cur()==='light';b.textContent=l?'\u263E':'\u2600';b.title=l?'Switch to dark theme':'Switch to light theme';b.setAttribute('aria-label',(l?'Light':'Dark')+' theme. Switch to '+(l?'dark':'light')+' theme')}
 paint();b.addEventListener('click',function(){var n=cur()==='light'?'dark':'light';r.setAttribute('data-theme',n);try{localStorage.setItem('theme',n)}catch(e){}paint()})})();

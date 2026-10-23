@@ -123,3 +123,8 @@ nav{display:flex;flex-wrap:wrap;align-items:center;gap:.3rem .85rem}nav a,nav a:
 .linkbtn2.main .lt,.linkbtn2.main .ls2{color:#120c05}
 :root[data-theme=light] .linkbtn2.main .lt,:root[data-theme=light] .linkbtn2.main .ls2{color:#fff}
 .linkpage{max-width:520px;text-align:center}.linkpage .linklist{text-align:left}.linkpage .herotitle{font-size:1.9rem}
+.themewrap{display:inline-flex;flex-direction:column;align-items:center;gap:2px;line-height:1}
+.themewrap .themebtn{margin-left:0}
+.themelbl{font:600 10px/1 system-ui,sans-serif;letter-spacing:.06em;color:var(--muted)}
+.themelbl::before{content:"Light"}
+:root:not([data-theme=light]) .themelbl::before{content:"Dark"}
