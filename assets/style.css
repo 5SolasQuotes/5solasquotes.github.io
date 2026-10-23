@@ -128,3 +128,4 @@ nav{display:flex;flex-wrap:wrap;align-items:center;gap:.3rem .85rem}nav a,nav a:
 .themelbl{font:600 10px/1 system-ui,sans-serif;letter-spacing:.06em;color:var(--muted)}
 .themelbl::before{content:"Light"}
 :root:not([data-theme=light]) .themelbl::before{content:"Dark"}
+.quote .mnote{font-size:.85rem;font-style:italic;color:var(--muted);margin:.2rem 0 .5rem}
