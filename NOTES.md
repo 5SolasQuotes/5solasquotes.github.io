@@ -30,3 +30,6 @@ Treat this folder as the source of truth. Do not regenerate the site from an old
 
 ## 7. Collections
 - Collections are only for specific curated studies (currently: God Does Not Put Evil into Men's Hearts, Concupiscence Is Truly Sin, Mary Is Not the Queen of Heaven). Broad subjects like Providence and Union with Christ are topics, not collections; their old collection URLs redirect to the topic pages.
+
+## 8. Scope
+- Mainly Reformed, Puritan and Particular Baptist writers, plus church fathers, medieval writers and others (even Roman Catholics) when they state a truth worth quoting; the home tagline, About text and meta descriptions say this.
