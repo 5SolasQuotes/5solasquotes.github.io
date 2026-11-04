@@ -6,7 +6,7 @@ document.addEventListener('click',e=>{const b=e.target.closest('button.copy');if
 const esc=s=>(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 function card(q,hl){const att=`— ${q.a}, ${q.w}${q.l?', '+q.l:''}`;const h=s=>hl?hl(esc(s)):esc(s);
  const src=q.u?`<a class="src" href="${esc(q.u)}" target="_blank" rel="noopener">Read it online · ${esc(q.ul)}</a>`:'<span class="src none">No free online copy linked</span>';
- return `<figure class="quote"><blockquote><p>${h(q.t)}</p></blockquote><figcaption>— <a href="${pre}authors/${q.as_}.html">${h(q.a)}</a>, <cite>${h(q.w)}</cite>${q.l?', '+h(q.l):''}</figcaption>
+ return `<figure class="quote"><blockquote><p>${h(q.t)}</p></blockquote><figcaption><span class="by"><span class="lbl">Author:</span> <a href="${pre}authors/${q.as_}.html">${h(q.a)}</a></span><span class="wk"><span class="lbl">Work:</span> <cite>${h(q.w)}</cite>${q.l?', '+h(q.l):''}</span></figcaption>
  <div class="meta">${q.tg.map(t=>`<span class="t">${t[3].map(([n,u])=>`<a href="${pre}${u}">${esc(n)}</a>`).join(' › ')}</span>`).join('')}</div>
  <div class="actions"><button class="copy" data-copy="${esc('“'+q.t+'”\n\n'+att)}">Copy</button><a class="share" href="${esc(q.x)}" target="_blank" rel="noopener">Share on X</a><a class="perma" href="${pre}quote/${q.id}.html">Permalink</a>${src}</div></figure>`}
 // tags: each quote stores slugs; names, links and parent levels come from assets/tree.json

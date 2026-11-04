@@ -101,8 +101,12 @@ def tags_html(q, pre, here=()):
     ks = list(q['tags'])
     if here: ks = [k for k in ks if k in here] + [k for k in ks if k not in here]
     return ''.join(f'<span class="t{" here" if k in here else ""}">' + ' › '.join(f'<a href="{pre}{u}">{esc(n)}</a>' for n, u in tag_segs(k)) + '</span>' for k in ks)
+def caption(q, pre):
+    """attribution on two lines: 'Author:' (linked to the author page), then 'Work:' with the place in it"""
+    return (f'<span class="by"><span class="lbl">Author:</span> <a href="{pre}authors/{q["as_"]}.html">{esc(q["a"])}</a></span>'
+           f'<span class="wk"><span class="lbl">Work:</span> <cite>{esc(q["w"])}</cite>' + (f', {esc(q["l"])}' if q['l'] else '') + '</span>')
 def render(q, pre, here=()):
-    cap = f'— <a href="{pre}authors/{q["as_"]}.html">{esc(q["a"])}</a>, <cite>{esc(q["w"])}</cite>' + (f', {esc(q["l"])}' if q['l'] else '')
+    cap = caption(q, pre)
     plain = f'— {q["a"]}, {q["w"]}' + (f', {q["l"]}' if q['l'] else '')
     copy = esc(f'“{q["t"]}”\n\n{plain}')
     src = (f'<a class="src" href="{esc(q["u"])}" rel="noopener" target="_blank">Read it online · {esc(q["ul"])}</a>' if q['u']
@@ -301,6 +305,7 @@ for f in glob.glob('**/*.html', recursive=True):
             q = BYID.get(m.group(2))
             if not q: return m.group(0)
             inner = re.sub(r'<div class="meta">.*?</div>', lambda _: f'<div class="meta">{tags_html(q, pre)}</div>', m.group(3), count=1, flags=re.S)
+            inner = re.sub(r'<figcaption>.*?</figcaption>', lambda _: f'<figcaption>{caption(q, pre)}</figcaption>', inner, count=1, flags=re.S)
             return re.sub(r' data-pol="[^"]*"', '', m.group(1)) + inner + m.group(4)
         s = FIG.sub(fix, s)
     s = re.sub(r'\d+ quotations · \d+ topics · \d+ authors', FOOTER, s)
