@@ -240,10 +240,10 @@ for k in order:
     if os.path.exists(f): src = rd(f)
     else:
         m = re.search(r'<h1>(.*?)</h1>', APT); src = APT.replace(m.group(1), esc(a))
-    src = re.sub(r'<title>.*? · 5 Solas Quotes</title>', f'<title>{esc(a)} · 5 Solas Quotes</title>', src, count=1)
+    src = re.sub(r'<title>.*? · 5 Solas Quotes</title>', f'<title>{esc(INV[k])} · 5 Solas Quotes</title>', src, count=1)   # heading, title and crumb: "Last, First"
     groups = collections.OrderedDict((p['slug'], []) for p in PARTS)
     for q in L: groups[PART_OF[q['tags'][0].split('/')[0]]['slug']].append(q)
-    main = (f'<main class="wrap"><p class="crumbs"><a href="index.html">Authors</a> › <span class="cur">{esc(a)}</span></p><h1>{esc(a)}</h1><p class="sub">{qs(len(L))} · Works cited: {works}</p>'
+    main = (f'<main class="wrap"><p class="crumbs"><a href="index.html">Authors</a> › <span class="cur">{esc(INV[k])}</span></p><h1>{esc(INV[k])}</h1><p class="sub">{qs(len(L))} · Works cited: {works}</p>'
             + ''.join(f'<h2 class="sect"><a href="../topics/{g}.html">{esc(PARTS_BY[g]["name"])}</a></h2>' + ''.join(render(q, '../') for q in G) for g, G in groups.items() if G))
     wr(f, src[:src.index('<main')] + main + src[src.index('</main>'):]); GEN.add(f)
 
