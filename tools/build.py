@@ -194,29 +194,44 @@ wr('topics/index.html', s[:s.index('<main')] + body + s[s.index('</main>'):]); G
 
 # ------------------------------------------------------ authors
 CORP = {'Bohemian Brethren','French Reformed Churches','Geneva translators','Particular Baptists','Reformed delegates at the Colloquy of Thorn','Synod of Debrecen','Synod of Dort','Westminster Assembly','Church of England','Church of Ireland','Scottish Reformers'}
-SPECIAL = {'Pierre Du Moulin': 'du moulin', 'Louis Le Blanc': 'le blanc'}
 def strip(x): return ''.join(ch for ch in unicodedata.normalize('NFD', x) if unicodedata.category(ch) != 'Mn').lower()
-def akey(a):
-    if a in CORP: return (strip(a), a)
-    if a in SPECIAL: return (SPECIAL[a], a)
-    p = re.split(r' & |, ', a)[0]
-    p = re.sub(r' of [A-Z]\w+$', '', p) if p.split()[0] not in ('Athanasius', 'John') or 'Wamphray' in p else p
-    if p.startswith('Athanasius'): return ('athanasius', a)
-    return (strip(p.split()[-1]), a)
 AUTH = collections.OrderedDict()
 for q in Q: AUTH.setdefault(q['as_'], [q['a'], []])[1].append(q)
-order = sorted(AUTH, key=lambda k: akey(AUTH[k][0]))
-# search page: author sort order and period (period is set by hand in tools/author-periods.json)
+# "Last, First" form for the Authors page and the search Author filter: a rule, plus hand overrides in tools/author-names.json
+INV_OVR = {k: v for k, v in json.load(open('tools/author-names.json', encoding='utf-8')).items() if not k.startswith('_')}
+LOW_PART = {'de', 'du', 'des', 'la', 'le', 'van', 'von', 'der', 'den', 'ten', 'ter', 'à', 'a', 'da', 'di'}
+SUFFIX = {'Jr.', 'Sr.', 'Jr', 'Sr', 'II', 'III', 'IV'}
+def invert1(n):
+    """one person: 'John Owen' -> 'Owen, John'; 'Wilhelmus à Brakel' -> 'Brakel, Wilhelmus à'; 'Pierre Du Moulin' -> 'Du Moulin, Pierre'"""
+    w = n.split(); suf = ''
+    if len(w) > 2 and w[-1] in SUFFIX: suf = ', ' + w.pop()
+    if len(w) < 2: return n
+    i = len(w) - 1
+    while i > 1 and w[i - 1][0].isupper() and w[i - 1].lower() in LOW_PART: i -= 1   # capitalised article stays with the surname (Du Moulin, Le Blanc)
+    j = i
+    while j > 1 and w[j - 1] in LOW_PART: j -= 1                                         # lower-case particle goes after the given name (Brakel, Wilhelmus à)
+    return ' '.join(w[i:]) + ', ' + ' '.join(w[:j] + w[j:i]) + suf
+def sort_name(k):
+    a = AUTH[k][0]
+    if k in INV_OVR: return INV_OVR[k]
+    if a in CORP or re.search(r' of [A-Z]', a): return a                                 # bodies, and "X of Place" (Athanasius of Alexandria) stay as they are
+    m = re.match(r'(.+?)( & |, )(.+)$', a) if '&' in a else None                        # several authors: invert only the first
+    if m: return invert1(m.group(1)) + (', ' if m.group(2) == ', ' else ' & ') + m.group(3)
+    return invert1(a)
+INV = {k: sort_name(k) for k in AUTH}
+def skey(k): return (strip(INV[k]), k)
+order = sorted(AUTH, key=skey)
+# search page: author sort order, period (set by hand in tools/author-periods.json) and "Last, First" name
 PER = json.load(open('tools/author-periods.json', encoding='utf-8'))
-wr('assets/authors.json', json.dumps({k: [i, PER.get(k, '')] for i, k in enumerate(order)}, ensure_ascii=False, separators=(',', ':')))
+wr('assets/authors.json', json.dumps({k: [i, PER.get(k, ''), INV[k]] for i, k in enumerate(order)}, ensure_ascii=False, separators=(',', ':')))
 _nop = [AUTH[k][0] for k in order if k not in PER]
 if _nop: print('no period set for (add to tools/author-periods.json):', '; '.join(_nop))
 s = rd('authors/index.html')
-letters = list(dict.fromkeys(akey(AUTH[k][0])[0][0].upper() for k in order))
+letters = list(dict.fromkeys(skey(k)[0][0].upper() for k in order))
 body = '<h1>Authors</h1><p class="letters">' + ''.join(f'<a href="#L{L}">{L}</a>' for L in letters) + '</p>'
 for L in letters:
     body += f'<h2 id="L{L}" class="letter">{L}</h2><ul class="index">' + ''.join(
-        f'<li><a href="{k}.html">{esc(AUTH[k][0])}</a> <span class="count">{len(AUTH[k][1])}</span></li>' for k in order if akey(AUTH[k][0])[0][0].upper() == L) + '</ul>'
+        f'<li><a href="{k}.html">{esc(INV[k])}</a> <span class="count">{len(AUTH[k][1])}</span></li>' for k in order if skey(k)[0][0].upper() == L) + '</ul>'
 wr('authors/index.html', s[:s.find('<h1>Authors</h1>')] + body + s[s.find('</main>'):]); GEN.add('authors/index.html')
 APT = rd('authors/ezekiel-hopkins.html')
 for k in order:
@@ -254,7 +269,7 @@ cards = ''.join(
     f'<span class="lc">{qs(N("part:" + p["slug"]))}</span><span class="ls">{esc(", ".join(t["name"] for t in p["topics"]))}</span></a>'
     for p in PARTS)
 s = re.sub(r'(<div class="cards">).*?(</div><p class="more">)', lambda m: m.group(1) + cards + m.group(2), s, count=1, flags=re.S)
-top = sorted(AUTH, key=lambda k: (-len(AUTH[k][1]), akey(AUTH[k][0])))[:12]
+top = sorted(AUTH, key=lambda k: (-len(AUTH[k][1]), skey(k)))[:12]
 s = re.sub(r'(<section><h2 class="sect">Authors</h2><ul class="index compact">).*?(</ul>)', lambda m: m.group(1) + ''.join(
     f'<li><a href="authors/{k}.html">{esc(AUTH[k][0])}</a> <span class="count">{len(AUTH[k][1])}</span></li>' for k in top) + m.group(2), s, count=1, flags=re.S)
 s = re.sub(r'All \d+ authors →', f'All {len(AUTH)} authors →', s)

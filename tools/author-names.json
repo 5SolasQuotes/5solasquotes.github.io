@@ -1,0 +1,5 @@
+{
+  "_note": "Hand overrides for the 'Last, First' form used on the Authors page and in the search Author filter. Most names are inverted by the rule in tools/build.py (sort_name); list a name here only when the rule gets it wrong. Key = author slug.",
+  "john-brown-of-wamphray": "Brown, John (of Wamphray)",
+  "thomas-a-kempis": "Thomas à Kempis"
+}

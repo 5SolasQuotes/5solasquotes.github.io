@@ -47,7 +47,7 @@ function parseQuery(raw){const ph=[],neg=[],tm=[];
  rest.split(/\s+/).forEach(tok=>{if(!tok)return;const n=tok[0]==='-'&&tok.length>1;wordsOf(tok).forEach(w=>(n?neg:tm).push(w))});return{ph,neg,tm}}
 const ffield=s=>{const w=wordsOf(s);return{w,s:w.map(stem)}};
 function ready(d,au){if(d._ready)return;d._ready=1;d.forEach(q=>{
- q._f={t:ffield(q.t),a:ffield(q.a),w:ffield(q.w+' '+(q.l||'')),k:ffield(q.tg.map(x=>x[0]).join(' ')+' '+q.anc+' '+q.kw+' '+q.st)};
+ const an=au[q.as_]&&au[q.as_][2];q._f={t:ffield(q.t),a:ffield(q.a+(an&&an!==q.a?' '+an:'')),w:ffield(q.w+' '+(q.l||'')),k:ffield(q.tg.map(x=>x[0]).join(' ')+' '+q.anc+' '+q.kw+' '+q.st)};
  q.nw=q.t.split(/\s+/).length;q._len=q.nw<=40?'short':q.nw<=100?'medium':'long';const a=au[q.as_]||[9999,''];q._ar=a[0];q._p=a[1];q._r=refsOf(q.t+' '+(q.l||''))})}
 const ERAS=[['early','Early church (to 600)'],['medieval','Medieval (600–1500)'],['1500s','1500s: Reformation'],['1600s','1600s: Puritan and post-Reformation'],['1700s','1700s'],['1800s','1800s'],['1900s','1900s to today'],['none','Not placed']];
 const LENS=[['short','Short (up to 40 words)'],['medium','Medium (41 to 100 words)'],['long','Long (over 100 words)']];
@@ -97,7 +97,7 @@ if(res){const $=id=>document.getElementById(id),inp=$('sq'),cnt=$('scount');
    if(pass(q,s,'era')){inc('era',q._p||'none');T.era++}
    if(pass(q,s,'len')){inc('len',q._len);T.len++}
    if(pass(q,s,'src')){inc('src',q.u?'yes':'no');T.src++}}
-  const names={};d.forEach(q=>{names[q.as_]=q.a});const works={};d.forEach(q=>works[q.as_+'|'+q.w]=[q.w,q.a]);
+  const names={};d.forEach(q=>{names[q.as_]=(AUJ[q.as_]&&AUJ[q.as_][2])||q.a});const works={};d.forEach(q=>works[q.as_+'|'+q.w]=[q.w,q.a]);
   const keep=(c,k,cur)=>c[k]>0||k===cur;
   setOpts('o-author',[['',`All authors (${T.author})`]].concat(Object.keys(C.author).concat(s.author&&!C.author[s.author]?[s.author]:[]).sort((a,b)=>(AUJ[a]?AUJ[a][0]:9999)-(AUJ[b]?AUJ[b][0]:9999)).map(k=>[k,`${names[k]||k} (${C.author[k]||0})`])),s.author);
   setOpts('o-work',[['',`All works (${T.work})`]].concat(Object.keys(C.work).concat(s.work&&!C.work[s.work]?[s.work]:[]).sort((a,b)=>wkey(works[a]?works[a][0]:a)<wkey(works[b]?works[b][0]:b)?-1:1).map(k=>[k,`${works[k]?works[k][0]+' · '+works[k][1]:k} (${C.work[k]||0})`])),s.work);
