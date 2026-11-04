@@ -6,24 +6,42 @@ Treat this folder as the source of truth. Do not regenerate the site from an old
 - The owner's logo (`assets/logo.png`, `logo-96.png`, `favicon.png`) is in the header, the home-page hero and the favicon. Keep it.
 - Dark gold/orange theme by default, plus a light theme and a sun/moon toggle in the nav. The choice is saved in localStorage. Colors are CSS variables in `assets/style.css`; keep using the variables so both themes keep working.
 
-## 2. Topics
-- 15 categories with subtopics, in classic loci order: Scripture, God, The Trinity, Decrees & Providence, Creation Angels & Man, The Fall & Sin, Covenant & Law, The Person of Christ, The Work of Christ, Salvation Applied, The Christian Life, The Church, Worship, Last Things, Polemics.
-- URLs: `topics/<category>.html` and `topics/<category>/<subtopic>.html`. Old topic URLs are redirect stubs.
-- Subtopics with no quotes show greyed out on `topics/index.html` with no page. A subtopic page is created once a quote is tagged to it.
-- Every quote has a list of topics, with its main topic first. All tags look the same (plain grey pills). On a topic page, the tag for the topic you are viewing is highlighted gold, so it is always clear why the quote is there. On a category page, every tag in that category is highlighted. Elsewhere (home, authors, collections, search, quote pages) nothing is highlighted. Do not bring back the gold/grey/dashed tag colors or the tag key.
-- Polemics tags (Rome: Mary, Rome: Saints, Rome: Images & Idolatry, Against Infant Baptism, etc.) are ordinary tags. A quote that mainly answers a specific error lists the polemics tag first, and also carries the doctrine tag.
-- Include all views. Infant baptism and Presbyterian covenant theology quotes are allowed. There are separate subtopics for Believer's Baptism, Infant Baptism, Mode of Baptism, and Covenant Theology: Baptist View / Presbyterian View.
+## 2. Topics: the tree
+- The topics follow the owner's tree (the order and divisions of Turretin, Heidegger, Mastricht, à Brakel, Witsius and the Westminster Confession). It has four levels: **Part → Topic → Subtopic → fine tag**. The whole tree lives in one file, `assets/tree.json`. Keep its order exactly; do not alphabetize, merge or drop entries.
+- 11 Parts: Prolegomena; God; The Decrees and Works of God; The Covenant of Works, the Fall, and Sin; The Law and the Covenant of Grace; Christ; The Application of Redemption; The Church and the Means of Grace; Worship, the Christian Life, and Society; Last Things; Polemics. Parts are shown by name only (no Roman numerals, no topic numbers, no source codes).
+- URLs, one per level:
+  - Part: `topics/<part>.html`, all quotes in the Part plus a list of its Topics.
+  - Topic: `topics/<topic>.html`, all quotes in the Topic plus a list of its Subtopics.
+  - Subtopic: `topics/<topic>/<subtopic>.html`, only that Subtopic's quotes.
+  - Fine tag (only once one is used): `topics/<topic>/<subtopic>/<fine>.html`.
+  - Every page has clickable breadcrumbs (Topics › Part › Topic) and a count. A quote filed in several children is counted once in the parent.
+- Topics and Subtopics with no quotes are hidden (no page, not listed). They appear automatically when a quote is tagged to them.
+- `topics/index.html` lists every visible Part, Topic and Subtopic with counts. The home page shows one card per Part.
+- Polemics is its own Part, listed by opponent (Rome, Arminians, Socinians…). Every polemical quote is also filed under its doctrine, e.g. a quote against Trent on justification carries `justification/roman-justification` and `rome/justification`.
+- Tags all look the same (plain grey pills). On a Part, Topic or Subtopic page, the tags belonging to that page are highlighted. Elsewhere nothing is highlighted. Polemics pills read "Opponent: Subtopic" (e.g. "Rome: Justification"); a subtopic name used in two topics is also prefixed with its topic.
+- Old URLs (the earlier 15-category pages and older stubs) are redirect stubs to the nearest new page. The list is `tools/redirects.json`; keep it so old links never break.
+- Baptism subtopics follow the tree. "Polemics › Anabaptists › Infant baptism" and "The Covenant of Grace › Children in the covenant" have no quotes and stay hidden. The old empty "Infant Baptism", "Believer's Baptism", "Mode of Baptism" and "Covenant Theology: Presbyterian View" entries never had pages, so there was nothing to redirect.
+- `REVIEW.md` lists quotes that did not clearly fit a subtopic and were filed in the nearest place.
 
 ## 3. Sharing
 - Share on X must carry the FULL quote: the quote, then author, work and location, then the permalink. Do not truncate it.
 
 ## 4. Data
-- `assets/quotes-index.json` is the master list. Each quote's `tg` array is `[name, root-relative url, css class]`, main topic first (css class is just `tag`). Keep the quote ids, the permalink pages in `quote/`, and the search working.
+- `assets/tree.json`: the tree. `{"parts":[{"slug","name","topics":[{"slug","name","subtopics":[{"slug","name","fine":[{"slug","name"}]}]}]}]}`. Slugs are kebab-case titles. Topic slugs are unique across the whole tree.
+- `assets/quotes-index.json`: the master list of quotes. Each quote stores only its tag slugs in `tags`, main tag first:
+  - `"justification/nature-of-justification"`: a subtopic (the usual case)
+  - `"justification"`: the topic itself, when no subtopic fits
+  - `"justification/nature-of-justification/<fine>"`: a fine tag
+  - Parents (Topic, Part) are worked out from the tree, so never list them separately.
+- Other quote fields: `id` (permalink id, never change it), `t` text, `a` author, `as_` author slug, `w` work, `l` location, `u`/`ul` free online copy link and label, `x` Share-on-X link, `kw`/`st` extra search words.
+- `tools/build.py` turns these two files into the site: Part/Topic/Subtopic pages, the topics index, home cards, author pages and the authors index, new quote pages, tag pills on every other page, footers, and the old-URL redirects. It stops with a clear error if a tag slug is not in the tree. Search (`assets/site.js`) reads both JSON files in the browser, so tag names, topics and parts are all searchable.
 
-## 5. Adding new quotes
-- File each quote into these topics: a main topic first, then any secondary topics.
-- If a quote does not fit any subtopic, tell the owner so they can decide on a new one.
-- Before changing the structure or restyling, ask the owner first.
+## 5. Adding a quote
+1. Add one entry to `assets/quotes-index.json` (copy an existing one). Give it a new 10-character hex `id`, and fill in the text, author (`a`, and `as_` = the author page slug), work, location, link and Share-on-X link (the FULL quote, see section 3).
+2. Set `tags` to one or more slugs from `assets/tree.json`, main one first. A quote may carry tags in several topics. A polemical quote gets both its doctrine tag and its Polemics tag.
+3. Run `python3 tools/build.py`. It creates the quote's permalink page and, if needed, the author's page, and updates counts everywhere. A Topic or Subtopic that was hidden appears as soon as it has a quote.
+4. If a quote fits nowhere, tag the nearest Topic and add it to `REVIEW.md`. To add a new subtopic, add it to `assets/tree.json` in the right place first. Ask the owner before changing the tree.
+5. Check the page locally, then commit and push.
 
 ## 6. About and links pages
 - `about.html` is the real About page (no placeholder) and the single page for social links (the "Follow along" cards, `#follow`). `links.html` is only a redirect stub to `about.html`; keep it, because links.html is the URL in the owner's Instagram/TikTok/YouTube bios. The footer links only to About (no separate Follow link). Accounts: X main @5Solas2, X quotes @TheVSolas, Instagram @_5solas_, TikTok @5.solas, YouTube channel "5 Solas" (UCwxNfXDulo42MjBxGiiQR1w). Update the About cards if an account changes.

@@ -9,13 +9,20 @@ function card(q,hl){const att=`— ${q.a}, ${q.w}${q.l?', '+q.l:''}`;const h=s=>
  return `<figure class="quote"><blockquote><p>${h(q.t)}</p></blockquote><figcaption>— <a href="${pre}authors/${q.as_}.html">${h(q.a)}</a>, <cite>${h(q.w)}</cite>${q.l?', '+h(q.l):''}</figcaption>
  <div class="meta">${q.tg.map(([n,u,c])=>u?`<a class="${c}" href="${pre}${u}">${esc(n)}</a>`:`<span class="${c}">${esc(n)}</span>`).join('')}</div>
  <div class="actions"><button class="copy" data-copy="${esc('“'+q.t+'”\n\n'+att)}">Copy</button><a class="share" href="${esc(q.x)}" target="_blank" rel="noopener">Share on X</a><a class="perma" href="${pre}quote/${q.id}.html">Permalink</a>${src}</div></figure>`}
-let DATA=null;const load=()=>DATA?Promise.resolve(DATA):fetch(pre+'assets/quotes-index.json').then(r=>r.json()).then(d=>DATA=d);
+// tags: each quote stores slugs; names, links and parent levels come from assets/tree.json
+function prep(tree,d){const M={},pol=new Set(),cnt={};
+ tree.parts.forEach(p=>p.topics.forEach(t=>{if(p.slug==='polemics')pol.add(t.slug);else t.subtopics.forEach(s=>cnt[s.name]=(cnt[s.name]||0)+1)}));
+ tree.parts.forEach(p=>p.topics.forEach(t=>{M[t.slug]=[t.name,'topics/'+t.slug+'.html',[p.name,t.name]];
+  t.subtopics.forEach(s=>{const k=t.slug+'/'+s.slug,n=(pol.has(t.slug)||cnt[s.name]>1)?t.name+': '+s.name:s.name;M[k]=[n,'topics/'+k+'.html',[p.name,t.name,s.name]];
+   (s.fine||[]).forEach(f=>M[k+'/'+f.slug]=[f.name,'topics/'+k+'.html',[p.name,t.name,s.name,f.name]])})}));
+ d.forEach(q=>{const ts=(q.tags||[]).filter(k=>M[k]);q.tg=ts.map(k=>[M[k][0],M[k][1],'tag']);q.anc=[...new Set(ts.flatMap(k=>M[k][2]))].join(' ')});return d}
+let DATA=null;const load=()=>DATA?Promise.resolve(DATA):Promise.all([fetch(pre+'assets/tree.json').then(r=>r.json()),fetch(pre+'assets/quotes-index.json').then(r=>r.json())]).then(([t,d])=>DATA=prep(t,d));
 const fold=s=>(s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
 const res=document.getElementById('results');
 if(res){const inp=document.getElementById('sq'),cnt=document.getElementById('scount');
  const run=()=>{const raw=inp.value.trim();const terms=fold(raw).split(/\s+/).filter(Boolean);history.replaceState(null,'',raw?'?q='+encodeURIComponent(raw):location.pathname);
   if(!terms.length){res.innerHTML='';cnt.textContent='Type a word or phrase: a doctrine, an author, a Scripture reference…';return}
-  load().then(d=>{const hits=d.filter(q=>{const hay=fold([q.t,q.a,q.w,q.l,q.tg.map(x=>x[0]).join(' '),q.kw,q.st].join(' '));return terms.every(t=>hay.includes(t))});
+  load().then(d=>{const hits=d.filter(q=>{const hay=fold([q.t,q.a,q.w,q.l,q.tg.map(x=>x[0]).join(' '),q.anc,q.kw,q.st].join(' '));return terms.every(t=>hay.includes(t))});
    const rx=new RegExp('('+terms.map(t=>t.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')).join('|')+')','gi');
    const hl=s=>{/* highlight on accent-folded basis only when exact */return s.replace(rx,'<mark>$1</mark>')};
    cnt.textContent=`${hits.length} quotation${hits.length==1?'':'s'} found for “${raw}”`;res.innerHTML=hits.slice(0,200).map(q=>card(q,hl)).join('')})};
