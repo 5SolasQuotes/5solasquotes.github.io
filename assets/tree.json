@@ -3225,28 +3225,78 @@
        "name": "Nature of Justification",
        "fine": [
         {
-         "slug": "forensic-act",
-         "name": "Forensic act"
-        },
-        {
          "slug": "pardon-and-acceptance",
          "name": "Pardon and acceptance"
         },
         {
-         "slug": "against-infusion",
-         "name": "Against infusion"
-        },
-        {
-         "slug": "justification-and-sanctification-distinguished",
-         "name": "Justification and sanctification distinguished"
+         "slug": "justification-of-the-ungodly",
+         "name": "Justification of the ungodly"
         },
         {
          "slug": "justification-as-a-one-time-act",
          "name": "Justification as a one-time act"
         },
         {
-         "slug": "justification-of-the-ungodly",
-         "name": "Justification of the ungodly"
+         "slug": "justification-is-by-grace",
+         "name": "Justification is by grace"
+        }
+       ]
+      },
+      {
+       "slug": "forensic-not-moral",
+       "name": "Forensic, Not Moral",
+       "fine": [
+        {
+         "slug": "a-judicial-sentence",
+         "name": "A judicial sentence"
+        },
+        {
+         "slug": "declared-not-made-righteous",
+         "name": "Declared, not made, righteous"
+        },
+        {
+         "slug": "the-meaning-of-the-word-justify",
+         "name": "The meaning of the word “justify”"
+        }
+       ]
+      },
+      {
+       "slug": "justification-and-sanctification-distinguished",
+       "name": "Justification and Sanctification Distinguished",
+       "fine": [
+        {
+         "slug": "imputed-and-inherent-righteousness",
+         "name": "Imputed and inherent righteousness"
+        },
+        {
+         "slug": "distinguished-but-inseparable",
+         "name": "Distinguished but inseparable"
+        },
+        {
+         "slug": "the-confusion-of-the-two",
+         "name": "The confusion of the two (Rome)"
+        }
+       ]
+      },
+      {
+       "slug": "efficient-cause",
+       "name": "Efficient Cause: The Free Grace of God",
+       "fine": [
+        {
+         "slug": "gods-free-grace",
+         "name": "God’s free grace"
+        },
+        {
+         "slug": "the-triune-god-justifies",
+         "name": "The triune God justifies"
+        },
+        {
+         "slug": "not-moved-by-foreseen-faith-or-works",
+         "name": "Not moved by foreseen faith or works"
+        },
+        {
+         "slug": "justification-flows-from-election",
+         "name": "Justification flows from election"
         }
        ]
       },
@@ -3259,16 +3309,16 @@
          "name": "The righteousness of Christ"
         },
         {
-         "slug": "double-imputation",
-         "name": "Double imputation"
+         "slug": "christs-satisfaction-and-merit",
+         "name": "Christ’s satisfaction and merit"
+        },
+        {
+         "slug": "christ-as-surety",
+         "name": "Christ as surety"
         },
         {
          "slug": "alien-righteousness",
          "name": "Alien righteousness"
-        },
-        {
-         "slug": "imputation-of-christs-righteousness",
-         "name": "Imputation of Christ's righteousness"
         }
        ]
       },
@@ -3277,14 +3327,48 @@
        "name": "Active and Passive Obedience Imputed",
        "fine": [
         {
-         "slug": "christs-obedience-imputed-to-the-believer",
-         "name": "Christ's obedience imputed to the believer"
+         "slug": "active-obedience",
+         "name": "Active obedience"
+        },
+        {
+         "slug": "passive-obedience",
+         "name": "Passive obedience"
+        },
+        {
+         "slug": "against-denying-the-imputation-of-active-obedience",
+         "name": "Against denying the imputation of active obedience"
+        }
+       ]
+      },
+      {
+       "slug": "formal-cause",
+       "name": "Formal Cause: Imputation",
+       "fine": [
+        {
+         "slug": "imputation-of-christs-righteousness",
+         "name": "Imputation of Christ’s righteousness"
+        },
+        {
+         "slug": "double-imputation",
+         "name": "Double imputation"
+        },
+        {
+         "slug": "imputation-not-infusion",
+         "name": "Imputation, not infusion"
+        },
+        {
+         "slug": "imputation-is-not-a-legal-fiction",
+         "name": "Imputation is not a legal fiction"
+        },
+        {
+         "slug": "imputation-and-union-with-christ",
+         "name": "Imputation and union with Christ"
         }
        ]
       },
       {
        "slug": "faith-alone",
-       "name": "Faith Alone",
+       "name": "Instrumental Cause: Faith Alone",
        "fine": [
         {
          "slug": "sola-fide",
@@ -3300,11 +3384,75 @@
         },
         {
          "slug": "faiths-relation-to-works",
-         "name": "Faith's relation to works"
+         "name": "Faith’s relation to works"
         },
         {
          "slug": "faith-alone-justifies-but-not-alone",
          "name": "Faith alone justifies, but not alone"
+        }
+       ]
+      },
+      {
+       "slug": "faith-not-our-righteousness",
+       "name": "Faith Not Our Righteousness",
+       "fine": [
+        {
+         "slug": "against-imputation-of-faith-as-a-work-arminians-socinians-neonomians",
+         "name": "Against imputation of faith as a work (Arminians; Socinians; Neonomians)"
+        },
+        {
+         "slug": "faith-a-condition-not-a-cause",
+         "name": "Faith a condition, not a cause"
+        }
+       ]
+      },
+      {
+       "slug": "final-cause",
+       "name": "Final Cause",
+       "fine": [
+        {
+         "slug": "the-glory-of-gods-grace",
+         "name": "The glory of God’s grace"
+        },
+        {
+         "slug": "the-glory-of-gods-justice",
+         "name": "The glory of God’s justice"
+        },
+        {
+         "slug": "the-salvation-and-comfort-of-sinners",
+         "name": "The salvation and comfort of sinners"
+        }
+       ]
+      },
+      {
+       "slug": "justification-and-christs-resurrection",
+       "name": "Justification and Christ’s Resurrection",
+       "fine": [
+        {
+         "slug": "raised-for-our-justification",
+         "name": "Raised for our justification"
+        },
+        {
+         "slug": "the-fathers-acquittal-of-the-surety",
+         "name": "The Father’s acquittal of the Surety"
+        }
+       ]
+      },
+      {
+       "slug": "justification-from-eternity",
+       "name": "Justification from Eternity",
+       "fine": [
+        {
+         "slug": "decree-and-execution-distinguished",
+         "name": "Decree and execution distinguished"
+        },
+        {
+         "slug": "justified-in-time-by-faith",
+         "name": "Justified in time, by faith"
+        },
+        {
+         "slug": "against-antinomian-eternal-justification",
+         "name": "Against antinomian eternal justification"
         }
        ]
       },
@@ -3319,16 +3467,28 @@
         {
          "slug": "the-works-of-the-law",
          "name": "The works of the law"
+        },
+        {
+         "slug": "justified-before-god-and-before-men",
+         "name": "Justified before God and before men"
         }
        ]
       },
       {
-       "slug": "faith-not-our-righteousness",
-       "name": "Faith Not Our Righteousness",
+       "slug": "justification-in-the-old-testament",
+       "name": "Justification in the Old Testament",
        "fine": [
         {
-         "slug": "against-imputation-of-faith-as-a-work-arminians-socinians-neonomians",
-         "name": "Against imputation of faith as a work (Arminians; Socinians; Neonomians)"
+         "slug": "abraham",
+         "name": "Abraham"
+        },
+        {
+         "slug": "david",
+         "name": "David"
+        },
+        {
+         "slug": "one-faith-in-both-testaments",
+         "name": "One faith in both Testaments"
         }
        ]
       },
@@ -3341,8 +3501,12 @@
          "name": "Works as evidence"
         },
         {
-         "slug": "final-judgment-according-to-works",
-         "name": "Final judgment according to works"
+         "slug": "good-works-fruit-not-ground",
+         "name": "Good works: fruit, not ground"
+        },
+        {
+         "slug": "against-antinomianism",
+         "name": "Against antinomianism"
         }
        ]
       },
@@ -3375,8 +3539,35 @@
         {
          "slug": "justification-is-not-repeated",
          "name": "Justification is not repeated"
+        },
+        {
+         "slug": "the-justified-chastened-not-condemned",
+         "name": "The justified chastened, not condemned"
         }
        ]
+      },
+      {
+       "slug": "final-justification",
+       "name": "Final Justification",
+       "fine": [
+        {
+         "slug": "the-sentence-at-the-last-day",
+         "name": "The sentence at the last day"
+        },
+        {
+         "slug": "final-judgment-according-to-works",
+         "name": "Final judgment according to works"
+        },
+        {
+         "slug": "public-vindication-before-all",
+         "name": "Public vindication before all"
+        }
+       ]
+      },
+      {
+       "slug": "article-of-a-standing-or-falling-church",
+       "name": "The Article of a Standing or Falling Church",
+       "fine": []
       },
       {
        "slug": "roman-justification",
@@ -3387,12 +3578,12 @@
          "name": "Trent"
         },
         {
-         "slug": "infused-righteousness",
-         "name": "Infused righteousness"
+         "slug": "baptism-the-instrument-of-justification",
+         "name": "Baptism the instrument of justification (Trent)"
         },
         {
-         "slug": "merit",
-         "name": "Merit"
+         "slug": "penance-the-second-plank",
+         "name": "Penance the second plank"
         },
         {
          "slug": "supererogation",
@@ -3401,20 +3592,56 @@
         {
          "slug": "treasury-of-merits",
          "name": "Treasury of merits"
+        },
+        {
+         "slug": "against-trents-denial-of-assurance",
+         "name": "Against Trent’s denial of assurance"
         }
        ]
       },
       {
-       "slug": "justification-in-the-old-testament",
-       "name": "Justification in the Old Testament",
+       "slug": "infused-righteousness",
+       "name": "Infused Righteousness",
        "fine": [
         {
-         "slug": "abraham",
-         "name": "Abraham"
+         "slug": "inherent-righteousness-as-the-formal-cause",
+         "name": "Inherent righteousness as the formal cause"
         },
         {
-         "slug": "david",
-         "name": "David"
+         "slug": "justification-as-renewal",
+         "name": "Justification as renewal"
+        }
+       ]
+      },
+      {
+       "slug": "merit-of-congruity-and-condignity",
+       "name": "Merit of Congruity and Condignity",
+       "fine": [
+        {
+         "slug": "merit-of-congruity",
+         "name": "Merit of congruity (de congruo)"
+        },
+        {
+         "slug": "merit-of-condignity",
+         "name": "Merit of condignity (de condigno)"
+        }
+       ]
+      },
+      {
+       "slug": "twofold-justification",
+       "name": "Twofold Justification and Its Increase",
+       "fine": [
+        {
+         "slug": "first-and-second-justification",
+         "name": "First and second justification"
+        },
+        {
+         "slug": "increase-of-justification-by-works",
+         "name": "Increase of justification by works"
+        },
+        {
+         "slug": "justification-lost-and-regained",
+         "name": "Justification lost by mortal sin and regained"
         }
        ]
       }

@@ -72,15 +72,8 @@ for q in Q:
         if len(b) == 3: addto(k, q)
 if errors: sys.exit('Tag errors:\n' + '\n'.join(errors))
 N = lambda k: len(SETS.get(k, []))
-def visible(k): return N(k) > 0
-def nearest(k):
-    """nearest visible node at or above k"""
-    while not visible(k):
-        if k.startswith('part:'): return None
-        b = k.split('/')
-        k = '/'.join(b[:-1]) if len(b) > 1 else 'part:' + PART_OF[b[0]]['slug']
-    return k
-VIS_TOPICS = [t for t in TOPIC if visible(t)]
+# Every category in tree.json gets a page and a line in the outline, filled or not:
+# empty ones show "No quotations filed here yet." and fill up when quotes are tagged to them.
 
 # ------------------------------------------------------ shared markup
 def page_shell(src, depth):
@@ -99,14 +92,10 @@ def head(pre, title, desc):
 def foot(pre): return FOOT.replace('{P}', pre)
 
 def tags_html(q, pre, here=()):
+    """where a quote is filed: plain text, no links (navigation lives in the outline, not on the quotes)"""
     ks = list(q['tags'])
     if here: ks = [k for k in ks if k in here] + [k for k in ks if k not in here]
-    out = []
-    for k in ks:
-        n, u = pill(k)
-        out.append(f'<a class="tag here" href="{pre}{u}" aria-current="page">{esc(n)}</a>' if k in here
-                   else f'<a class="tag" href="{pre}{u}">{esc(n)}</a>')
-    return ''.join(out)
+    return ''.join(f'<span class="t{" here" if k in here else ""}">{esc(pill(k)[0])}</span>' for k in ks)
 def render(q, pre, here=()):
     cap = f'— <a href="{pre}authors/{q["as_"]}.html">{esc(q["a"])}</a>, <cite>{esc(q["w"])}</cite>' + (f', {esc(q["l"])}' if q['l'] else '')
     plain = f'— {q["a"]}, {q["w"]}' + (f', {q["l"]}' if q['l'] else '')
@@ -117,12 +106,15 @@ def render(q, pre, here=()):
     return (f'<figure class="quote" id="q-{q["id"]}" data-kw="{esc(q.get("kw", ""))}">\n<blockquote><p>{esc(q["t"])}</p></blockquote>\n'
             f'<figcaption>{cap}</figcaption>\n<div class="meta">{tags_html(q, pre, here)}</div>\n<div class="actions">{act}</div>\n</figure>')
 def subline(L):
+    if not L: return ''
     na = len({q['as_'] for q in L})
     return f'<p class="sub">{qs(len(L))} from {na} author' + ('' if na == 1 else 's') + '</p>'
-def chips(label, items):
-    if not items: return ''
-    return f'<p class="chips"><span class="lbl">{label}:</span> ' + ''.join(
-        f'<a class="chip pg" href="{u}">{esc(n)} <span class="count">{c}</span></a>' for n, u, c in items) + '</p>'
+def line(depth, name, href, n, cur=False):
+    """one line of an outline: name, dotted leader, count. The current page is bold plain text, every other line is a link."""
+    cls = f'd{depth}' + (' cur' if cur else '') + (' nil' if n == 0 else '')
+    nm = (f'<span class="n" aria-current="page">{esc(name)}</span>' if cur else f'<a class="n" href="{href}">{esc(name)}</a>')
+    return f'<li class="{cls}">{nm}<span class="lead"></span><span class="c">{n}</span></li>'
+def outline(lines, extra=''): return f'<ul class="toc{extra}">' + ''.join(lines) + '</ul>'
 
 # ------------------------------------------------------ drill-down pages
 def node_page(key):
@@ -130,58 +122,64 @@ def node_page(key):
     depth = 1 + max(len(b) - 1, 0)
     pre = '../' * depth                      # to site root
     tp = '../' * (depth - 1)                 # to topics/
+    H = lambda k: tp + url(k)[len('topics/'):]        # link to node k from this page
     part = PARTS_BY[key[5:]] if not b else PART_OF[b[0]]
-    crumbs = [('Topics', tp + 'index.html')]
-    if b: crumbs.append((part['name'], f'{tp}{part["slug"]}.html'))
-    if len(b) >= 2: crumbs.append((TOPIC[b[0]]['name'], f'{tp}{b[0]}.html'))
-    if len(b) == 3: crumbs.append((SUBT['/'.join(b[:2])]['name'], f'{tp}{b[0]}/{b[1]}.html'))
-    if not b: name, kids, lbl = part['name'], [(t['name'], f'{tp}{t["slug"]}.html', N(t['slug'])) for t in part['topics'] if visible(t['slug'])], 'Topics'
+    pk = 'part:' + part['slug']
+    # breadcrumb: Topics > Part > Topic > Subtopic, the page you are on is plain text, nothing trails after it
+    chain = [('Topics', tp + 'index.html')]
+    if b: chain.append((part['name'], H(pk)))
+    if len(b) >= 2: chain.append((TOPIC[b[0]]['name'], H(b[0])))
+    if len(b) == 3: chain.append((SUBT['/'.join(b[:2])]['name'], H('/'.join(b[:2]))))
+    name = part['name'] if not b else TOPIC[b[0]]['name'] if len(b) == 1 else SUBT[key]['name'] if len(b) == 2 else FINE[key]['name']
+    crumbs = ' › '.join(f'<a href="{u}">{esc(n)}</a>' for n, u in chain) + f' › <span class="cur">{esc(name)}</span>'
+    # outline: the current page in bold, its parent above it, what is under it indented
+    if not b:
+        L = [line(0, part['name'], '', N(pk), True)] + [line(1, t['name'], H(t['slug']), N(t['slug'])) for t in part['topics']]
     elif len(b) == 1:
-        t = TOPIC[b[0]]; name, lbl = t['name'], 'Subtopics'
-        kids = [(s['name'], f'{tp}{b[0]}/{s["slug"]}.html', N(b[0] + '/' + s['slug'])) for s in t['subtopics'] if visible(b[0] + '/' + s['slug'])]
-    elif len(b) == 2:
-        s = SUBT[key]; name, lbl = s['name'], 'Fine tags'
-        kids = [(f['name'], f'{tp}{key}/{f["slug"]}.html', N(key + '/' + f['slug'])) for f in s.get('fine', []) if visible(key + '/' + f['slug'])]
-    else: name, kids, lbl = FINE[key]['name'], [], ''
+        t = TOPIC[b[0]]
+        L = [line(0, t['name'], '', N(b[0]), True)] + [line(1, s['name'], H(b[0] + '/' + s['slug']), N(b[0] + '/' + s['slug'])) for s in t['subtopics']]
+    else:
+        t = TOPIC[b[0]]; sk = '/'.join(b[:2])
+        L = [line(0, t['name'], H(b[0]), N(b[0]))]
+        for s in t['subtopics']:
+            k = b[0] + '/' + s['slug']
+            L.append(line(1, s['name'], H(k), N(k), k == key))
+            if k == sk:
+                L += [line(2, f['name'], H(k + '/' + f['slug']), N(k + '/' + f['slug']), k + '/' + f['slug'] == key) for f in s.get('fine', [])]
     here = {k for k in SETS if k == key or k.startswith(key + '/') or (not b and k.split('/')[0] in {t['slug'] for t in part['topics']})}
     if not b: here.discard(key)
-    L = SETS[key]
-    desc = ' — '.join([name] + [c[0] for c in reversed(crumbs[1:])]) if b else f'{name}: ' + ', '.join(k[0] for k in kids)
-    body = (f'<main class="wrap"><p class="crumbs">' + ' › '.join(f'<a href="{u}">{esc(n)}</a>' for n, u in crumbs) + ' ›</p>'
-            f'<h1>{esc(name)}</h1>{subline(L)}{chips(lbl, kids)}' + ''.join(render(q, pre, here) for q in L))
+    Q_ = SETS.get(key, [])
+    desc = (' — '.join([name] + [c[0] for c in reversed(chain[1:])]) if b
+            else f'{name}: ' + ', '.join(t['name'] for t in part['topics']))
+    body = (f'<main class="wrap"><p class="crumbs">{crumbs}</p><h1>{esc(name)}</h1>{subline(Q_)}'
+            + ('' if Q_ else '<p class="noq">No quotations filed here yet.</p>') + outline(L) + ''.join(render(q, pre, here) for q in Q_))
     wr(url(key), head(pre, name, desc) + body + foot(pre))
 PARTS_BY = {p['slug']: p for p in PARTS}
 GEN = set()
 for p in PARTS:
-    if not visible('part:' + p['slug']): continue
     node_page('part:' + p['slug']); GEN.add(url('part:' + p['slug']))
     for t in p['topics']:
-        if not visible(t['slug']): continue
         node_page(t['slug']); GEN.add(url(t['slug']))
-        for s in t['subtopics']:
-            k = t['slug'] + '/' + s['slug']
-            if not visible(k): continue
+        for x in t['subtopics']:
+            k = t['slug'] + '/' + x['slug']
             node_page(k); GEN.add(url(k))
-            for f in s.get('fine', []):
-                if visible(k + '/' + f['slug']): node_page(k + '/' + f['slug']); GEN.add(url(k + '/' + f['slug']))
+            for f in x.get('fine', []):
+                node_page(k + '/' + f['slug']); GEN.add(url(k + '/' + f['slug']))
 
 # ------------------------------------------------------ topics index
 s = rd('topics/index.html')
 body = ('<main class="wrap"><h1>Topics</h1><p class="lede">Arranged in the order of the classic Reformed systematic theologies, '
-        'from Prolegomena to Last Things, with Polemics last. Each part, topic and subtopic has its own page; '
-        'a quotation filed in several places is counted once.</p>')
+        'from Prolegomena to Last Things, with Polemics last. Every part, topic and subtopic has its own page, filled or not; '
+        'a quotation filed in several places is counted once.</p>'
+        '<p class="jump">' + ' <span>·</span> '.join(f'<a href="#{p["slug"]}">{esc(p["name"])}</a>' for p in PARTS) + '</p>')
 for p in PARTS:
     pk = 'part:' + p['slug']
-    if not visible(pk): continue
-    pol = ' pol' if p['slug'] == 'polemics' else ''
-    body += f'<h2 class="sect"><a href="{p["slug"]}.html">{esc(p["name"])}</a> <span class="count">{N(pk)}</span></h2><div class="loci">'
+    body += f'<h2 class="sect" id="{p["slug"]}"><a href="{p["slug"]}.html">{esc(p["name"])}</a> <span class="count">{N(pk)}</span></h2>'
+    L = []
     for t in p['topics']:
-        if not visible(t['slug']): continue
-        body += f'<section class="locus{pol}"><h3><a href="{t["slug"]}.html">{esc(t["name"])}</a> <span class="count">{N(t["slug"])}</span></h3><ul>'
-        body += ''.join(f'<li><a href="{t["slug"]}/{x["slug"]}.html">{esc(x["name"])}</a> <span class="count">{N(t["slug"] + "/" + x["slug"])}</span></li>'
-                        for x in t['subtopics'] if visible(t['slug'] + '/' + x['slug']))
-        body += '</ul></section>'
-    body += '</div>'
+        L.append(line(0, t['name'], f'{t["slug"]}.html', N(t['slug'])))
+        L += [line(1, x['name'], f'{t["slug"]}/{x["slug"]}.html', N(t['slug'] + '/' + x['slug'])) for x in t['subtopics']]
+    body += outline(L, ' all')
 wr('topics/index.html', s[:s.index('<main')] + body + s[s.index('</main>'):]); GEN.add('topics/index.html')
 
 # ------------------------------------------------------ authors
@@ -215,7 +213,7 @@ for k in order:
     src = re.sub(r'<title>.*? · 5 Solas Quotes</title>', f'<title>{esc(a)} · 5 Solas Quotes</title>', src, count=1)
     groups = collections.OrderedDict((p['slug'], []) for p in PARTS)
     for q in L: groups[PART_OF[q['tags'][0].split('/')[0]]['slug']].append(q)
-    main = (f'<main class="wrap"><p class="crumbs"><a href="index.html">Authors</a> ›</p><h1>{esc(a)}</h1><p class="sub">{qs(len(L))} · Works cited: {works}</p>'
+    main = (f'<main class="wrap"><p class="crumbs"><a href="index.html">Authors</a> › <span class="cur">{esc(a)}</span></p><h1>{esc(a)}</h1><p class="sub">{qs(len(L))} · Works cited: {works}</p>'
             + ''.join(f'<h2 class="sect"><a href="../topics/{g}.html">{esc(PARTS_BY[g]["name"])}</a></h2>' + ''.join(render(q, '../') for q in G) for g, G in groups.items() if G))
     wr(f, src[:src.index('<main')] + main + src[src.index('</main>'):]); GEN.add(f)
 
@@ -238,8 +236,8 @@ for q in Q:
 s = rd('index.html')
 cards = ''.join(
     f'<a class="lcard{" pol" if p["slug"] == "polemics" else ""}" href="topics/{p["slug"]}.html"><span class="ln">{esc(p["name"])}</span>'
-    f'<span class="lc">{qs(N("part:" + p["slug"]))}</span><span class="ls">{esc(", ".join(t["name"] for t in p["topics"] if visible(t["slug"])))}</span></a>'
-    for p in PARTS if visible('part:' + p['slug']))
+    f'<span class="lc">{qs(N("part:" + p["slug"]))}</span><span class="ls">{esc(", ".join(t["name"] for t in p["topics"]))}</span></a>'
+    for p in PARTS)
 s = re.sub(r'(<div class="cards">).*?(</div><p class="more">)', lambda m: m.group(1) + cards + m.group(2), s, count=1, flags=re.S)
 top = sorted(AUTH, key=lambda k: (-len(AUTH[k][1]), akey(AUTH[k][0])))[:12]
 s = re.sub(r'(<section><h2 class="sect">Authors</h2><ul class="index compact">).*?(</ul>)', lambda m: m.group(1) + ''.join(
@@ -255,13 +253,13 @@ for old, tgt in RED.items():
     if old in GEN: continue
     if tgt.startswith('='): dest = tgt[1:]
     else:
-        n = nearest(tgt); dest = url(n) if n else 'topics/index.html'
+        dest = url(tgt)
     if dest == old: continue
     r = rel(old, dest)
     wr(old, f'<!doctype html><meta charset="utf-8"><meta http-equiv="refresh" content="0;url={r}"><link rel="canonical" href="{r}"><title>Moved</title><a href="{r}">Moved here</a>\n')
 
 # ------------------------------------------------------ every other page: tag pills + footer
-FOOTER = f'{len(Q)} quotations · {len(VIS_TOPICS)} topics · {len(AUTH)} authors'
+FOOTER = f'{len(Q)} quotations · {len(TOPIC)} topics · {len(AUTH)} authors'
 FIG = re.compile(r'(<figure class="quote" id="q-(\w+)"[^>]*>)(.*?)(</figure>)', re.S)
 for f in glob.glob('**/*.html', recursive=True):
     s = rd(f)
@@ -276,6 +274,10 @@ for f in glob.glob('**/*.html', recursive=True):
             return re.sub(r' data-pol="[^"]*"', '', m.group(1)) + inner + m.group(4)
         s = FIG.sub(fix, s)
     s = re.sub(r'\d+ quotations · \d+ topics · \d+ authors', FOOTER, s)
+    # collection pages: breadcrumb ends on the page you are on, no dangling arrow
+    s = re.sub(r'(<p class="crumbs"><a href="index.html">Collections</a>) ›</p>(<h1>)(.*?)(</h1>)',
+               lambda m: f'{m.group(1)} › <span class="cur">{m.group(3)}</span></p>{m.group(2)}{m.group(3)}{m.group(4)}', s, count=1)
     if s != o: wr(f, s)
-print(f'{len(Q)} quotes; parts {sum(visible("part:"+p["slug"]) for p in PARTS)}/{len(PARTS)}, '
-      f'topics {len(VIS_TOPICS)}/{len(TOPIC)}, subtopics {sum(visible(k) for k in SUBT)}/{len(SUBT)} shown; files written {len(WROTE)}')
+filled = lambda ks: sum(N(k) > 0 for k in ks)
+print(f'{len(Q)} quotes; filled: parts {filled(["part:" + p["slug"] for p in PARTS])}/{len(PARTS)}, topics {filled(TOPIC)}/{len(TOPIC)}, '
+      f'subtopics {filled(SUBT)}/{len(SUBT)}, fine {filled(FINE)}/{len(FINE)}; all shown; files written {len(WROTE)}')

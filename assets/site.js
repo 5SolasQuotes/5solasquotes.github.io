@@ -1,5 +1,5 @@
 (function(){
-const pre=document.querySelector('link[rel=stylesheet]').getAttribute('href').replace('assets/style.css','');
+const pre=document.querySelector('link[rel=stylesheet]').getAttribute('href').split('assets/style.css')[0];
 document.addEventListener('click',e=>{const b=e.target.closest('button.copy');if(!b)return;const t=b.dataset.copy;
  const done=()=>{const o=b.textContent;b.textContent='Copied ✓';setTimeout(()=>b.textContent=o,1500)};
  if(navigator.clipboard&&window.isSecureContext)navigator.clipboard.writeText(t).then(done);else{const ta=document.createElement('textarea');ta.value=t;document.body.appendChild(ta);ta.select();document.execCommand('copy');ta.remove();done()}});
@@ -7,7 +7,7 @@ const esc=s=>(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"
 function card(q,hl){const att=`— ${q.a}, ${q.w}${q.l?', '+q.l:''}`;const h=s=>hl?hl(esc(s)):esc(s);
  const src=q.u?`<a class="src" href="${esc(q.u)}" target="_blank" rel="noopener">Read it online · ${esc(q.ul)}</a>`:'<span class="src none">No free online copy linked</span>';
  return `<figure class="quote"><blockquote><p>${h(q.t)}</p></blockquote><figcaption>— <a href="${pre}authors/${q.as_}.html">${h(q.a)}</a>, <cite>${h(q.w)}</cite>${q.l?', '+h(q.l):''}</figcaption>
- <div class="meta">${q.tg.map(([n,u,c])=>u?`<a class="${c}" href="${pre}${u}">${esc(n)}</a>`:`<span class="${c}">${esc(n)}</span>`).join('')}</div>
+ <div class="meta">${q.tg.map(([n])=>`<span class="t">${esc(n)}</span>`).join('')}</div>
  <div class="actions"><button class="copy" data-copy="${esc('“'+q.t+'”\n\n'+att)}">Copy</button><a class="share" href="${esc(q.x)}" target="_blank" rel="noopener">Share on X</a><a class="perma" href="${pre}quote/${q.id}.html">Permalink</a>${src}</div></figure>`}
 // tags: each quote stores slugs; names, links and parent levels come from assets/tree.json
 function prep(tree,d){const M={},pol=new Set(),cnt={};
@@ -30,17 +30,6 @@ if(res){const inp=document.getElementById('sq'),cnt=document.getElementById('sco
  const q0=new URLSearchParams(location.search).get('q');if(q0){inp.value=q0}run()}
 const ano=document.getElementById('another');if(ano){ano.addEventListener('click',()=>load().then(d=>{document.getElementById('featured').innerHTML=card(d[Math.floor(Math.random()*d.length)])}));
  load().then(d=>{document.getElementById('featured').innerHTML=card(d[Math.floor(Math.random()*d.length)])}).catch(()=>{})}
-// section chips (topic and polemics pages): show one subtopic section, synced with #hash
-const secChips=document.querySelectorAll('.chips.secs button.chip');
-function showSec(id){const secs=document.querySelectorAll('section.subsec');if(!secs.length)return;
- if(id&&!document.getElementById(id))id='';secs.forEach(s=>s.hidden=!!id&&s.id!==id);
- secChips.forEach(b=>b.classList.toggle('on',b.dataset.sec===id))}
-if(secChips.length){secChips.forEach(b=>b.addEventListener('click',()=>{const id=b.dataset.sec;history.replaceState(null,'',id?'#'+id:location.pathname);showSec(id)}));
- const h=decodeURIComponent(location.hash.slice(1));if(h&&[...secChips].some(b=>b.dataset.sec===h))showSec(h);window.addEventListener('hashchange',()=>showSec(decodeURIComponent(location.hash.slice(1))))}
-// facet chips: filter the quotes that follow by keyword
-document.querySelectorAll('.chips.facets').forEach(bar=>{const list=bar.nextElementSibling;bar.querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>{
- bar.querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b));const k=b.dataset.kw;
- list.querySelectorAll('figure.quote').forEach(f=>f.hidden=!!k&&!(f.dataset.kw||'').split('|').includes(k))}))});
 // expand/collapse topic tree
 const ex=document.getElementById('expand');if(ex){ex.addEventListener('click',()=>{const ds=document.querySelectorAll('details.locus');const open=ex.textContent.startsWith('Expand');ds.forEach(d=>d.open=open);ex.textContent=open?'Collapse all':'Expand all'})}
 })();

@@ -34,12 +34,12 @@ Treat this folder as the source of truth. Do not regenerate the site from an old
   - `"justification/nature-of-justification/<fine>"`: a fine tag
   - Parents (Topic, Part) are worked out from the tree, so never list them separately.
 - Other quote fields: `id` (permalink id, never change it), `t` text, `a` author, `as_` author slug, `w` work, `l` location, `u`/`ul` free online copy link and label, `x` Share-on-X link, `kw`/`st` extra search words.
-- `tools/build.py` turns these two files into the site: Part/Topic/Subtopic pages, the topics index, home cards, author pages and the authors index, new quote pages, tag pills on every other page, footers, and the old-URL redirects. It stops with a clear error if a tag slug is not in the tree. Search (`assets/site.js`) reads both JSON files in the browser, so tag names, topics and parts are all searchable.
+- `tools/build.py` turns these two files into the site: Part/Topic/Subtopic pages, the topics index, home cards, author pages and the authors index, new quote pages, plain-text "Filed under" tags on every other page, footers, and the old-URL redirects. It stops with a clear error if a tag slug is not in the tree. Search (`assets/site.js`) reads both JSON files in the browser, so tag names, topics and parts are all searchable.
 
 ## 5. Adding a quote
 1. Add one entry to `assets/quotes-index.json` (copy an existing one). Give it a new 10-character hex `id`, and fill in the text, author (`a`, and `as_` = the author page slug), work, location, link and Share-on-X link (the FULL quote, see section 3).
 2. Set `tags` to one or more slugs from `assets/tree.json`, main one first. A quote may carry tags in several topics. A polemical quote gets both its doctrine tag and its Polemics tag.
-3. Run `python3 tools/build.py`. It creates the quote's permalink page and, if needed, the author's page, and updates counts everywhere. A Topic or Subtopic that was hidden appears as soon as it has a quote.
+3. Run `python3 tools/build.py`. It creates the quote's permalink page and, if needed, the author's page, and updates counts everywhere. Every category already has a page, so nothing needs to be created or un-hidden: its count just goes up.
 4. If a quote fits nowhere, tag the nearest Topic and add it to `REVIEW.md`. To add a new subtopic, add it to `assets/tree.json` in the right place first. Ask the owner before changing the tree.
 5. Check the page locally, then commit and push.
 
@@ -51,3 +51,17 @@ Treat this folder as the source of truth. Do not regenerate the site from an old
 
 ## 8. Scope
 - Quotations from across church history: most come from Reformed, Puritan, Lutheran and Particular Baptist writers, but there are also many others (church fathers, medieval writers, Arminians, Roman Catholics and other traditions) whenever they state a truth worth quoting; the home tagline, About text and meta descriptions say this.
+
+## Re-tagging pass (2026-11-04)
+All 718 quotations were re-filed by hand against the tree: one main tag (the doctrine the passage is actually about) first, then at most two or three secondary tags; polemics against Rome are filed under the doctrine and under `rome/…`. Tags with no support in the quotation's text were removed. Empty topics and subtopics stay hidden until a quotation is filed there.
+
+## Navigation and empty categories (2026-11-04)
+- **Every category is always shown**, whether it has quotes or not (Part, Topic, Subtopic and fine tag: 11 / 64 / 366 / 862). An empty one has a page that says "No quotations filed here yet." and a count of 0 in the outline. Do not reintroduce hiding of empty nodes.
+- **Navigation is a plain outline, not buttons or pills.** Each Part, Topic, Subtopic and fine page starts with `Topics › Part › Topic › Subtopic` (the current page is plain text, nothing trails after it), then an outline: the current page in bold with a left rule, its parent above it, its children indented underneath, each line `name ........ count`. A Subtopic page lists its sibling subtopics so you can switch without going back up, with the current subtopic's fine tags indented beneath it. A Topic or Part page shows everything under it in the quotes below the outline (broad first, then narrow by clicking a line).
+- **Tags on quote cards are plain text** ("Filed under: A · B"), not links. The tag that matches the page you are on is darker. Search results use the same plain tags.
+- `topics/index.html` is the whole outline: every Part with every Topic and Subtopic, with a jump list of the Parts at the top.
+- Markup lives in `tools/build.py` (`line()`, `outline()`, `node_page()`); styles are the `ul.toc`, `.crumbs .cur`, `.meta` and `p.noq` rules at the end of `assets/style.css`.
+- Fixed an old bug in `assets/site.js`: the stylesheet link carries `?v=...`, which broke the path prefix and made search and "Quote of the moment" fetch the wrong files. When you change CSS or JS, bump the `?v=` value in all HTML files (`sed -i 's/?v=OLD/?v=NEW/g'`).
+
+## Justification re-worked (2026-11-04)
+Justification now follows the old divines' causes and the points they debated: Nature; Forensic, Not Moral; Justification and Sanctification Distinguished; Efficient Cause; Meritorious Cause; Active and Passive Obedience Imputed; Formal Cause: Imputation; Instrumental Cause: Faith Alone; Faith Not Our Righteousness; Final Cause; Justification and Christ's Resurrection; Justification from Eternity; Paul and James; Justification in the Old Testament; Justification and Good Works; Fruits; Perseverance; Final Justification; The Article of a Standing or Falling Church; then the Roman errors (Roman Justification, Infused Righteousness, Merit of Congruity and Condignity, Twofold Justification and Its Increase). All 149 Justification quotes were re-filed against it; Final Cause, Resurrection, Justification from Eternity and Merit of Congruity are empty until quotes are added. The same treatment (more distinctions and the points under debate) can be applied to any other topic.
