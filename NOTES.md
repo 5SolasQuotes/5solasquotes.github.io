@@ -15,12 +15,12 @@ Treat this folder as the source of truth. Do not regenerate the site from an old
   - Subtopic: `topics/<topic>/<subtopic>.html`, only that Subtopic's quotes.
   - Fine tag (only once one is used): `topics/<topic>/<subtopic>/<fine>.html`.
   - Every page has clickable breadcrumbs (Topics › Part › Topic) and a count. A quote filed in several children is counted once in the parent.
-- Topics and Subtopics with no quotes are hidden (no page, not listed). They appear automatically when a quote is tagged to them.
+- Topics and Subtopics with no quotes are still shown: each has a page that says "No quotations filed here yet." and a count of 0 in the outline.
 - `topics/index.html` lists every visible Part, Topic and Subtopic with counts. The home page shows one card per Part.
 - Polemics is its own Part, listed by opponent (Rome, Arminians, Socinians…). Every polemical quote is also filed under its doctrine, e.g. a quote against Trent on justification carries `justification/roman-justification` and `rome/justification`.
 - Tags all look the same (plain grey pills). On a Part, Topic or Subtopic page, the tags belonging to that page are highlighted. Elsewhere nothing is highlighted. Polemics pills read "Opponent: Subtopic" (e.g. "Rome: Justification"); a subtopic name used in two topics is also prefixed with its topic.
 - Old URLs (the earlier 15-category pages and older stubs) are redirect stubs to the nearest new page. The list is `tools/redirects.json`; keep it so old links never break.
-- Baptism subtopics follow the tree. "Polemics › Anabaptists › Infant baptism" and "The Covenant of Grace › Children in the covenant" have no quotes and stay hidden. The old empty "Infant Baptism", "Believer's Baptism", "Mode of Baptism" and "Covenant Theology: Presbyterian View" entries never had pages, so there was nothing to redirect.
+- Baptism subtopics follow the tree. "Polemics › Anabaptists › Infant baptism" and "The Covenant of Grace › Children in the covenant" have no quotes yet; their pages show as empty. The old empty "Infant Baptism", "Believer's Baptism", "Mode of Baptism" and "Covenant Theology: Presbyterian View" entries never had pages, so there was nothing to redirect.
 - `REVIEW.md` lists quotes that did not clearly fit a subtopic and were filed in the nearest place.
 
 ## 3. Sharing
@@ -53,7 +53,7 @@ Treat this folder as the source of truth. Do not regenerate the site from an old
 - Quotations from across church history: most come from Reformed, Puritan, Lutheran and Particular Baptist writers, but there are also many others (church fathers, medieval writers, Arminians, Roman Catholics and other traditions) whenever they state a truth worth quoting; the home tagline, About text and meta descriptions say this.
 
 ## Re-tagging pass (2026-11-04)
-All 718 quotations were re-filed by hand against the tree: one main tag (the doctrine the passage is actually about) first, then at most two or three secondary tags; polemics against Rome are filed under the doctrine and under `rome/…`. Tags with no support in the quotation's text were removed. Empty topics and subtopics stay hidden until a quotation is filed there.
+All 718 quotations were re-filed by hand against the tree: one main tag (the doctrine the passage is actually about) first, then at most two or three secondary tags; polemics against Rome are filed under the doctrine and under `rome/…`. Tags with no support in the quotation's text were removed. Empty topics and subtopics are still shown, with a count of 0, until a quotation is filed there.
 
 ## Navigation and empty categories (2026-11-04)
 - **Every category is always shown**, whether it has quotes or not (Part, Topic, Subtopic and fine tag: 11 / 64 / 366 / 862). An empty one has a page that says "No quotations filed here yet." and a count of 0 in the outline. Do not reintroduce hiding of empty nodes.
