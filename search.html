@@ -1,8 +1,25 @@
 <!doctype html><html lang="en" data-theme="light"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Search · 5 Solas Quotes</title><meta name="description" content="Quotations from across church history, mainly Reformed, Puritan, Lutheran and Particular Baptist, arranged by topic">
-<script>try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script><link rel="icon" type="image/png" href="assets/favicon.png"><link rel="stylesheet" href="assets/style.css?v=20261104a"></head><body>
+<script>try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script><link rel="icon" type="image/png" href="assets/favicon.png"><link rel="stylesheet" href="assets/style.css?v=20261104g"></head><body>
 <header class="site"><div class="wrap"><a class="brand" href="index.html"><img src="assets/logo-96.png" alt="" width="40" height="40"><span>5 Solas Quotes</span></a>
 <nav><a href="topics/index.html">Topics</a><a href="topics/polemics.html">Polemics</a><a href="collections/index.html">Collections</a><a href="authors/index.html">Authors</a><a href="search.html">Search</a><a href="about.html">About</a><span class="themewrap"><button class="themebtn" id="themebtn" type="button" aria-label="Toggle light or dark theme"></button><span class="themelbl" aria-hidden="true"></span></span></nav></div></header>
-<main class="wrap"><h1>Search</h1><form class="searchbox" id="sform"><input id="sq" name="q" type="search" placeholder="Search quotations, authors, works, topics…" autofocus aria-label="Search"><button>Search</button></form><p id="scount" class="sub"></p><div id="results"></div></main>
+<main class="wrap"><h1>Search</h1><form class="searchbox" id="sform"><input id="sq" name="q" type="search" placeholder="Search quotations, authors, works, topics, Scripture…" autofocus aria-label="Search"><button>Search</button></form>
+<details class="opts" id="opts" open><summary>Options <span class="oh">author, work, topic, period, length, sort</span><span id="ocount"></span></summary>
+<div class="og">
+<label class="wide">Author<select id="o-author"><option value="">All authors</option></select></label>
+<label class="wide">Topic<select id="o-topic"><option value="">All topics</option></select></label>
+<label class="wide">Work<select id="o-work"><option value="">All works</option></select></label>
+<label>Period<select id="o-era"><option value="">Any period</option></select></label>
+<label>Length<select id="o-len"><option value="">Any length</option></select></label>
+<label>Look in<select id="o-in"><option value="all">Everything</option><option value="t">Quotation text only</option><option value="a">Author</option><option value="w">Work and location</option><option value="k">Topics and keywords</option><option value="ref">Scripture references</option></select></label>
+<label>Match<select id="o-mode"><option value="all">All of the words</option><option value="any">Any of the words</option><option value="phrase">Exact phrase</option></select></label>
+<label>Word forms<select id="o-form"><option value="forms">Similar forms</option><option value="whole">Whole words only</option><option value="part">Part of a word</option></select></label>
+<label>Sort by<select id="o-sort"><option value="rel">Best match</option><option value="author">Author A–Z</option><option value="work">Work A–Z</option><option value="old">Oldest period first</option><option value="new">Newest period first</option><option value="short">Shortest first</option><option value="long">Longest first</option><option value="rand">Random order</option></select></label>
+<label>Online copy<select id="o-src"><option value="">Any</option></select></label>
+</div>
+<p class="oact"><button type="button" id="oclear" class="textbtn">Clear all options</button></p>
+<p class="otip">“Quotation marks” find an exact phrase. A minus sign leaves a word out, as in grace -common. “Similar forms” lets justify find justified and justification. Type a reference such as Rom. 3:28 to find quotations that cite it. Period is when the author mainly wrote.</p>
+</details>
+<p id="scount" class="sub" aria-live="polite"></p><div id="results"></div></main>
 <footer class="site"><div class="wrap"><p>5 Solas Quotes · 718 quotations · 64 topics · 167 authors</p><p class="small"><a href="about.html">About</a></p><p class="small">Quotations are drawn from public-domain works and published translations, cited to their sources.</p></div></footer>
-<script src="assets/site.js?v=20261104a"></script></body></html>
+<script src="assets/site.js?v=20261104g"></script></body></html>

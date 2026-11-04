@@ -616,7 +616,29 @@
       },
       {
        "slug": "the-father",
-       "name": "The Father"
+       "name": "The Father",
+       "fine": [
+        {
+         "slug": "the-first-person-unbegotten",
+         "name": "The first person, unbegotten"
+        },
+        {
+         "slug": "fountain-of-deity-fons-deitatis",
+         "name": "Fountain of deity (fons deitatis)"
+        },
+        {
+         "slug": "paternity-begetting-the-son",
+         "name": "Paternity: begetting the Son"
+        },
+        {
+         "slug": "works-appropriated-to-the-father",
+         "name": "Works appropriated to the Father"
+        },
+        {
+         "slug": "father-of-believers-in-christ",
+         "name": "Father of believers in Christ"
+        }
+       ]
       },
       {
        "slug": "the-son",
@@ -920,7 +942,25 @@
       },
       {
        "slug": "conditional-election",
-       "name": "Conditional Election"
+       "name": "Conditional Election",
+       "fine": [
+        {
+         "slug": "election-on-foreseen-faith",
+         "name": "Election on foreseen faith"
+        },
+        {
+         "slug": "election-on-foreseen-perseverance",
+         "name": "Election on foreseen perseverance"
+        },
+        {
+         "slug": "faith-the-fruit-not-the-cause-of-election",
+         "name": "Faith the fruit, not the cause, of election"
+        },
+        {
+         "slug": "election-of-persons-not-merely-a-class",
+         "name": "Election of persons, not merely a class"
+        }
+       ]
       }
      ]
     },
@@ -978,7 +1018,25 @@
       },
       {
        "slug": "reprobation-and-the-free-offer",
-       "name": "Reprobation and the Free Offer"
+       "name": "Reprobation and the Free Offer",
+       "fine": [
+        {
+         "slug": "the-gospel-call-to-all-who-hear",
+         "name": "The gospel call to all who hear"
+        },
+        {
+         "slug": "gods-revealed-will-and-secret-will",
+         "name": "God’s revealed will and secret will"
+        },
+        {
+         "slug": "the-inexcusability-of-those-who-refuse",
+         "name": "The inexcusability of those who refuse"
+        },
+        {
+         "slug": "command-and-ability-distinguished",
+         "name": "Command and ability distinguished"
+        }
+       ]
       }
      ]
     },
@@ -1698,7 +1756,25 @@
       },
       {
        "slug": "pelagianism-and-semi-pelagianism",
-       "name": "Pelagianism and Semi-Pelagianism"
+       "name": "Pelagianism and Semi-Pelagianism",
+       "fine": [
+        {
+         "slug": "pelagius-and-the-denial-of-original-sin",
+         "name": "Pelagius and the denial of original sin"
+        },
+        {
+         "slug": "semi-pelagianism-the-first-step-is-ours",
+         "name": "Semi-Pelagianism: the first step is ours"
+        },
+        {
+         "slug": "augustines-reply",
+         "name": "Augustine’s reply"
+        },
+        {
+         "slug": "the-council-of-orange",
+         "name": "The Council of Orange"
+        }
+       ]
       }
      ]
     },
@@ -2672,7 +2748,25 @@
       },
       {
        "slug": "christs-resurrection-as-justification-and-victory",
-       "name": "Christ's Resurrection as Justification and Victory"
+       "name": "Christ's Resurrection as Justification and Victory",
+       "fine": [
+        {
+         "slug": "acquittal-of-the-surety",
+         "name": "Acquittal of the Surety"
+        },
+        {
+         "slug": "raised-for-our-justification",
+         "name": "Raised for our justification"
+        },
+        {
+         "slug": "victory-over-sin-death-and-satan",
+         "name": "Victory over sin, death and Satan"
+        },
+        {
+         "slug": "the-resurrection-as-proof-of-the-atonement",
+         "name": "The resurrection as proof of the atonement"
+        }
+       ]
       }
      ]
     }
@@ -3136,7 +3230,25 @@
       },
       {
        "slug": "deathbed-repentance",
-       "name": "Deathbed Repentance"
+       "name": "Deathbed Repentance",
+       "fine": [
+        {
+         "slug": "the-thief-on-the-cross",
+         "name": "The thief on the cross"
+        },
+        {
+         "slug": "the-danger-of-delay",
+         "name": "The danger of delay"
+        },
+        {
+         "slug": "presumption-on-a-deathbed-conversion",
+         "name": "Presumption on a deathbed conversion"
+        },
+        {
+         "slug": "gods-mercy-to-the-last-hour",
+         "name": "God’s mercy to the last hour"
+        }
+       ]
       }
      ]
     },
@@ -3567,7 +3679,24 @@
       {
        "slug": "article-of-a-standing-or-falling-church",
        "name": "The Article of a Standing or Falling Church",
-       "fine": []
+       "fine": [
+        {
+         "slug": "the-chief-article-of-the-faith",
+         "name": "The chief article of the faith"
+        },
+        {
+         "slug": "the-hinge-on-which-religion-turns",
+         "name": "The hinge on which religion turns"
+        },
+        {
+         "slug": "justification-and-the-gospel-itself",
+         "name": "Justification and the gospel itself"
+        },
+        {
+         "slug": "the-dividing-line-with-rome",
+         "name": "The dividing line with Rome"
+        }
+       ]
       },
       {
        "slug": "roman-justification",
@@ -3699,7 +3828,25 @@
       },
       {
        "slug": "adoption-regeneration-and-justification-distinguished",
-       "name": "Adoption, Regeneration and Justification Distinguished"
+       "name": "Adoption, Regeneration and Justification Distinguished",
+       "fine": [
+        {
+         "slug": "adoption-distinguished-from-justification",
+         "name": "Adoption distinguished from justification"
+        },
+        {
+         "slug": "adoption-distinguished-from-regeneration",
+         "name": "Adoption distinguished from regeneration"
+        },
+        {
+         "slug": "adoption-and-sanctification",
+         "name": "Adoption and sanctification"
+        },
+        {
+         "slug": "three-benefits-received-together",
+         "name": "Three benefits received together"
+        }
+       ]
       }
      ]
     },
@@ -3783,7 +3930,21 @@
       },
       {
        "slug": "roman-denial-of-assurance",
-       "name": "Roman Denial of Assurance"
+       "name": "Roman Denial of Assurance",
+       "fine": [
+        {
+         "slug": "trents-denial-of-certainty",
+         "name": "Trent’s denial of certainty"
+        },
+        {
+         "slug": "assurance-is-not-presumption",
+         "name": "Assurance is not presumption"
+        },
+        {
+         "slug": "faiths-certainty-against-conjecture",
+         "name": "Faith’s certainty against conjecture"
+        }
+       ]
       }
      ]
     },
@@ -4059,7 +4220,25 @@
       },
       {
        "slug": "against-falling-from-grace",
-       "name": "Against Falling from Grace"
+       "name": "Against Falling from Grace",
+       "fine": [
+        {
+         "slug": "total-and-final-falling-denied",
+         "name": "Total and final falling denied"
+        },
+        {
+         "slug": "texts-urged-for-falling-away-answered",
+         "name": "Texts urged for falling away answered"
+        },
+        {
+         "slug": "temporary-faith-distinguished-from-saving-faith",
+         "name": "Temporary faith distinguished from saving faith"
+        },
+        {
+         "slug": "perseverance-rests-on-gods-promise",
+         "name": "Perseverance rests on God’s promise"
+        }
+       ]
       }
      ]
     }
@@ -4341,7 +4520,25 @@
       },
       {
        "slug": "admonition-and-suspension",
-       "name": "Admonition and Suspension"
+       "name": "Admonition and Suspension",
+       "fine": [
+        {
+         "slug": "private-admonition-matt-18",
+         "name": "Private admonition (Matt. 18)"
+        },
+        {
+         "slug": "public-rebuke",
+         "name": "Public rebuke"
+        },
+        {
+         "slug": "suspension-from-the-lords-table",
+         "name": "Suspension from the Lord’s Table"
+        },
+        {
+         "slug": "restoration-of-the-repentant",
+         "name": "Restoration of the repentant"
+        }
+       ]
       },
       {
        "slug": "excommunication",
@@ -4855,7 +5052,25 @@
       },
       {
        "slug": "family-and-private-worship",
-       "name": "Family and Private Worship"
+       "name": "Family and Private Worship",
+       "fine": [
+        {
+         "slug": "family-worship",
+         "name": "Family worship"
+        },
+        {
+         "slug": "secret-devotion",
+         "name": "Secret devotion"
+        },
+        {
+         "slug": "the-head-of-the-households-duty",
+         "name": "The head of the household’s duty"
+        },
+        {
+         "slug": "catechizing-children-and-servants",
+         "name": "Catechizing children and servants"
+        }
+       ]
       }
      ]
     },
@@ -4919,7 +5134,21 @@
       },
       {
        "slug": "secret-family-and-public-prayer",
-       "name": "Secret, Family and Public Prayer"
+       "name": "Secret, Family and Public Prayer",
+       "fine": [
+        {
+         "slug": "secret-prayer",
+         "name": "Secret prayer"
+        },
+        {
+         "slug": "family-prayer",
+         "name": "Family prayer"
+        },
+        {
+         "slug": "public-prayer-in-the-congregation",
+         "name": "Public prayer in the congregation"
+        }
+       ]
       },
       {
        "slug": "prayer-and-the-spirit",
@@ -4951,11 +5180,43 @@
       },
       {
        "slug": "prayers-to-saints-and-for-the-dead",
-       "name": "Prayers to Saints and for the Dead"
+       "name": "Prayers to Saints and for the Dead",
+       "fine": [
+        {
+         "slug": "invocation-of-saints-refuted",
+         "name": "Invocation of saints refuted"
+        },
+        {
+         "slug": "christ-the-only-mediator",
+         "name": "Christ the only Mediator"
+        },
+        {
+         "slug": "prayers-for-the-dead",
+         "name": "Prayers for the dead"
+        },
+        {
+         "slug": "mary-and-the-saints-as-intercessors",
+         "name": "Mary and the saints as intercessors"
+        }
+       ]
       },
       {
        "slug": "fasting-and-watchfulness",
-       "name": "Fasting and Watchfulness"
+       "name": "Fasting and Watchfulness",
+       "fine": [
+        {
+         "slug": "fasting",
+         "name": "Fasting"
+        },
+        {
+         "slug": "fasting-joined-to-prayer",
+         "name": "Fasting joined to prayer"
+        },
+        {
+         "slug": "watchfulness-against-temptation",
+         "name": "Watchfulness against temptation"
+        }
+       ]
       }
      ]
     },
@@ -4965,7 +5226,25 @@
      "subtopics": [
       {
        "slug": "the-glory-of-god-as-the-chief-end",
-       "name": "The Glory of God as the Chief End"
+       "name": "The Glory of God as the Chief End",
+       "fine": [
+        {
+         "slug": "to-glorify-god",
+         "name": "To glorify God"
+        },
+        {
+         "slug": "to-enjoy-him-forever",
+         "name": "To enjoy him forever"
+        },
+        {
+         "slug": "soli-deo-gloria-in-all-of-life",
+         "name": "Soli Deo gloria in all of life"
+        },
+        {
+         "slug": "gods-glory-the-end-of-creation-and-redemption",
+         "name": "God’s glory the end of creation and redemption"
+        }
+       ]
       },
       {
        "slug": "love",
@@ -5163,7 +5442,25 @@
       },
       {
        "slug": "affliction-as-gods-fatherly-discipline",
-       "name": "Affliction as God's Fatherly Discipline"
+       "name": "Affliction as God's Fatherly Discipline",
+       "fine": [
+        {
+         "slug": "chastisement-a-mark-of-sonship",
+         "name": "Chastisement a mark of sonship"
+        },
+        {
+         "slug": "affliction-for-our-profit",
+         "name": "Affliction for our profit"
+        },
+        {
+         "slug": "affliction-sanctifies",
+         "name": "Affliction sanctifies"
+        },
+        {
+         "slug": "submission-under-the-rod",
+         "name": "Submission under the rod"
+        }
+       ]
       },
       {
        "slug": "spiritual-desertion",
@@ -5195,7 +5492,25 @@
       },
       {
        "slug": "assaults-of-satan",
-       "name": "Assaults of Satan"
+       "name": "Assaults of Satan",
+       "fine": [
+        {
+         "slug": "satans-devices",
+         "name": "Satan’s devices"
+        },
+        {
+         "slug": "resisting-the-devil",
+         "name": "Resisting the devil"
+        },
+        {
+         "slug": "the-armor-of-god",
+         "name": "The armor of God"
+        },
+        {
+         "slug": "satans-accusations-answered-by-christs-blood",
+         "name": "Satan’s accusations answered by Christ’s blood"
+        }
+       ]
       },
       {
        "slug": "indwelling-corruption",
@@ -5381,11 +5696,47 @@
       },
       {
        "slug": "purgatory-and-limbo",
-       "name": "Purgatory and Limbo"
+       "name": "Purgatory and Limbo",
+       "fine": [
+        {
+         "slug": "purgatory-no-ground-in-scripture",
+         "name": "Purgatory: no ground in Scripture"
+        },
+        {
+         "slug": "temporal-punishment-and-satisfaction",
+         "name": "Temporal punishment and satisfaction"
+        },
+        {
+         "slug": "limbo-of-the-fathers-and-of-infants",
+         "name": "Limbo of the fathers and of infants"
+        },
+        {
+         "slug": "death-passes-the-soul-at-once-to-its-place",
+         "name": "Death passes the soul at once to its place"
+        }
+       ]
       },
       {
        "slug": "prayers-for-the-dead",
-       "name": "Prayers for the Dead"
+       "name": "Prayers for the Dead",
+       "fine": [
+        {
+         "slug": "no-warrant-in-scripture",
+         "name": "No warrant in Scripture"
+        },
+        {
+         "slug": "the-state-of-the-dead-is-fixed",
+         "name": "The state of the dead is fixed"
+        },
+        {
+         "slug": "early-practice-and-its-abuse",
+         "name": "Early practice and its abuse"
+        },
+        {
+         "slug": "masses-and-offerings-for-the-dead",
+         "name": "Masses and offerings for the dead"
+        }
+       ]
       }
      ]
     },
@@ -5423,7 +5774,21 @@
       },
       {
        "slug": "christs-resurrection-as-the-pledge",
-       "name": "Christ's Resurrection as the Pledge"
+       "name": "Christ's Resurrection as the Pledge",
+       "fine": [
+        {
+         "slug": "christ-the-firstfruits",
+         "name": "Christ the firstfruits"
+        },
+        {
+         "slug": "united-to-the-risen-head",
+         "name": "United to the risen Head"
+        },
+        {
+         "slug": "the-certainty-of-our-resurrection",
+         "name": "The certainty of our resurrection"
+        }
+       ]
       }
      ]
     },
@@ -5828,15 +6193,65 @@
      "subtopics": [
       {
        "slug": "trinity-and-deity-of-christ",
-       "name": "Trinity and Deity of Christ"
+       "name": "Trinity and Deity of Christ",
+       "fine": [
+        {
+         "slug": "denial-of-the-trinity",
+         "name": "Denial of the Trinity"
+        },
+        {
+         "slug": "christ-a-mere-man",
+         "name": "Christ a mere man"
+        },
+        {
+         "slug": "worship-of-christ-defended",
+         "name": "Worship of Christ defended"
+        },
+        {
+         "slug": "texts-the-socinians-twisted",
+         "name": "Texts the Socinians twisted"
+        }
+       ]
       },
       {
        "slug": "satisfaction",
-       "name": "Satisfaction"
+       "name": "Satisfaction",
+       "fine": [
+        {
+         "slug": "satisfaction-denied",
+         "name": "Satisfaction denied"
+        },
+        {
+         "slug": "forgiveness-without-payment",
+         "name": "Forgiveness without payment"
+        },
+        {
+         "slug": "christ-as-example-only",
+         "name": "Christ as example only"
+        },
+        {
+         "slug": "the-reformed-reply",
+         "name": "The Reformed reply"
+        }
+       ]
       },
       {
        "slug": "justification",
-       "name": "Justification"
+       "name": "Justification",
+       "fine": [
+        {
+         "slug": "faith-itself-counted-as-righteousness",
+         "name": "Faith itself counted as righteousness"
+        },
+        {
+         "slug": "justification-by-obedience",
+         "name": "Justification by obedience"
+        },
+        {
+         "slug": "no-imputation-of-christs-righteousness",
+         "name": "No imputation of Christ’s righteousness"
+        }
+       ]
       }
      ]
     },
@@ -5846,27 +6261,123 @@
      "subtopics": [
       {
        "slug": "conditional-election",
-       "name": "Conditional Election"
+       "name": "Conditional Election",
+       "fine": [
+        {
+         "slug": "election-on-foreseen-faith",
+         "name": "Election on foreseen faith"
+        },
+        {
+         "slug": "election-on-foreseen-perseverance",
+         "name": "Election on foreseen perseverance"
+        },
+        {
+         "slug": "reply-faith-is-a-gift-not-a-cause",
+         "name": "Reply: faith is a gift, not a cause"
+        }
+       ]
       },
       {
        "slug": "universal-atonement",
-       "name": "Universal Atonement"
+       "name": "Universal Atonement",
+       "fine": [
+        {
+         "slug": "christ-died-equally-for-every-man",
+         "name": "Christ died equally for every man"
+        },
+        {
+         "slug": "sufficiency-and-efficacy",
+         "name": "Sufficiency and efficacy"
+        },
+        {
+         "slug": "all-and-world-texts-answered",
+         "name": "“All” and “world” texts answered"
+        },
+        {
+         "slug": "the-objection-of-double-payment",
+         "name": "The objection of double payment"
+        }
+       ]
       },
       {
        "slug": "resistible-grace",
-       "name": "Resistible Grace"
+       "name": "Resistible Grace",
+       "fine": [
+        {
+         "slug": "grace-can-be-finally-resisted",
+         "name": "Grace can be finally resisted"
+        },
+        {
+         "slug": "reply-effectual-calling",
+         "name": "Reply: effectual calling"
+        },
+        {
+         "slug": "reply-the-new-birth-is-gods-work-alone",
+         "name": "Reply: the new birth is God’s work alone"
+        }
+       ]
       },
       {
        "slug": "free-will-and-prevenient-grace",
-       "name": "Free Will and Prevenient Grace"
+       "name": "Free Will and Prevenient Grace",
+       "fine": [
+        {
+         "slug": "free-will-after-the-fall",
+         "name": "Free will after the fall"
+        },
+        {
+         "slug": "prevenient-grace-restores-ability",
+         "name": "Prevenient grace restores ability"
+        },
+        {
+         "slug": "the-bondage-of-the-will",
+         "name": "The bondage of the will"
+        },
+        {
+         "slug": "natural-and-moral-inability",
+         "name": "Natural and moral inability"
+        }
+       ]
       },
       {
        "slug": "falling-from-grace",
-       "name": "Falling from Grace"
+       "name": "Falling from Grace",
+       "fine": [
+        {
+         "slug": "believers-may-fall-finally",
+         "name": "Believers may fall finally"
+        },
+        {
+         "slug": "texts-urged-for-apostasy-answered",
+         "name": "Texts urged for apostasy answered"
+        },
+        {
+         "slug": "perseverance-rests-on-gods-promise",
+         "name": "Perseverance rests on God’s promise"
+        }
+       ]
       },
       {
        "slug": "neonomianism",
-       "name": "Neonomianism"
+       "name": "Neonomianism",
+       "fine": [
+        {
+         "slug": "the-gospel-as-a-new-law",
+         "name": "The gospel as a new law"
+        },
+        {
+         "slug": "sincere-obedience-as-the-condition",
+         "name": "Sincere obedience as the condition"
+        },
+        {
+         "slug": "reply-christs-righteousness-alone",
+         "name": "Reply: Christ’s righteousness alone"
+        },
+        {
+         "slug": "the-neonomian-controversy",
+         "name": "The Neonomian controversy"
+        }
+       ]
       }
      ]
     },
@@ -5876,7 +6387,25 @@
      "subtopics": [
       {
        "slug": "hypothetical-universalism",
-       "name": "Hypothetical Universalism"
+       "name": "Hypothetical Universalism",
+       "fine": [
+        {
+         "slug": "christs-death-for-all-on-condition-of-faith",
+         "name": "Christ’s death for all on condition of faith"
+        },
+        {
+         "slug": "two-decrees-universal-then-particular",
+         "name": "Two decrees: universal, then particular"
+        },
+        {
+         "slug": "sufficiency-and-efficacy",
+         "name": "Sufficiency and efficacy"
+        },
+        {
+         "slug": "the-reformed-reply-at-dort-and-westminster",
+         "name": "The Reformed reply at Dort and Westminster"
+        }
+       ]
       }
      ]
     },
@@ -5886,19 +6415,87 @@
      "subtopics": [
       {
        "slug": "ubiquity-and-the-lords-supper",
-       "name": "Ubiquity and the Lord's Supper"
+       "name": "Ubiquity and the Lord's Supper",
+       "fine": [
+        {
+         "slug": "the-ubiquity-of-christs-body",
+         "name": "The ubiquity of Christ’s body"
+        },
+        {
+         "slug": "bodily-presence-in-the-supper",
+         "name": "Bodily presence in the Supper"
+        },
+        {
+         "slug": "reply-christs-body-is-in-heaven",
+         "name": "Reply: Christ’s body is in heaven"
+        },
+        {
+         "slug": "eating-by-the-unworthy",
+         "name": "Eating by the unworthy"
+        }
+       ]
       },
       {
        "slug": "communication-of-properties",
-       "name": "Communication of Properties"
+       "name": "Communication of Properties",
+       "fine": [
+        {
+         "slug": "genus-majestaticum-majesty-communicated",
+         "name": "Genus majestaticum (majesty communicated)"
+        },
+        {
+         "slug": "the-extra-calvinisticum",
+         "name": "The extra Calvinisticum"
+        },
+        {
+         "slug": "natures-distinct-person-one",
+         "name": "Natures distinct, person one"
+        },
+        {
+         "slug": "reformed-use-of-the-communicatio",
+         "name": "Reformed use of the communicatio"
+        }
+       ]
       },
       {
        "slug": "predestination",
-       "name": "Predestination"
+       "name": "Predestination",
+       "fine": [
+        {
+         "slug": "election-in-view-of-faith-intuitu-fidei",
+         "name": "Election in view of faith (intuitu fidei)"
+        },
+        {
+         "slug": "universal-grace-particular-election",
+         "name": "Universal grace, particular election"
+        },
+        {
+         "slug": "reply-unconditional-election",
+         "name": "Reply: unconditional election"
+        }
+       ]
       },
       {
        "slug": "law-and-gospel",
-       "name": "Law and Gospel"
+       "name": "Law and Gospel",
+       "fine": [
+        {
+         "slug": "law-and-gospel-distinguished",
+         "name": "Law and gospel distinguished"
+        },
+        {
+         "slug": "the-third-use-of-the-law",
+         "name": "The third use of the law"
+        },
+        {
+         "slug": "law-and-gospel-in-preaching",
+         "name": "Law and gospel in preaching"
+        },
+        {
+         "slug": "reformed-and-lutheran-emphases-compared",
+         "name": "Reformed and Lutheran emphases compared"
+        }
+       ]
       }
      ]
     },
@@ -5908,15 +6505,69 @@
      "subtopics": [
       {
        "slug": "infant-baptism",
-       "name": "Infant Baptism"
+       "name": "Infant Baptism",
+       "fine": [
+        {
+         "slug": "baptism-of-believers-only",
+         "name": "Baptism of believers only"
+        },
+        {
+         "slug": "baptism-and-circumcision",
+         "name": "Baptism and circumcision"
+        },
+        {
+         "slug": "household-baptisms",
+         "name": "Household baptisms"
+        },
+        {
+         "slug": "infants-in-the-covenant",
+         "name": "Infants in the covenant"
+        }
+       ]
       },
       {
        "slug": "oaths-and-magistracy",
-       "name": "Oaths and Magistracy"
+       "name": "Oaths and Magistracy",
+       "fine": [
+        {
+         "slug": "lawful-oaths",
+         "name": "Lawful oaths"
+        },
+        {
+         "slug": "the-christian-magistrate",
+         "name": "The Christian magistrate"
+        },
+        {
+         "slug": "bearing-the-sword",
+         "name": "Bearing the sword"
+        },
+        {
+         "slug": "obedience-to-civil-authority",
+         "name": "Obedience to civil authority"
+        }
+       ]
       },
       {
        "slug": "enthusiasm-and-revelation",
-       "name": "Enthusiasm and Revelation"
+       "name": "Enthusiasm and Revelation",
+       "fine": [
+        {
+         "slug": "immediate-revelations",
+         "name": "Immediate revelations"
+        },
+        {
+         "slug": "the-spirit-and-the-word-together",
+         "name": "The Spirit and the Word together"
+        },
+        {
+         "slug": "m-nster-and-the-zwickau-prophets",
+         "name": "Münster and the Zwickau prophets"
+        },
+        {
+         "slug": "testing-the-spirits",
+         "name": "Testing the spirits"
+        }
+       ]
       }
      ]
     },
@@ -5926,15 +6577,65 @@
      "subtopics": [
       {
        "slug": "eternal-justification",
-       "name": "Eternal Justification"
+       "name": "Eternal Justification",
+       "fine": [
+        {
+         "slug": "justified-from-eternity",
+         "name": "Justified from eternity"
+        },
+        {
+         "slug": "decree-and-execution-distinguished",
+         "name": "Decree and execution distinguished"
+        },
+        {
+         "slug": "justified-in-time-by-faith",
+         "name": "Justified in time by faith"
+        },
+        {
+         "slug": "dangers-of-eternal-justification",
+         "name": "Dangers of eternal justification"
+        }
+       ]
       },
       {
        "slug": "use-of-the-law",
-       "name": "Use of the Law"
+       "name": "Use of the Law",
+       "fine": [
+        {
+         "slug": "the-law-not-binding-on-believers",
+         "name": "The law not binding on believers"
+        },
+        {
+         "slug": "three-uses-of-the-law",
+         "name": "Three uses of the law"
+        },
+        {
+         "slug": "the-law-as-the-believers-rule",
+         "name": "The law as the believer’s rule"
+        },
+        {
+         "slug": "exhortation-and-gospel-motives",
+         "name": "Exhortation and gospel motives"
+        }
+       ]
       },
       {
        "slug": "assurance",
-       "name": "Assurance"
+       "name": "Assurance",
+       "fine": [
+        {
+         "slug": "assurance-by-immediate-persuasion-without-fruits",
+         "name": "Assurance by immediate persuasion, without fruits"
+        },
+        {
+         "slug": "the-practical-syllogism",
+         "name": "The practical syllogism"
+        },
+        {
+         "slug": "marks-of-grace",
+         "name": "Marks of grace"
+        }
+       ]
       }
      ]
     },
@@ -5944,11 +6645,39 @@
      "subtopics": [
       {
        "slug": "inner-light",
-       "name": "Inner Light"
+       "name": "Inner Light",
+       "fine": [
+        {
+         "slug": "the-inner-light-as-the-rule",
+         "name": "The Inner Light as the rule"
+        },
+        {
+         "slug": "christs-light-in-every-man",
+         "name": "Christ’s light in every man"
+        },
+        {
+         "slug": "the-spirit-never-contradicts-the-word",
+         "name": "The Spirit never contradicts the Word"
+        }
+       ]
       },
       {
        "slug": "scripture",
-       "name": "Scripture"
+       "name": "Scripture",
+       "fine": [
+        {
+         "slug": "scripture-made-secondary-to-inner-revelation",
+         "name": "Scripture made secondary to inner revelation"
+        },
+        {
+         "slug": "dead-letter-answered",
+         "name": "“Dead letter” answered"
+        },
+        {
+         "slug": "sufficiency-of-scripture-against-new-revelations",
+         "name": "Sufficiency of Scripture against new revelations"
+        }
+       ]
       }
      ]
     },
@@ -5973,23 +6702,113 @@
      "subtopics": [
       {
        "slug": "higher-criticism-and-liberalism",
-       "name": "Higher Criticism and Liberalism"
+       "name": "Higher Criticism and Liberalism",
+       "fine": [
+        {
+         "slug": "denial-of-biblical-inspiration",
+         "name": "Denial of biblical inspiration"
+        },
+        {
+         "slug": "denial-of-miracles",
+         "name": "Denial of miracles"
+        },
+        {
+         "slug": "denial-of-the-atonement",
+         "name": "Denial of the atonement"
+        },
+        {
+         "slug": "the-jesus-of-history-and-the-christ-of-faith",
+         "name": "The Jesus of history and the Christ of faith"
+        }
+       ]
       },
       {
        "slug": "neo-orthodoxy",
-       "name": "Neo-orthodoxy"
+       "name": "Neo-orthodoxy",
+       "fine": [
+        {
+         "slug": "scripture-only-becomes-the-word",
+         "name": "Scripture only becomes the Word"
+        },
+        {
+         "slug": "revelation-as-event-not-proposition",
+         "name": "Revelation as event, not proposition"
+        },
+        {
+         "slug": "barths-doctrine-of-election",
+         "name": "Barth’s doctrine of election"
+        },
+        {
+         "slug": "hope-of-universal-salvation",
+         "name": "Hope of universal salvation"
+        }
+       ]
       },
       {
        "slug": "open-theism",
-       "name": "Open Theism"
+       "name": "Open Theism",
+       "fine": [
+        {
+         "slug": "denial-of-exhaustive-foreknowledge",
+         "name": "Denial of exhaustive foreknowledge"
+        },
+        {
+         "slug": "god-changing-his-mind",
+         "name": "God changing his mind"
+        },
+        {
+         "slug": "risk-and-providence",
+         "name": "Risk and providence"
+        },
+        {
+         "slug": "reply-gods-immutability-and-omniscience",
+         "name": "Reply: God’s immutability and omniscience"
+        }
+       ]
       },
       {
        "slug": "federal-vision",
-       "name": "Federal Vision"
+       "name": "Federal Vision",
+       "fine": [
+        {
+         "slug": "covenant-membership-without-election",
+         "name": "Covenant membership without election"
+        },
+        {
+         "slug": "baptism-as-covenant-union",
+         "name": "Baptism as covenant union"
+        },
+        {
+         "slug": "final-justification-by-works",
+         "name": "Final justification by works"
+        },
+        {
+         "slug": "reply-the-covenant-of-works-and-of-grace",
+         "name": "Reply: the covenant of works and of grace"
+        }
+       ]
       },
       {
        "slug": "new-perspective-on-paul",
-       "name": "New Perspective on Paul"
+       "name": "New Perspective on Paul",
+       "fine": [
+        {
+         "slug": "works-of-the-law-as-boundary-markers",
+         "name": "“Works of the law” as boundary markers"
+        },
+        {
+         "slug": "covenantal-nomism",
+         "name": "Covenantal nomism"
+        },
+        {
+         "slug": "redefining-justification",
+         "name": "Redefining justification"
+        },
+        {
+         "slug": "reply-the-reformers-read-paul-rightly",
+         "name": "Reply: the Reformers read Paul rightly"
+        }
+       ]
       }
      ]
     }

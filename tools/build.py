@@ -49,7 +49,7 @@ def pill(key):
     """(name, url) shown on a quote for one of its tags"""
     b = key.split('/')
     if len(b) == 1: return TOPIC[b[0]]['name'], url(key)
-    if len(b) == 3: return FINE[key]['name'], url('/'.join(b[:2]))
+    if len(b) == 3: return pill('/'.join(b[:2]))[0] + ' › ' + FINE[key]['name'], url(key)
     n = SUBT[key]['name']
     if b[0] in POLEMICS or _names[n] > 1: n = TOPIC[b[0]]['name'] + ': ' + n
     return n, url(key)
@@ -91,11 +91,16 @@ def head(pre, title, desc):
     return h
 def foot(pre): return FOOT.replace('{P}', pre)
 
+def tag_segs(k):
+    """[(label, url), ...] for one tag: a fine tag is two links, 'Subtopic' then 'Fine'; anything else is one link"""
+    b = k.split('/')
+    if len(b) == 3: return [(pill('/'.join(b[:2]))[0], url('/'.join(b[:2]))), (FINE[k]['name'], url(k))]
+    return [pill(k)]
 def tags_html(q, pre, here=()):
-    """where a quote is filed: plain text, no links (navigation lives in the outline, not on the quotes)"""
+    """where a quote is filed: plain text links, each name goes to its own page"""
     ks = list(q['tags'])
     if here: ks = [k for k in ks if k in here] + [k for k in ks if k not in here]
-    return ''.join(f'<span class="t{" here" if k in here else ""}">{esc(pill(k)[0])}</span>' for k in ks)
+    return ''.join(f'<span class="t{" here" if k in here else ""}">' + ' › '.join(f'<a href="{pre}{u}">{esc(n)}</a>' for n, u in tag_segs(k)) + '</span>' for k in ks)
 def render(q, pre, here=()):
     cap = f'— <a href="{pre}authors/{q["as_"]}.html">{esc(q["a"])}</a>, <cite>{esc(q["w"])}</cite>' + (f', {esc(q["l"])}' if q['l'] else '')
     plain = f'— {q["a"]}, {q["w"]}' + (f', {q["l"]}' if q['l'] else '')
@@ -109,11 +114,17 @@ def subline(L):
     if not L: return ''
     na = len({q['as_'] for q in L})
     return f'<p class="sub">{qs(len(L))} from {na} author' + ('' if na == 1 else 's') + '</p>'
-def line(depth, name, href, n, cur=False):
-    """one line of an outline: name, dotted leader, count. The current page is bold plain text, every other line is a link."""
+def row(name, href, n, cur):
+    """the clickable part of an outline line: name, dotted leader, count. The page you are on is bold plain text."""
+    c = f'<span class="lead"></span><span class="c">{n}</span>'
+    if cur: return f'<span class="r"><span class="n" aria-current="page">{esc(name)}</span>{c}</span>'
+    return f'<a class="r" href="{href}"><span class="n">{esc(name)}</span>{c}</a>'
+def item(depth, name, href, n, cur=False, kids=(), opened=False, det=''):
+    """one outline line. With children it is a <details>: the arrow (or the line you are on) folds it, the name goes to its page."""
     cls = f'd{depth}' + (' cur' if cur else '') + (' nil' if n == 0 else '')
-    nm = (f'<span class="n" aria-current="page">{esc(name)}</span>' if cur else f'<a class="n" href="{href}">{esc(name)}</a>')
-    return f'<li class="{cls}">{nm}<span class="lead"></span><span class="c">{n}</span></li>'
+    r = row(name, href, n, cur)
+    if not kids: return f'<li class="{cls} leaf">{r}</li>'
+    return f'<li class="{cls}"><details{" class=" + chr(34) + det + chr(34) if det else ""}{" open" if opened else ""}><summary>{r}</summary><ul>{"".join(kids)}</ul></details></li>'
 def outline(lines, extra=''): return f'<ul class="toc{extra}">' + ''.join(lines) + '</ul>'
 
 # ------------------------------------------------------ drill-down pages
@@ -132,20 +143,19 @@ def node_page(key):
     if len(b) == 3: chain.append((SUBT['/'.join(b[:2])]['name'], H('/'.join(b[:2]))))
     name = part['name'] if not b else TOPIC[b[0]]['name'] if len(b) == 1 else SUBT[key]['name'] if len(b) == 2 else FINE[key]['name']
     crumbs = ' › '.join(f'<a href="{u}">{esc(n)}</a>' for n, u in chain) + f' › <span class="cur">{esc(name)}</span>'
-    # outline: the current page in bold, its parent above it, what is under it indented
+    # outline: the page you are on in bold; every line with something under it has an arrow that folds it in place
+    def sub_item(tk, sb):
+        sk = tk + '/' + sb['slug']; onp = key == sk or key.startswith(sk + '/')
+        fk = [item(2, f['name'], H(sk + '/' + f['slug']), N(sk + '/' + f['slug']), sk + '/' + f['slug'] == key) for f in sb.get('fine', [])]
+        return item(1, sb['name'], H(sk), N(sk), key == sk, fk, onp)
     if not b:
-        L = [line(0, part['name'], '', N(pk), True)] + [line(1, t['name'], H(t['slug']), N(t['slug'])) for t in part['topics']]
-    elif len(b) == 1:
-        t = TOPIC[b[0]]
-        L = [line(0, t['name'], '', N(b[0]), True)] + [line(1, s['name'], H(b[0] + '/' + s['slug']), N(b[0] + '/' + s['slug'])) for s in t['subtopics']]
+        tk_ = [item(1, t['name'], H(t['slug']), N(t['slug']), False,
+                    [item(2, x['name'], H(t['slug'] + '/' + x['slug']), N(t['slug'] + '/' + x['slug'])) for x in t['subtopics']])
+               for t in part['topics']]
+        L = [item(0, part['name'], '', N(pk), True, tk_, True)]
     else:
-        t = TOPIC[b[0]]; sk = '/'.join(b[:2])
-        L = [line(0, t['name'], H(b[0]), N(b[0]))]
-        for s in t['subtopics']:
-            k = b[0] + '/' + s['slug']
-            L.append(line(1, s['name'], H(k), N(k), k == key))
-            if k == sk:
-                L += [line(2, f['name'], H(k + '/' + f['slug']), N(k + '/' + f['slug']), k + '/' + f['slug'] == key) for f in s.get('fine', [])]
+        t = TOPIC[b[0]]
+        L = [item(0, t['name'], H(b[0]), N(b[0]), len(b) == 1, [sub_item(b[0], x) for x in t['subtopics']], True)]
     here = {k for k in SETS if k == key or k.startswith(key + '/') or (not b and k.split('/')[0] in {t['slug'] for t in part['topics']})}
     if not b: here.discard(key)
     Q_ = SETS.get(key, [])
@@ -171,14 +181,14 @@ s = rd('topics/index.html')
 body = ('<main class="wrap"><h1>Topics</h1><p class="lede">Arranged in the order of the classic Reformed systematic theologies, '
         'from Prolegomena to Last Things, with Polemics last. Every part, topic and subtopic has its own page, filled or not; '
         'a quotation filed in several places is counted once.</p>'
-        '<p class="jump">' + ' <span>·</span> '.join(f'<a href="#{p["slug"]}">{esc(p["name"])}</a>' for p in PARTS) + '</p>')
+        '<p class="jump">' + ' <span>·</span> '.join(f'<a href="#{p["slug"]}">{esc(p["name"])}</a>' for p in PARTS) + '</p>'
+        '<p class="jump"><button type="button" id="expand" class="textbtn">Expand all</button> the topics to see every subtopic</p>')
 for p in PARTS:
     pk = 'part:' + p['slug']
     body += f'<h2 class="sect" id="{p["slug"]}"><a href="{p["slug"]}.html">{esc(p["name"])}</a> <span class="count">{N(pk)}</span></h2>'
-    L = []
-    for t in p['topics']:
-        L.append(line(0, t['name'], f'{t["slug"]}.html', N(t['slug'])))
-        L += [line(1, x['name'], f'{t["slug"]}/{x["slug"]}.html', N(t['slug'] + '/' + x['slug'])) for x in t['subtopics']]
+    L = [item(0, t['name'], f'{t["slug"]}.html', N(t['slug']), False,
+              [item(1, x['name'], f'{t["slug"]}/{x["slug"]}.html', N(t['slug'] + '/' + x['slug'])) for x in t['subtopics']], False, 'locus')
+         for t in p['topics']]
     body += outline(L, ' all')
 wr('topics/index.html', s[:s.index('<main')] + body + s[s.index('</main>'):]); GEN.add('topics/index.html')
 
@@ -196,6 +206,11 @@ def akey(a):
 AUTH = collections.OrderedDict()
 for q in Q: AUTH.setdefault(q['as_'], [q['a'], []])[1].append(q)
 order = sorted(AUTH, key=lambda k: akey(AUTH[k][0]))
+# search page: author sort order and period (period is set by hand in tools/author-periods.json)
+PER = json.load(open('tools/author-periods.json', encoding='utf-8'))
+wr('assets/authors.json', json.dumps({k: [i, PER.get(k, '')] for i, k in enumerate(order)}, ensure_ascii=False, separators=(',', ':')))
+_nop = [AUTH[k][0] for k in order if k not in PER]
+if _nop: print('no period set for (add to tools/author-periods.json):', '; '.join(_nop))
 s = rd('authors/index.html')
 letters = list(dict.fromkeys(akey(AUTH[k][0])[0][0].upper() for k in order))
 body = '<h1>Authors</h1><p class="letters">' + ''.join(f'<a href="#L{L}">{L}</a>' for L in letters) + '</p>'
