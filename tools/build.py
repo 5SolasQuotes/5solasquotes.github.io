@@ -328,6 +328,9 @@ for f in glob.glob('**/*.html', recursive=True):
         s = re.sub(r'(<a href="((?:\.\./)*)search\.html">Search</a>)', lambda m: m.group(1) + f'<a href="{m.group(2)}submit.html">Submit</a>', s, count=1)
     if '<p class="small"><a href="' in s and 'submit.html' not in s.split('</main>')[-1]:
         s = re.sub(r'(<p class="small">)(<a href="((?:\.\./)*)about\.html">About</a>)', lambda m: m.group(1) + f'<a href="{m.group(3)}submit.html">Submit a quote</a> · ' + m.group(2), s, count=1)
+    # Literal Word BibleTagger: links Bible references (John 3:16) with a hover popup, on every page (idempotent)
+    if 'bible-tagger.js' not in s and '</body>' in s:
+        s = s.replace('</body>', '<script src="https://literalword.com/bible-tagger.js" data-version="ESV"></script>\n</body>', 1)
     # collection pages: breadcrumb ends on the page you are on, no dangling arrow
     s = re.sub(r'(<p class="crumbs"><a href="index.html">Collections</a>) ›</p>(<h1>)(.*?)(</h1>)',
                lambda m: f'{m.group(1)} › <span class="cur">{m.group(3)}</span></p>{m.group(2)}{m.group(3)}{m.group(4)}', s, count=1)
