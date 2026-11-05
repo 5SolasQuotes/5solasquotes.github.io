@@ -23,14 +23,14 @@
 </form>
 <script>
 (function(){
-var KEY="PUT-YOUR-WEB3FORMS-KEY-HERE";
+var KEY="0aa4458d-7298-42ce-807f-6cf1dcb08791";
 var f=document.getElementById("subform"),m=document.getElementById("submsg"),b=document.getElementById("subbtn");
 try{var t=new URLSearchParams(location.search).get("topic");if(t)document.getElementById("subtopic").value=t}catch(e){}
 f.addEventListener("submit",function(e){e.preventDefault();
  var d=new FormData(f),o={};d.forEach(function(v,k){o[k]=v});
  if(!o.quote.trim()||!o.author.trim()||!o.work.trim()){m.className="wide submsg bad";m.textContent="Please fill in the quotation, the author and the work.";return}
  if(o.botcheck){return}
- if(KEY.indexOf("PUT-")===0){m.className="wide submsg bad";m.textContent="The form is not switched on yet. Please check back soon.";return}
+ if(!KEY){m.className="wide submsg bad";m.textContent="The form is not switched on yet. Please check back soon.";return}
  o.access_key=KEY;o.subject="Quote submission: "+o.author.trim()+", "+o.work.trim();o.from_name="5 Solas Quotes";delete o.botcheck;
  b.disabled=true;m.className="wide submsg";m.textContent="Sending…";
  fetch("https://api.web3forms.com/submit",{method:"POST",headers:{"Content-Type":"application/json",Accept:"application/json"},body:JSON.stringify(o)})
