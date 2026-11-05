@@ -1,0 +1,46 @@
+<!doctype html><html lang="en" data-theme="light"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Submit a Quote · 5 Solas Quotes</title><meta name="description" content="Suggest a quotation for 5 Solas Quotes. Every submission is checked against its source before anything is published.">
+<script>try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script><link rel="icon" type="image/png" href="assets/favicon.png"><link rel="stylesheet" href="assets/style.css?v=20261105a"></head><body>
+<header class="site"><div class="wrap"><a class="brand" href="index.html"><img src="assets/logo-96.png" alt="" width="40" height="40"><span>5 Solas Quotes</span></a>
+<nav><a href="topics/index.html">Topics</a><a href="topics/polemics.html">Polemics</a><a href="collections/index.html">Collections</a><a href="authors/index.html">Authors</a><a href="search.html">Search</a><a href="submit.html">Submit</a><a href="about.html">About</a><span class="themewrap"><button class="themebtn" id="themebtn" type="button" aria-label="Toggle light or dark theme"></button><span class="themelbl" aria-hidden="true"></span></span></nav></div></header>
+<main class="wrap"><h1>Submit a Quote</h1>
+<p class="lede">Know a quotation that belongs here? Send it in. Nothing is published automatically: every submission is checked against its source first, then added or set aside.</p>
+<form id="subform" class="subform" novalidate>
+<input type="text" name="botcheck" tabindex="-1" autocomplete="off" class="hp" aria-hidden="true">
+<label class="wide">Quotation <span class="req">required</span><textarea name="quote" rows="6" required></textarea></label>
+<label>Author <span class="req">required</span><input type="text" name="author" required></label>
+<label>Work (book, treatise, sermon, creed) <span class="req">required</span><input type="text" name="work" required></label>
+<label>Chapter, section, page <span class="opt">if you have it</span><input type="text" name="location"></label>
+<label>Edition, translator, year <span class="opt">if you have it</span><input type="text" name="edition"></label>
+<label class="wide">Link to the text online <span class="opt">if you have it</span><input type="url" name="link" placeholder="https://"></label>
+<label>Where did you find it?<select name="found"><option value="">Choose one</option><option>Copied from the book or a scan</option><option>Copied from a website</option><option>From another quote collection</option><option>From memory</option><option>Not sure</option></select></label>
+<label>Topic you think it fits <span class="opt">optional</span><input type="text" name="topic" id="subtopic" placeholder="e.g. Justification"></label>
+<label class="wide">Anything else we should know <span class="opt">optional</span><textarea name="notes" rows="3"></textarea></label>
+<label>Your name <span class="opt">optional</span><input type="text" name="submitter"></label>
+<label>Your email <span class="opt">optional, only to ask a question</span><input type="email" name="email"></label>
+<p class="wide"><button type="submit" id="subbtn">Send for review</button></p>
+<p id="submsg" class="wide submsg" role="status" aria-live="polite"></p>
+</form>
+<script>
+(function(){
+var KEY="PUT-YOUR-WEB3FORMS-KEY-HERE";
+var f=document.getElementById("subform"),m=document.getElementById("submsg"),b=document.getElementById("subbtn");
+try{var t=new URLSearchParams(location.search).get("topic");if(t)document.getElementById("subtopic").value=t}catch(e){}
+f.addEventListener("submit",function(e){e.preventDefault();
+ var d=new FormData(f),o={};d.forEach(function(v,k){o[k]=v});
+ if(!o.quote.trim()||!o.author.trim()||!o.work.trim()){m.className="wide submsg bad";m.textContent="Please fill in the quotation, the author and the work.";return}
+ if(o.botcheck){return}
+ if(KEY.indexOf("PUT-")===0){m.className="wide submsg bad";m.textContent="The form is not switched on yet. Please check back soon.";return}
+ o.access_key=KEY;o.subject="Quote submission: "+o.author.trim()+", "+o.work.trim();o.from_name="5 Solas Quotes";delete o.botcheck;
+ b.disabled=true;m.className="wide submsg";m.textContent="Sending…";
+ fetch("https://api.web3forms.com/submit",{method:"POST",headers:{"Content-Type":"application/json",Accept:"application/json"},body:JSON.stringify(o)})
+ .then(function(r){return r.json()}).then(function(j){
+  if(j.success){f.reset();m.className="wide submsg ok";m.textContent="Thank you. Your quotation was sent for review."}
+  else{m.className="wide submsg bad";m.textContent="Something went wrong. Please try again."}
+  b.disabled=false}).catch(function(){m.className="wide submsg bad";m.textContent="Could not send. Check your connection and try again.";b.disabled=false})
+});
+})();
+</script>
+</main>
+<footer class="site"><div class="wrap"><p>5 Solas Quotes · 1123 quotations · 64 topics · 170 authors</p><p class="small"><a href="submit.html">Submit a quote</a> · <a href="about.html">About</a></p><p class="small">Quotations are drawn from public-domain works and published translations, cited to their sources.</p></div></footer>
+<script src="assets/site.js?v=20261105a"></script></body></html>

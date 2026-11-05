@@ -9,7 +9,7 @@ Also read: tools/redirects.json (old URL -> new node, kept so old links work).
 
 Run from anywhere:  python3 tools/build.py
 """
-import json, os, re, glob, html, random, collections, unicodedata, sys
+import json, os, re, glob, html, random, collections, unicodedata, sys, urllib.parse
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 os.chdir(ROOT)
@@ -166,7 +166,7 @@ def node_page(key):
     desc = (' — '.join([name] + [c[0] for c in reversed(chain[1:])]) if b
             else f'{name}: ' + ', '.join(t['name'] for t in part['topics']))
     body = (f'<main class="wrap"><p class="crumbs">{crumbs}</p><h1>{esc(name)}</h1>{subline(Q_)}'
-            + ('' if Q_ else '<p class="noq">No quotations filed here yet.</p>') + outline(L) + ''.join(render(q, pre, here) for q in Q_))
+            + ('' if Q_ else '<p class="noq">No quotations filed here yet.</p>') + outline(L) + f'<p class="suggest"><a href="{pre}submit.html?topic={urllib.parse.quote(name)}">Know a quotation for this topic? Submit it for review</a></p>' + ''.join(render(q, pre, here) for q in Q_))
     wr(url(key), head(pre, name, desc) + body + foot(pre))
 PARTS_BY = {p['slug']: p for p in PARTS}
 GEN = set()
@@ -309,6 +309,11 @@ for f in glob.glob('**/*.html', recursive=True):
             return re.sub(r' data-pol="[^"]*"', '', m.group(1)) + inner + m.group(4)
         s = FIG.sub(fix, s)
     s = re.sub(r'\d+ quotations · \d+ topics · \d+ authors', FOOTER, s)
+    # "Submit a Quote" in the nav (after Search) and in the footer, on every page (idempotent)
+    if 'submit.html' not in s.split('</header>')[0]:
+        s = re.sub(r'(<a href="((?:\.\./)*)search\.html">Search</a>)', lambda m: m.group(1) + f'<a href="{m.group(2)}submit.html">Submit</a>', s, count=1)
+    if '<p class="small"><a href="' in s and 'submit.html' not in s.split('</main>')[-1]:
+        s = re.sub(r'(<p class="small">)(<a href="((?:\.\./)*)about\.html">About</a>)', lambda m: m.group(1) + f'<a href="{m.group(3)}submit.html">Submit a quote</a> · ' + m.group(2), s, count=1)
     # collection pages: breadcrumb ends on the page you are on, no dangling arrow
     s = re.sub(r'(<p class="crumbs"><a href="index.html">Collections</a>) ›</p>(<h1>)(.*?)(</h1>)',
                lambda m: f'{m.group(1)} › <span class="cur">{m.group(3)}</span></p>{m.group(2)}{m.group(3)}{m.group(4)}', s, count=1)

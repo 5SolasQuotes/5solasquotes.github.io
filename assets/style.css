@@ -198,3 +198,18 @@ p.more{color:var(--muted);margin:1rem 0 2rem}
 .quote figcaption{text-align:left}.quote figcaption .by,.quote figcaption .wk{display:block}.quote figcaption .wk{margin-top:.1rem}
 .quote figcaption .lbl{font-family:system-ui,-apple-system,sans-serif;font-size:.7rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-right:.35em}
 .quote figcaption .by a,.quote figcaption .wk cite{color:var(--ink)}
+
+/* submit a quote */
+.subform{display:grid;grid-template-columns:1fr 1fr;gap:.9rem 1rem;margin:1rem 0 2rem;max-width:46rem}
+.subform label{display:flex;flex-direction:column;gap:.3rem;font-size:.85rem;color:var(--muted)}
+.subform label.wide,.subform p.wide{grid-column:1/-1}
+.subform input,.subform textarea,.subform select{font:inherit;font-size:1rem;color:var(--ink);background:var(--card2);border:1px solid var(--rule);border-radius:4px;padding:.5rem .6rem;width:100%;box-sizing:border-box}
+.subform input:focus,.subform textarea:focus,.subform select:focus{outline:2px solid var(--accent);outline-offset:1px}
+.subform .req{color:var(--accent);font-size:.75rem;margin-left:.3rem}.subform .opt{font-size:.75rem;margin-left:.3rem;opacity:.8}
+.subform .hp{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
+.subform button{padding:.55rem 1.2rem;border:1px solid var(--accent);background:linear-gradient(135deg,var(--accent),var(--hot));color:#120c05;border-radius:4px;font-weight:600}
+:root[data-theme=light] .subform button{color:#fff}
+.subform button:disabled{opacity:.6;cursor:wait}
+.submsg{margin:0;min-height:1.4em}.submsg.ok{color:var(--accent)}.submsg.bad{color:var(--hot)}
+p.suggest{margin:.6rem 0 1rem;font-size:.9rem}
+@media(max-width:600px){.subform{grid-template-columns:1fr}}
