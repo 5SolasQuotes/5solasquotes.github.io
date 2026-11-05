@@ -8,11 +8,24 @@ Inputs (the only two files to edit):
 Also read: tools/redirects.json (old URL -> new node, kept so old links work).
 
 Run from anywhere:  python3 tools/build.py
+Also stamps a fresh ?v=YYYYMMDD-githash on every HTML link to style.css / site.js;
+site.js reads that same token and appends it to tree.json / quotes-index.json / authors.json fetches.
 """
-import json, os, re, glob, html, random, collections, unicodedata, sys, urllib.parse
+import json, os, re, glob, html, random, collections, unicodedata, sys, urllib.parse, subprocess, time
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 os.chdir(ROOT)
+def asset_version():
+    """Fresh cache-bust token for CSS/JS/JSON: YYYYMMDD-shortgit."""
+    day = time.strftime('%Y%m%d')
+    try:
+        h = subprocess.check_output(
+            ['git', 'rev-parse', '--short=7', 'HEAD'], cwd=ROOT,
+            stderr=subprocess.DEVNULL).decode().strip()
+    except Exception:
+        h = time.strftime('%H%M%S')
+    return f'{day}-{h}'
+ASSET_V = asset_version()
 esc = lambda s: html.escape(s, quote=True)
 rd = lambda f: open(f, encoding='utf-8').read()
 WROTE = set()
@@ -318,7 +331,11 @@ for f in glob.glob('**/*.html', recursive=True):
     # collection pages: breadcrumb ends on the page you are on, no dangling arrow
     s = re.sub(r'(<p class="crumbs"><a href="index.html">Collections</a>) ›</p>(<h1>)(.*?)(</h1>)',
                lambda m: f'{m.group(1)} › <span class="cur">{m.group(3)}</span></p>{m.group(2)}{m.group(3)}{m.group(4)}', s, count=1)
+    # Cache-bust CSS/JS on every build (site.js appends the same ?v= to JSON fetches)
+    s = re.sub(
+        r'(href|src)="((?:\.\./)*)assets/(style\.css|site\.js)(?:\?v=[^"]*)?"',
+        lambda m: f'{m.group(1)}="{m.group(2)}assets/{m.group(3)}?v={ASSET_V}"', s)
     if s != o: wr(f, s)
 filled = lambda ks: sum(N(k) > 0 for k in ks)
 print(f'{len(Q)} quotes; filled: parts {filled(["part:" + p["slug"] for p in PARTS])}/{len(PARTS)}, topics {filled(TOPIC)}/{len(TOPIC)}, '
-      f'subtopics {filled(SUBT)}/{len(SUBT)}, fine {filled(FINE)}/{len(FINE)}; all shown; files written {len(WROTE)}')
+      f'subtopics {filled(SUBT)}/{len(SUBT)}, fine {filled(FINE)}/{len(FINE)}; all shown; files written {len(WROTE)}; asset ?v={ASSET_V}')

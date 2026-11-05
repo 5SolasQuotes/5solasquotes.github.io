@@ -1,5 +1,5 @@
 (function(){
-const pre=document.querySelector('link[rel=stylesheet]').getAttribute('href').split('assets/style.css')[0];
+const cssHref=document.querySelector('link[rel=stylesheet]').getAttribute('href');const pre=cssHref.split('assets/style.css')[0];const _vm=cssHref.match(/[?&]v=([^&]+)/);const assetQ=_vm?('?v='+_vm[1]):'';
 document.addEventListener('click',e=>{const b=e.target.closest('button.copy');if(!b)return;const t=b.dataset.copy;
  const done=()=>{const o=b.textContent;b.textContent='Copied ✓';setTimeout(()=>b.textContent=o,1500)};
  if(navigator.clipboard&&window.isSecureContext)navigator.clipboard.writeText(t).then(done);else{const ta=document.createElement('textarea');ta.value=t;document.body.appendChild(ta);ta.select();document.execCommand('copy');ta.remove();done()}});
@@ -17,7 +17,7 @@ function prep(tree,d){const M={},pol=new Set(),cnt={};
    (s.fine||[]).forEach(f=>M[k+'/'+f.slug]=[M[k][0]+' › '+f.name,'topics/'+k+'/'+f.slug+'.html',[p.name,t.name,s.name,f.name],[M[k][3][0],[f.name,'topics/'+k+'/'+f.slug+'.html']]])})}));
  const PN={};tree.parts.forEach(p=>p.topics.forEach(t=>PN[t.slug]=p.slug));
  d.forEach(q=>{const ts=(q.tags||[]).filter(k=>M[k]);q.tg=ts.map(k=>[M[k][0],M[k][1],'tag',M[k][3]]);q.anc=[...new Set(ts.flatMap(k=>M[k][2]))].join(' ');q.nodes=new Set();ts.forEach(k=>{const b=k.split('/');q.nodes.add('part:'+PN[b[0]]);for(let i=1;i<=b.length;i++)q.nodes.add(b.slice(0,i).join('/'))})});return d}
-let DATA=null,TREEJ=null,AUJ={};const load=()=>DATA?Promise.resolve(DATA):Promise.all([fetch(pre+'assets/tree.json').then(r=>r.json()),fetch(pre+'assets/quotes-index.json').then(r=>r.json()),fetch(pre+'assets/authors.json').then(r=>r.json()).catch(()=>({}))]).then(([t,d,a])=>{TREEJ=t;AUJ=a;return DATA=prep(t,d)});
+let DATA=null,TREEJ=null,AUJ={};const load=()=>DATA?Promise.resolve(DATA):Promise.all([fetch(pre+'assets/tree.json'+assetQ).then(r=>r.json()),fetch(pre+'assets/quotes-index.json'+assetQ).then(r=>r.json()),fetch(pre+'assets/authors.json'+assetQ).then(r=>r.json()).catch(()=>({}))]).then(([t,d,a])=>{TREEJ=t;AUJ=a;return DATA=prep(t,d)});
 const fold=s=>(s||'').normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[’‘`]/g,"'").toLowerCase();
 const wordsOf=s=>fold(s).match(/[\p{L}\p{N}]+/gu)||[];
 // light stemming so that justify / justified / justification meet; used only for "similar forms"
