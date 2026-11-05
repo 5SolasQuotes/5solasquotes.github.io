@@ -304,6 +304,7 @@ for f in glob.glob('**/*.html', recursive=True):
         def fix(m):
             q = BYID.get(m.group(2))
             if not q: return m.group(0)
+            if f'<blockquote><p>{esc(q["t"])}</p></blockquote>' not in m.group(3): return render(q, pre).replace('\n', '', 0)   # quote text was edited: redraw this copy
             inner = re.sub(r'<div class="meta">.*?</div>', lambda _: f'<div class="meta">{tags_html(q, pre)}</div>', m.group(3), count=1, flags=re.S)
             inner = re.sub(r'<figcaption>.*?</figcaption>', lambda _: f'<figcaption>{caption(q, pre)}</figcaption>', inner, count=1, flags=re.S)
             return re.sub(r' data-pol="[^"]*"', '', m.group(1)) + inner + m.group(4)
