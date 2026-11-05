@@ -195,6 +195,6 @@ p.more{color:var(--muted);margin:1rem 0 2rem}
 .opts .oh{color:var(--muted);font-size:.82rem;margin-left:.45rem}#ocount{color:var(--accent);font-size:.82rem}
 .opts summary{flex-wrap:wrap}
 /* attribution on two lines: Author, then Work */
-.quote figcaption .by,.quote figcaption .wk{display:block}.quote figcaption .wk{margin-top:.1rem}
+.quote figcaption{text-align:left}.quote figcaption .by,.quote figcaption .wk{display:block}.quote figcaption .wk{margin-top:.1rem}
 .quote figcaption .lbl{font-family:system-ui,-apple-system,sans-serif;font-size:.7rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-right:.35em}
 .quote figcaption .by a,.quote figcaption .wk cite{color:var(--ink)}
