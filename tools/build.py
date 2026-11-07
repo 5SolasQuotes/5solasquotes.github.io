@@ -118,12 +118,16 @@ def caption(q, pre):
     """attribution on two lines: 'Author:' (linked to the author page), then 'Work:' with the place in it"""
     return (f'<span class="by"><span class="lbl">Author:</span> <a href="{pre}authors/{q["as_"]}.html">{esc(q["a"])}</a></span>'
            f'<span class="wk"><span class="lbl">Work:</span> <cite>{esc(q["w"])}</cite>' + (f', {esc(q["l"])}' if q['l'] else '') + '</span>')
+def src_link(q):
+    """free online copy, from u/ul. Empty when no public text is linked."""
+    if q.get('u'):
+        return f'<a class="src" href="{esc(q["u"])}" rel="noopener" target="_blank">Read it online · {esc(q["ul"])}</a>'
+    return '<span class="src none">No free online copy linked</span>'
 def render(q, pre, here=()):
     cap = caption(q, pre)
     plain = f'— {q["a"]}, {q["w"]}' + (f', {q["l"]}' if q['l'] else '')
     copy = esc(f'“{q["t"]}”\n\n{plain}')
-    src = (f'<a class="src" href="{esc(q["u"])}" rel="noopener" target="_blank">Read it online · {esc(q["ul"])}</a>' if q['u']
-           else '<span class="src none">No free online copy linked</span>')
+    src = src_link(q)
     act = f'<button class="copy" data-copy="{copy}">Copy</button><a class="share" href="{esc(q["x"])}" target="_blank" rel="noopener">Share on X</a><a class="perma" href="{pre}quote/{q["id"]}.html">Permalink</a>{src}'
     return (f'<figure class="quote" id="q-{q["id"]}" data-kw="{esc(q.get("kw", ""))}">\n<blockquote><p>{esc(q["t"])}</p></blockquote>\n'
             f'<figcaption>{cap}</figcaption>\n<div class="meta">{tags_html(q, pre, here)}</div>\n<div class="actions">{act}</div>\n</figure>')
@@ -320,6 +324,8 @@ for f in glob.glob('**/*.html', recursive=True):
             if f'<blockquote><p>{esc(q["t"])}</p></blockquote>' not in m.group(3): return render(q, pre).replace('\n', '', 0)   # quote text was edited: redraw this copy
             inner = re.sub(r'<div class="meta">.*?</div>', lambda _: f'<div class="meta">{tags_html(q, pre)}</div>', m.group(3), count=1, flags=re.S)
             inner = re.sub(r'<figcaption>.*?</figcaption>', lambda _: f'<figcaption>{caption(q, pre)}</figcaption>', inner, count=1, flags=re.S)
+            # permalink, collection, and related copies keep the source link from u/ul
+            inner = re.sub(r'<a class="src" href="[^"]*"[^>]*>.*?</a>|<span class="src none">[^<]*</span>', src_link(q), inner, count=1)
             return re.sub(r' data-pol="[^"]*"', '', m.group(1)) + inner + m.group(4)
         s = FIG.sub(fix, s)
     s = re.sub(r'\d+ quotations · \d+ topics · \d+ authors', FOOTER, s)
