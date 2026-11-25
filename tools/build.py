@@ -309,6 +309,23 @@ for old, tgt in RED.items():
     r = rel(old, dest)
     wr(old, f'<!doctype html><meta charset="utf-8"><meta http-equiv="refresh" content="0;url={r}"><link rel="canonical" href="{r}"><title>Moved</title><a href="{r}">Moved here</a>\n')
 
+# ------------------------------------------------------ My Saved page (assets/saved.json): owner's saved quotes, grouped by category
+SAVED = json.load(open('assets/saved.json', encoding='utf-8')) if os.path.exists('assets/saved.json') else []
+def saved_fig(q):
+    plain = f'— {q["a"]}, {q["w"]}' + (f', {q["l"]}' if q.get('l') else '')
+    copy = esc(f'“{q["t"]}”\n\n{plain}')
+    cap = f'<span class="by"><span class="lbl">Author</span>{esc(q["a"])}</span><span class="wk"><span class="lbl">Work</span><cite>{esc(q["w"])}</cite>' + (f', {esc(q["l"])}' if q.get('l') else '') + '</span>'
+    return (f'<figure class="quote"><blockquote><p>{esc(q["t"])}</p></blockquote>\n<figcaption>{cap}</figcaption>\n'
+            f'<div class="actions"><button class="copy" data-copy="{copy}">Copy</button></div>\n</figure>')
+cats = collections.OrderedDict()
+for q in SAVED: cats.setdefault(q.get('cat') or 'Uncategorized', []).append(q)
+body = ('<h1>My Saved</h1><p class="lede">Quotations set aside for study, grouped by subject. These are not part of the main topic collection.</p>'
+        + ('' if SAVED else '<p class="noq">No saved quotations yet.</p>')
+        + ''.join(f'<h2 class="sect">{esc(c)} <span class="oh">{len(L)}</span></h2>' + ''.join(saved_fig(q) for q in L) for c, L in cats.items()))
+s = rd('submit.html')
+s = re.sub(r'<title>.*?</title><meta name="description" content="[^"]*">', '<title>My Saved · 5 Solas Quotes</title><meta name="description" content="Quotations set aside for study, grouped by subject.">', s, count=1)
+wr('saved.html', s[:s.index('<main')] + '<main class="wrap">' + body + s[s.index('</main>'):]); GEN.add('saved.html')
+
 # ------------------------------------------------------ every other page: tag pills + footer
 FOOTER = f'{len(Q)} quotations · {len(TOPIC)} topics · {len(AUTH)} authors'
 FIG = re.compile(r'(<figure class="quote" id="q-(\w+)"[^>]*>)(.*?)(</figure>)', re.S)
@@ -332,6 +349,8 @@ for f in glob.glob('**/*.html', recursive=True):
     # "Submit a Quote" in the nav (after Search) and in the footer, on every page (idempotent)
     if 'submit.html' not in s.split('</header>')[0]:
         s = re.sub(r'(<a href="((?:\.\./)*)search\.html">Search</a>)', lambda m: m.group(1) + f'<a href="{m.group(2)}submit.html">Submit</a>', s, count=1)
+    if 'saved.html' not in s.split('</header>')[0]:
+        s = re.sub(r'(<a href="((?:\.\./)*)submit\.html">Submit</a>)', lambda m: m.group(1) + f'<a href="{m.group(2)}saved.html">Saved</a>', s, count=1)
     if '<p class="small"><a href="' in s and 'submit.html' not in s.split('</main>')[-1]:
         s = re.sub(r'(<p class="small">)(<a href="((?:\.\./)*)about\.html">About</a>)', lambda m: m.group(1) + f'<a href="{m.group(3)}submit.html">Submit a quote</a> · ' + m.group(2), s, count=1)
     # Literal Word BibleTagger: links Bible references (John 3:16) with a hover popup, on every page (idempotent)
