@@ -1,9 +1,24 @@
 <!doctype html><html lang="en" data-theme="light"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>My Saved · 5 Solas Quotes</title><meta name="description" content="Quotations set aside for study, grouped by subject.">
-<script>try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script><link rel="icon" type="image/png" href="assets/favicon.png"><link rel="stylesheet" href="assets/style.css?v=20261125-cf0e4e0"></head><body>
+<script>try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script><link rel="icon" type="image/png" href="assets/favicon.png"><link rel="stylesheet" href="assets/style.css?v=20261125-e447a2e"></head><body>
 <header class="site"><div class="wrap"><a class="brand" href="index.html"><img src="assets/logo-96.png" alt="" width="40" height="40"><span>5 Solas Quotes</span></a>
 <nav><a href="topics/index.html">Topics</a><a href="topics/polemics.html">Polemics</a><a href="collections/index.html">Collections</a><a href="authors/index.html">Authors</a><a href="search.html">Search</a><a href="submit.html">Submit</a><a href="saved.html">Saved</a><a href="about.html">About</a><span class="themewrap"><button class="themebtn" id="themebtn" type="button" aria-label="Toggle light or dark theme"></button><span class="themelbl" aria-hidden="true"></span></span></nav></div></header>
-<main class="wrap"><h1>My Saved</h1><p class="lede">Quotations set aside for study, grouped by subject. These are not part of the main topic collection.</p><p class="noq">No saved quotations yet.</p></main>
+<main class="wrap"><h1>My Saved</h1><p class="lede">Quotations set aside for study, grouped by subject. These are not part of the main topic collection.</p><div id="savedbox"><p class="noq">Loading…</p></div><script>
+(function(){
+var box=document.getElementById('savedbox');
+function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
+function fname(a){a=String(a||'').replace(/\([^)]*\)/g,'').replace(/,?\s*(ca\.|b\.|d\.|fl\.)?\s*\d{3,4}\s*[-–]?\s*\d{0,4}\??\s*$/i,'').trim();var i=a.indexOf(',');if(i<0)return a;var l=a.slice(0,i).trim(),f=a.slice(i+1).replace(/,.*$/,'').trim();return f?f+' '+l:l}
+fetch('assets/saved.json?t='+Date.now()).then(function(r){return r.json()}).then(function(L){
+ if(!L.length){box.innerHTML='<p class="noq">No saved quotations yet.</p>';return}
+ var cats={},order=[];L.slice().reverse().forEach(function(q){var c=q.cat||'Uncategorized';if(!cats[c]){cats[c]=[];order.push(c)}cats[c].push(q)});
+ order.sort(function(a,b){return a.toLowerCase()<b.toLowerCase()?-1:1});
+ box.innerHTML='<p class="sub">'+L.length+' saved</p>'+order.map(function(c){return '<h2 class="sect">'+esc(c)+' <span class="oh">'+cats[c].length+'</span></h2>'+cats[c].map(function(q){
+  var au=/unknown/i.test(q.a||'')?'':fname(q.a),wk=q.w||'',loc=q.l?', '+q.l:'';
+  var plain='— '+(au?au+', ':'')+wk+loc;
+  return '<figure class="quote"><blockquote><p>'+esc(q.t)+'</p></blockquote><figcaption>'+(au?'<span class="by"><span class="lbl">Author</span>'+esc(au)+'</span>':'')+'<span class="wk"><span class="lbl">Work</span><cite>'+esc(wk)+'</cite>'+esc(loc)+'</span></figcaption><div class="actions"><button class="copy" data-copy="'+esc('“'+q.t+'”\n\n'+plain)+'">Copy</button></div></figure>'}).join('')}).join('');
+}).catch(function(){box.innerHTML='<p class="noq">Could not load the saved quotations. Try again in a moment.</p>'});
+})();
+</script></main>
 <footer class="site"><div class="wrap"><p>5 Solas Quotes · 1631 quotations · 64 topics · 187 authors</p><p class="small"><a href="submit.html">Submit a quote</a> · <a href="about.html">About</a></p><p class="small">Quotations are drawn from public-domain works and published translations, cited to their sources.</p></div></footer>
-<script src="assets/site.js?v=20261125-cf0e4e0"></script><script src="https://literalword.com/bible-tagger.js" data-version="ESV"></script>
+<script src="assets/site.js?v=20261125-e447a2e"></script><script src="https://literalword.com/bible-tagger.js" data-version="ESV"></script>
 </body></html>

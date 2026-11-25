@@ -309,21 +309,27 @@ for old, tgt in RED.items():
     r = rel(old, dest)
     wr(old, f'<!doctype html><meta charset="utf-8"><meta http-equiv="refresh" content="0;url={r}"><link rel="canonical" href="{r}"><title>Moved</title><a href="{r}">Moved here</a>\n')
 
-# ------------------------------------------------------ My Saved page (assets/saved.json): owner's saved quotes, grouped by category
-SAVED = json.load(open('assets/saved.json', encoding='utf-8')) if os.path.exists('assets/saved.json') else []
-def saved_fig(q):
-    plain = f'— {q["a"]}, {q["w"]}' + (f', {q["l"]}' if q.get('l') else '')
-    copy = esc(f'“{q["t"]}”\n\n{plain}')
-    cap = f'<span class="by"><span class="lbl">Author</span>{esc(q["a"])}</span><span class="wk"><span class="lbl">Work</span><cite>{esc(q["w"])}</cite>' + (f', {esc(q["l"])}' if q.get('l') else '') + '</span>'
-    return (f'<figure class="quote"><blockquote><p>{esc(q["t"])}</p></blockquote>\n<figcaption>{cap}</figcaption>\n'
-            f'<div class="actions"><button class="copy" data-copy="{copy}">Copy</button></div>\n</figure>')
-cats = collections.OrderedDict()
-for q in SAVED: cats.setdefault(q.get('cat') or 'Uncategorized', []).append(q)
-body = ('<h1>My Saved</h1><p class="lede">Quotations set aside for study, grouped by subject. These are not part of the main topic collection.</p>'
-        + ('' if SAVED else '<p class="noq">No saved quotations yet.</p>')
-        + ''.join(f'<h2 class="sect">{esc(c)} <span class="oh">{len(L)}</span></h2>' + ''.join(saved_fig(q) for q in L) for c, L in cats.items()))
+# ------------------------------------------------------ My Saved page: the page is a shell; the browser reads assets/saved.json
+# (assets/saved.json is a list of {qid, cat, t, a, w, l}; the owner's search tool adds to it directly, so no rebuild is needed)
+SAVED_JS = r"""<script>
+(function(){
+var box=document.getElementById('savedbox');
+function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
+function fname(a){a=String(a||'').replace(/\([^)]*\)/g,'').replace(/,?\s*(ca\.|b\.|d\.|fl\.)?\s*\d{3,4}\s*[-–]?\s*\d{0,4}\??\s*$/i,'').trim();var i=a.indexOf(',');if(i<0)return a;var l=a.slice(0,i).trim(),f=a.slice(i+1).replace(/,.*$/,'').trim();return f?f+' '+l:l}
+fetch('assets/saved.json?t='+Date.now()).then(function(r){return r.json()}).then(function(L){
+ if(!L.length){box.innerHTML='<p class="noq">No saved quotations yet.</p>';return}
+ var cats={},order=[];L.slice().reverse().forEach(function(q){var c=q.cat||'Uncategorized';if(!cats[c]){cats[c]=[];order.push(c)}cats[c].push(q)});
+ order.sort(function(a,b){return a.toLowerCase()<b.toLowerCase()?-1:1});
+ box.innerHTML='<p class="sub">'+L.length+' saved</p>'+order.map(function(c){return '<h2 class="sect">'+esc(c)+' <span class="oh">'+cats[c].length+'</span></h2>'+cats[c].map(function(q){
+  var au=/unknown/i.test(q.a||'')?'':fname(q.a),wk=q.w||'',loc=q.l?', '+q.l:'';
+  var plain='— '+(au?au+', ':'')+wk+loc;
+  return '<figure class="quote"><blockquote><p>'+esc(q.t)+'</p></blockquote><figcaption>'+(au?'<span class="by"><span class="lbl">Author</span>'+esc(au)+'</span>':'')+'<span class="wk"><span class="lbl">Work</span><cite>'+esc(wk)+'</cite>'+esc(loc)+'</span></figcaption><div class="actions"><button class="copy" data-copy="'+esc('“'+q.t+'”\n\n'+plain)+'">Copy</button></div></figure>'}).join('')}).join('');
+}).catch(function(){box.innerHTML='<p class="noq">Could not load the saved quotations. Try again in a moment.</p>'});
+})();
+</script>"""
 s = rd('submit.html')
 s = re.sub(r'<title>.*?</title><meta name="description" content="[^"]*">', '<title>My Saved · 5 Solas Quotes</title><meta name="description" content="Quotations set aside for study, grouped by subject.">', s, count=1)
+body = '<h1>My Saved</h1><p class="lede">Quotations set aside for study, grouped by subject. These are not part of the main topic collection.</p><div id="savedbox"><p class="noq">Loading…</p></div>' + SAVED_JS
 wr('saved.html', s[:s.index('<main')] + '<main class="wrap">' + body + s[s.index('</main>'):]); GEN.add('saved.html')
 
 # ------------------------------------------------------ every other page: tag pills + footer
