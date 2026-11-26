@@ -270,7 +270,7 @@ APT = rd('authors/ezekiel-hopkins.html')
 for k in order:
     a, L = AUTH[k]; f = f'authors/{k}.html'
     works = '; '.join(f'<cite>{esc(w)}</cite>' for w in sorted({q['w'] for q in L}, key=lambda w: w.lower()))
-    if os.path.exists(f): src = rd(f)
+    if os.path.exists(f) and '<main' in rd(f): src = rd(f)
     else:
         m = re.search(r'<h1>(.*?)</h1>', APT); src = APT.replace(m.group(1), esc(a))
     src = re.sub(r'<title>.*? · 5 Solas Quotes</title>', f'<title>{esc(INV[k])} · 5 Solas Quotes</title>', src, count=1)   # heading, title and crumb: "Last, First"
