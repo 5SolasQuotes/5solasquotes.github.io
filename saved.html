@@ -9,6 +9,7 @@
 <label>Sort by<select id="ssort"><option value="new">Newest saved</option><option value="old">Oldest saved</option><option value="au">Author A to Z</option><option value="wk">Work A to Z</option></select></label>
 <label>Topic<select id="scat"><option value="">All topics</option></select></label>
 <label>Author<select id="sau"><option value="">All authors</option></select></label>
+<label style="grid-column:1/-1">Work<select id="swk"><option value="">All works</option></select></label>
 </div>
 <input id="sq" type="search" placeholder="Search the saved quotations" aria-label="Search the saved quotations">
 <div class="srow"><button type="button" id="sclear" class="copy">Clear</button><p><span id="scount"></span></p></div>
@@ -27,7 +28,7 @@
 <div id="savedbox"><p class="noq">Loading…</p></div><script>
 (function(){
 var box=document.getElementById('savedbox'),ctl=document.getElementById('savedctl');
-var gSel=document.getElementById('sgroup'),sSel=document.getElementById('ssort'),cSel=document.getElementById('scat'),aSel=document.getElementById('sau'),qIn=document.getElementById('sq'),cnt=document.getElementById('scount');
+var gSel=document.getElementById('sgroup'),sSel=document.getElementById('ssort'),cSel=document.getElementById('scat'),aSel=document.getElementById('sau'),wSel=document.getElementById('swk'),qIn=document.getElementById('sq'),cnt=document.getElementById('scount');
 function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
 function fname(a){a=String(a||'').replace(/\([^)]*\)/g,'').replace(/,?\s*(ca\.|b\.|d\.|fl\.)?\s*\d{3,4}\s*[-–]?\s*\d{0,4}\??\s*$/i,'').trim();var i=a.indexOf(',');if(i<0)return a;var l=a.slice(0,i).trim(),f=a.slice(i+1).replace(/,.*$/,'').trim();return f?f+' '+l:l}
 function lname(a){a=String(a||'').replace(/\([^)]*\)/g,'').trim();var i=a.indexOf(',');return (i<0?a.split(/\s+/).slice(-1)[0]||'':a.slice(0,i)).trim()}
@@ -40,8 +41,8 @@ function card(q){
  return '<figure class="quote"><blockquote><p>'+esc(q.t)+'</p></blockquote><figcaption>'+(au?'<span class="by"><span class="lbl">Author</span>'+esc(au)+'</span>':'')+'<span class="wk"><span class="lbl">Work</span><cite>'+esc(wk)+'</cite>'+esc(loc)+'</span></figcaption><div class="actions"><button class="copy" data-copy="'+esc('“'+q.t+'”\n\n'+plain)+'">Copy</button></div></figure>'}
 function fill(sel,vals,all){var cur=sel.value;sel.innerHTML='<option value="">'+all+'</option>'+vals.map(function(v){return '<option>'+esc(v)+'</option>'}).join('');sel.value=vals.indexOf(cur)>-1?cur:''}
 function render(){
- var g=gSel.value,so=sSel.value,c=cSel.value,a=aSel.value,t=lc(qIn.value).trim();
- var L=ALL.filter(function(q){return (!c||q._cat===c)&&(!a||q._au===a)&&(!t||lc(q.t+' '+q._au+' '+q.w+' '+q._cat).indexOf(t)>-1)});
+ var g=gSel.value,so=sSel.value,c=cSel.value,a=aSel.value,w=wSel.value,t=lc(qIn.value).trim();
+ var L=ALL.filter(function(q){return (!c||q._cat===c)&&(!a||q._au===a)&&(!w||q._wk===w)&&(!t||lc(q.t+' '+q._au+' '+q.w+' '+q._cat).indexOf(t)>-1)});
  L.sort(function(x,y){
   if(so==='new')return y._i-x._i; if(so==='old')return x._i-y._i;
   if(so==='au')return cmp(lname(x.a),lname(y.a))||cmp(x._au,y._au)||cmp(x.w,y.w);
@@ -58,10 +59,10 @@ function uniq(k){var m={};ALL.forEach(function(q){if(q[k])m[q[k]]=1});return Obj
 fetch('assets/saved.json?t='+Date.now()).then(function(r){return r.json()}).then(function(L){
  if(!L.length){box.innerHTML='<p class="noq">No saved quotations yet.</p>';return}
  ALL=L.map(function(q,i){q._i=i;q._cat=q.cat||'Uncategorized';q._au=/unknown/i.test(q.a||'')?'':fname(q.a);q._wk=q.w||'Unknown';return q});
- fill(cSel,uniq('_cat').sort(cmp),'All topics');fill(aSel,uniq('_au').sort(function(x,y){return cmp(lname(x),lname(y))||cmp(x,y)}),'All authors');
+ fill(cSel,uniq('_cat').sort(cmp),'All topics');fill(wSel,uniq('_wk').sort(cmp),'All works');fill(aSel,uniq('_au').sort(function(x,y){return cmp(lname(x),lname(y))||cmp(x,y)}),'All authors');
  ctl.hidden=false;
- gSel.onchange=sSel.onchange=cSel.onchange=aSel.onchange=render;qIn.oninput=render;
- document.getElementById('sclear').onclick=function(){cSel.value='';aSel.value='';qIn.value='';render()};
+ gSel.onchange=sSel.onchange=cSel.onchange=aSel.onchange=wSel.onchange=render;qIn.oninput=render;
+ document.getElementById('sclear').onclick=function(){cSel.value='';aSel.value='';wSel.value='';qIn.value='';render()};
  render();
 }).catch(function(){box.innerHTML='<p class="noq">Could not load the saved quotations. Try again in a moment.</p>'});
 })();
