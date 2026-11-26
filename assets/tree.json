@@ -571,6 +571,11 @@
          "name": "God's glory as the end of all things"
         }
        ]
+      },
+      {
+       "slug": "affections-and-passions-in-god",
+       "name": "Affections and Passions in God",
+       "fine": []
       }
      ]
     },
@@ -2933,6 +2938,11 @@
          "name": "Those who have never heard the gospel"
         }
        ]
+      },
+      {
+       "slug": "common-grace",
+       "name": "Common Grace",
+       "fine": []
       }
      ]
     },
@@ -4385,6 +4395,21 @@
          "name": "Is Rome a true church?"
         }
        ]
+      },
+      {
+       "slug": "schism-and-separation",
+       "name": "Schism and Separation",
+       "fine": []
+      },
+      {
+       "slug": "church-membership",
+       "name": "Church Membership",
+       "fine": []
+      },
+      {
+       "slug": "church-unity-and-fundamentals",
+       "name": "Church Unity and Fundamentals",
+       "fine": []
       }
      ]
     },
@@ -4581,6 +4606,11 @@
          "name": "Against Rome's interdict and anathemas"
         }
        ]
+      },
+      {
+       "slug": "spiritual-abuse-and-cults",
+       "name": "Spiritual Abuse and Cults",
+       "fine": []
       }
      ]
     },
@@ -5071,6 +5101,41 @@
          "name": "Catechizing children and servants"
         }
        ]
+      },
+      {
+       "slug": "holy-days-and-church-calendar",
+       "name": "Holy Days and Church Calendar",
+       "fine": []
+      },
+      {
+       "slug": "ceremonies-and-things-indifferent",
+       "name": "Ceremonies and Things Indifferent",
+       "fine": []
+      },
+      {
+       "slug": "head-coverings-in-worship",
+       "name": "Head Coverings in Worship",
+       "fine": []
+      },
+      {
+       "slug": "musical-instruments-in-worship",
+       "name": "Musical Instruments in Worship",
+       "fine": []
+      },
+      {
+       "slug": "posture-and-gestures",
+       "name": "Posture and Gestures",
+       "fine": []
+      },
+      {
+       "slug": "vestments-and-dress",
+       "name": "Vestments and Dress",
+       "fine": []
+      },
+      {
+       "slug": "impurities-in-worship",
+       "name": "Impurities in Worship",
+       "fine": []
       }
      ]
     },
@@ -5415,6 +5480,16 @@
          "name": "Weak and strong brothers"
         }
        ]
+      },
+      {
+       "slug": "ethics-and-virtue",
+       "name": "Ethics and Virtue",
+       "fine": []
+      },
+      {
+       "slug": "evangelism",
+       "name": "Evangelism",
+       "fine": []
       }
      ]
     },
@@ -5653,6 +5728,26 @@
          "name": "Poverty and charity"
         }
        ]
+      },
+      {
+       "slug": "resistance-to-tyranny-and-lawful-authority",
+       "name": "Resistance to Tyranny and Lawful Authority",
+       "fine": []
+      },
+      {
+       "slug": "natural-law-and-civil-law",
+       "name": "Natural Law and Civil Law",
+       "fine": []
+      },
+      {
+       "slug": "plague-quarantine-and-public-health",
+       "name": "Plague, Quarantine and Public Health",
+       "fine": []
+      },
+      {
+       "slug": "life-birth-and-medical-ethics",
+       "name": "Life, Birth and Medical Ethics",
+       "fine": []
       }
      ]
     }

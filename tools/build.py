@@ -149,6 +149,18 @@ def item(depth, name, href, n, cur=False, kids=(), opened=False, det=''):
 def outline(lines, extra=''): return f'<ul class="toc{extra}">' + ''.join(lines) + '</ul>'
 
 # ------------------------------------------------------ drill-down pages
+
+FIRST, CHUNK = 100, 300
+def paged(key, Q_, pre, here):
+    out = ''.join(render(q, pre, here) for q in Q_[:FIRST])
+    rest = Q_[FIRST:]
+    if not rest: return out
+    base = 'topics/_more/' + key.replace(':', '-').replace('/', '__')
+    chunks = [rest[i:i + CHUNK] for i in range(0, len(rest), CHUNK)]
+    for i, c in enumerate(chunks):
+        wr(f'{base}.{i}.html', ''.join(render(q, pre, here) for q in c))
+    return out + f'<p class="more"><button type="button" class="textbtn" data-more="{pre}{base}" data-i="0" data-n="{len(chunks)}" data-left="{len(rest)}">Show more quotations ({len(rest)} more)</button></p>'
+
 def node_page(key):
     b = [] if key.startswith('part:') else key.split('/')
     depth = 1 + max(len(b) - 1, 0)
@@ -183,7 +195,7 @@ def node_page(key):
     desc = (' — '.join([name] + [c[0] for c in reversed(chain[1:])]) if b
             else f'{name}: ' + ', '.join(t['name'] for t in part['topics']))
     body = (f'<main class="wrap"><p class="crumbs">{crumbs}</p><h1>{esc(name)}</h1>{subline(Q_)}'
-            + ('' if Q_ else '<p class="noq">No quotations filed here yet.</p>') + outline(L) + f'<p class="suggest"><a href="{pre}submit.html?topic={urllib.parse.quote(name)}">Know a quotation for this topic? Submit it for review</a></p>' + ''.join(render(q, pre, here) for q in Q_))
+            + ('' if Q_ else '<p class="noq">No quotations filed here yet.</p>') + outline(L) + f'<p class="suggest"><a href="{pre}submit.html?topic={urllib.parse.quote(name)}">Know a quotation for this topic? Submit it for review</a></p>' + paged(key, Q_, pre, here))
     wr(url(key), head(pre, name, desc) + body + foot(pre))
 PARTS_BY = {p['slug']: p for p in PARTS}
 GEN = set()

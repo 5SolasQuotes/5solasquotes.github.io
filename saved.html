@@ -1,72 +1,24 @@
 <!doctype html><html lang="en" data-theme="light"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>My Saved · 5 Solas Quotes</title><meta name="description" content="Quotations set aside for study, grouped by subject.">
-<script>try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script><link rel="icon" type="image/png" href="assets/favicon.png"><link rel="stylesheet" href="assets/style.css?v=20261125-e447a2e"></head><body>
+<script>try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script><link rel="icon" type="image/png" href="assets/favicon.png"><link rel="stylesheet" href="assets/style.css?v=20261126-49b6bdd"></head><body>
 <header class="site"><div class="wrap"><a class="brand" href="index.html"><img src="assets/logo-96.png" alt="" width="40" height="40"><span>5 Solas Quotes</span></a>
 <nav><a href="topics/index.html">Topics</a><a href="topics/polemics.html">Polemics</a><a href="collections/index.html">Collections</a><a href="authors/index.html">Authors</a><a href="search.html">Search</a><a href="submit.html">Submit</a><a href="saved.html">Saved</a><a href="about.html">About</a><span class="themewrap"><button class="themebtn" id="themebtn" type="button" aria-label="Toggle light or dark theme"></button><span class="themelbl" aria-hidden="true"></span></span></nav></div></header>
-<main class="wrap"><h1>My Saved</h1><p class="lede">Quotations set aside for study, grouped by subject. These are not part of the main topic collection.</p><div id="savedctl" class="savedctl" hidden>
-<div class="sgrid">
-<label>Group by<select id="sgroup"><option value="cat">Topic</option><option value="au">Author</option><option value="wk">Work</option><option value="none">No grouping</option></select></label>
-<label>Sort by<select id="ssort"><option value="new">Newest saved</option><option value="old">Oldest saved</option><option value="au">Author A to Z</option><option value="wk">Work A to Z</option></select></label>
-<label>Topic<select id="scat"><option value="">All topics</option></select></label>
-<label>Author<select id="sau"><option value="">All authors</option></select></label>
-<label style="grid-column:1/-1">Work<select id="swk"><option value="">All works</option></select></label>
-</div>
-<input id="sq" type="search" placeholder="Search the saved quotations" aria-label="Search the saved quotations">
-<div class="srow"><button type="button" id="sclear" class="copy">Clear</button><p><span id="scount"></span></p></div>
-</div>
-<style>
-#savedctl{margin:1.2rem 0 .8rem}
-#savedctl .sgrid{display:grid;grid-template-columns:1fr 1fr;gap:.9rem .8rem}
-#savedctl .sgrid label{display:block;font-family:system-ui,sans-serif;font-size:.8rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin:0}
-#savedctl .sgrid select{display:block!important;width:100%!important;box-sizing:border-box;margin-top:.35rem;font-size:1.05rem!important;min-height:3.1rem;padding:.6rem .7rem!important;border-radius:6px!important;text-transform:none;letter-spacing:0;font-weight:400}
-#savedctl #sq{display:block;width:100%;box-sizing:border-box;margin-top:1rem;font-size:1.05rem;min-height:3.1rem;color:var(--ink);background:var(--card2);border:1px solid var(--rule);border-radius:6px;padding:.6rem .8rem}
-#savedctl .srow{display:flex;align-items:center;gap:.9rem;margin:.9rem 0 0}
-#savedctl .srow p{margin:0;font-family:system-ui,sans-serif;font-size:.95rem;color:var(--muted)}
-#savedctl #sclear{font-size:1rem;min-height:2.7rem;padding:.5rem 1.2rem;margin:0}
-@media(max-width:380px){#savedctl .sgrid{grid-template-columns:1fr}}
-</style>
-<div id="savedbox"><p class="noq">Loading…</p></div><script>
+<main class="wrap"><h1>My Saved</h1><p class="lede">Quotations set aside for study, grouped by subject. These are not part of the main topic collection.</p><div id="savedbox"><p class="noq">Loading…</p></div><script>
 (function(){
-var box=document.getElementById('savedbox'),ctl=document.getElementById('savedctl');
-var gSel=document.getElementById('sgroup'),sSel=document.getElementById('ssort'),cSel=document.getElementById('scat'),aSel=document.getElementById('sau'),wSel=document.getElementById('swk'),qIn=document.getElementById('sq'),cnt=document.getElementById('scount');
+var box=document.getElementById('savedbox');
 function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
 function fname(a){a=String(a||'').replace(/\([^)]*\)/g,'').replace(/,?\s*(ca\.|b\.|d\.|fl\.)?\s*\d{3,4}\s*[-–]?\s*\d{0,4}\??\s*$/i,'').trim();var i=a.indexOf(',');if(i<0)return a;var l=a.slice(0,i).trim(),f=a.slice(i+1).replace(/,.*$/,'').trim();return f?f+' '+l:l}
-function lname(a){a=String(a||'').replace(/\([^)]*\)/g,'').trim();var i=a.indexOf(',');return (i<0?a.split(/\s+/).slice(-1)[0]||'':a.slice(0,i)).trim()}
-function lc(s){return String(s||'').toLowerCase()}
-function cmp(x,y){return lc(x)<lc(y)?-1:lc(x)>lc(y)?1:0}
-var ALL=[];
-function card(q){
- var au=q._au,wk=q.w||'',loc=q.l?', '+q.l:'';
- var plain='— '+(au?au+', ':'')+wk+loc;
- return '<figure class="quote"><blockquote><p>'+esc(q.t)+'</p></blockquote><figcaption>'+(au?'<span class="by"><span class="lbl">Author</span>'+esc(au)+'</span>':'')+'<span class="wk"><span class="lbl">Work</span><cite>'+esc(wk)+'</cite>'+esc(loc)+'</span></figcaption><div class="actions"><button class="copy" data-copy="'+esc('“'+q.t+'”\n\n'+plain)+'">Copy</button></div></figure>'}
-function fill(sel,vals,all){var cur=sel.value;sel.innerHTML='<option value="">'+all+'</option>'+vals.map(function(v){return '<option>'+esc(v)+'</option>'}).join('');sel.value=vals.indexOf(cur)>-1?cur:''}
-function render(){
- var g=gSel.value,so=sSel.value,c=cSel.value,a=aSel.value,w=wSel.value,t=lc(qIn.value).trim();
- var L=ALL.filter(function(q){return (!c||q._cat===c)&&(!a||q._au===a)&&(!w||q._wk===w)&&(!t||lc(q.t+' '+q._au+' '+q.w+' '+q._cat).indexOf(t)>-1)});
- L.sort(function(x,y){
-  if(so==='new')return y._i-x._i; if(so==='old')return x._i-y._i;
-  if(so==='au')return cmp(lname(x.a),lname(y.a))||cmp(x._au,y._au)||cmp(x.w,y.w);
-  return cmp(x.w,y.w)||cmp(x._au,y._au)});
- cnt.textContent=L.length+' of '+ALL.length+' shown';
- if(!L.length){box.innerHTML='<p class="noq">Nothing matches. Tap Clear.</p>';return}
- if(g==='none'){box.innerHTML=L.map(card).join('');return}
- var key=g==='cat'?'_cat':g==='au'?'_au':'_wk',groups={},order=[];
- L.forEach(function(q){var k=q[key]||'Unknown';if(!groups[k]){groups[k]=[];order.push(k)}groups[k].push(q)});
- order.sort(function(x,y){return g==='au'?(cmp(lname(x),lname(y))||cmp(x,y)):cmp(x,y)});
- box.innerHTML=order.map(function(k){return '<h2 class="sect">'+esc(k)+' <span class="oh">'+groups[k].length+'</span></h2>'+groups[k].map(card).join('')}).join('');
-}
-function uniq(k){var m={};ALL.forEach(function(q){if(q[k])m[q[k]]=1});return Object.keys(m)}
 fetch('assets/saved.json?t='+Date.now()).then(function(r){return r.json()}).then(function(L){
  if(!L.length){box.innerHTML='<p class="noq">No saved quotations yet.</p>';return}
- ALL=L.map(function(q,i){q._i=i;q._cat=q.cat||'Uncategorized';q._au=/unknown/i.test(q.a||'')?'':fname(q.a);q._wk=q.w||'Unknown';return q});
- fill(cSel,uniq('_cat').sort(cmp),'All topics');fill(wSel,uniq('_wk').sort(cmp),'All works');fill(aSel,uniq('_au').sort(function(x,y){return cmp(lname(x),lname(y))||cmp(x,y)}),'All authors');
- ctl.hidden=false;
- gSel.onchange=sSel.onchange=cSel.onchange=aSel.onchange=wSel.onchange=render;qIn.oninput=render;
- document.getElementById('sclear').onclick=function(){cSel.value='';aSel.value='';wSel.value='';qIn.value='';render()};
- render();
+ var cats={},order=[];L.slice().reverse().forEach(function(q){var c=q.cat||'Uncategorized';if(!cats[c]){cats[c]=[];order.push(c)}cats[c].push(q)});
+ order.sort(function(a,b){return a.toLowerCase()<b.toLowerCase()?-1:1});
+ box.innerHTML='<p class="sub">'+L.length+' saved</p>'+order.map(function(c){return '<h2 class="sect">'+esc(c)+' <span class="oh">'+cats[c].length+'</span></h2>'+cats[c].map(function(q){
+  var au=/unknown/i.test(q.a||'')?'':fname(q.a),wk=q.w||'',loc=q.l?', '+q.l:'';
+  var plain='— '+(au?au+', ':'')+wk+loc;
+  return '<figure class="quote"><blockquote><p>'+esc(q.t)+'</p></blockquote><figcaption>'+(au?'<span class="by"><span class="lbl">Author</span>'+esc(au)+'</span>':'')+'<span class="wk"><span class="lbl">Work</span><cite>'+esc(wk)+'</cite>'+esc(loc)+'</span></figcaption><div class="actions"><button class="copy" data-copy="'+esc('“'+q.t+'”\n\n'+plain)+'">Copy</button></div></figure>'}).join('')}).join('');
 }).catch(function(){box.innerHTML='<p class="noq">Could not load the saved quotations. Try again in a moment.</p>'});
 })();
 </script></main>
-<footer class="site"><div class="wrap"><p>5 Solas Quotes · 1631 quotations · 64 topics · 187 authors</p><p class="small"><a href="submit.html">Submit a quote</a> · <a href="about.html">About</a></p><p class="small">Quotations are drawn from public-domain works and published translations, cited to their sources.</p></div></footer>
-<script src="assets/site.js?v=20261125-e447a2e"></script><script src="https://literalword.com/bible-tagger.js" data-version="ESV"></script>
+<footer class="site"><div class="wrap"><p>5 Solas Quotes · 11027 quotations · 64 topics · 1526 authors</p><p class="small"><a href="submit.html">Submit a quote</a> · <a href="about.html">About</a></p><p class="small">Quotations are drawn from public-domain works and published translations, cited to their sources.</p></div></footer>
+<script src="assets/site.js?v=20261126-49b6bdd"></script><script src="https://literalword.com/bible-tagger.js" data-version="ESV"></script>
 </body></html>
