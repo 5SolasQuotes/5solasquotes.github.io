@@ -4,11 +4,12 @@ document.addEventListener('click',e=>{const b=e.target.closest('button.copy');if
  const done=()=>{const o=b.textContent;b.textContent='Copied ✓';setTimeout(()=>b.textContent=o,1500)};
  if(navigator.clipboard&&window.isSecureContext)navigator.clipboard.writeText(t).then(done);else{const ta=document.createElement('textarea');ta.value=t;document.body.appendChild(ta);ta.select();document.execCommand('copy');ta.remove();done()}});
 const esc=s=>(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const xUrl=q=>q.x||('https://x.com/intent/post?text='+encodeURIComponent('“'+q.t+'”\n\n— '+q.a+', '+q.w+(q.l?', '+q.l:'')).replace(/%20/g,'+')+'&url='+encodeURIComponent('https://5solasquotes.github.io/quote/'+q.id+'.html')+'&via=5Solas');
 function card(q,hl){const att=`— ${q.a}, ${q.w}${q.l?', '+q.l:''}`;const h=s=>hl?hl(esc(s)):esc(s);
  const src=q.u?`<a class="src" href="${esc(q.u)}" target="_blank" rel="noopener">Read it online · ${esc(q.ul)}</a>`:'<span class="src none">No free online copy linked</span>';
  return `<figure class="quote"><blockquote><p>${h(q.t)}</p></blockquote><figcaption><span class="by"><span class="lbl">Author:</span> <a href="${pre}authors/${q.as_}.html">${h(q.a)}</a></span><span class="wk"><span class="lbl">Work:</span> <cite>${h(q.w)}</cite>${q.l?', '+h(q.l):''}</span></figcaption>
  <div class="meta">${q.tg.map(t=>`<span class="t">${t[3].map(([n,u])=>`<a href="${pre}${u}">${esc(n)}</a>`).join(' › ')}</span>`).join('')}</div>
- <div class="actions"><button class="copy" data-copy="${esc('“'+q.t+'”\n\n'+att)}">Copy</button><a class="share" href="${esc(q.x)}" target="_blank" rel="noopener">Share on X</a><a class="perma" href="${pre}quote/${q.id}.html">Permalink</a>${src}</div></figure>`}
+ <div class="actions"><button class="copy" data-copy="${esc('“'+q.t+'”\n\n'+att)}">Copy</button><a class="share" href="${esc(xUrl(q))}" target="_blank" rel="noopener">Share on X</a><a class="perma" href="${pre}quote/${q.id}.html">Permalink</a>${src}</div></figure>`}
 // tags: each quote stores slugs; names, links and parent levels come from assets/tree.json
 function prep(tree,d){const M={},pol=new Set(),cnt={};
  tree.parts.forEach(p=>p.topics.forEach(t=>{if(p.slug==='polemics')pol.add(t.slug);else t.subtopics.forEach(s=>cnt[s.name]=(cnt[s.name]||0)+1)}));
@@ -45,7 +46,8 @@ const refHit=(q,r)=>q._r.some(x=>x.b===r.b&&x.c===r.c&&(r.v==null||(x.v!=null&&x
 function parseQuery(raw){const ph=[],neg=[],tm=[];
  const rest=raw.replace(/"([^"]*)"/g,(m,p)=>{const w=wordsOf(p);if(w.length)ph.push(w);return' '});
  rest.split(/\s+/).forEach(tok=>{if(!tok)return;const n=tok[0]==='-'&&tok.length>1;wordsOf(tok).forEach(w=>(n?neg:tm).push(w))});return{ph,neg,tm}}
-const ffield=s=>{const w=wordsOf(s);return{w,s:w.map(stem)}};
+const _SC=new Map();const stemM=w=>{let r=_SC.get(w);if(r===undefined){r=stem(w);_SC.set(w,r)}return r};
+const ffield=s=>{const w=wordsOf(s);return{w,s:w.map(stemM)}};
 function ready(d,au){if(d._ready)return;d._ready=1;d.forEach(q=>{
  const an=au[q.as_]&&au[q.as_][2];q._f={t:ffield(q.t),a:ffield(q.a+(an&&an!==q.a?' '+an:'')),w:ffield(q.w+' '+(q.l||'')),k:ffield(q.tg.map(x=>x[0]).join(' ')+' '+q.anc+' '+q.kw+' '+q.st)};
  q.nw=q.t.split(/\s+/).length;q._len=q.nw<=40?'short':q.nw<=100?'medium':'long';const a=au[q.as_]||[9999,''];q._ar=a[0];q._p=a[1];q._r=refsOf(q.t+' '+(q.l||''))})}

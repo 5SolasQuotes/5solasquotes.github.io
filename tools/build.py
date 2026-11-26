@@ -39,6 +39,11 @@ def qs(n): return f'{n} quotation' + ('' if n == 1 else 's')
 TREE = json.load(open('assets/tree.json', encoding='utf-8'))
 Q = json.load(open('assets/quotes-index.json', encoding='utf-8'))
 BYID = {q['id']: q for q in Q}
+from urllib.parse import quote_plus as _qp
+for _q in Q:   # the index no longer stores the Share-on-X link (it made the file 2x bigger); rebuild it here for the static pages
+    if not _q.get('x'):
+        _q['x'] = 'https://x.com/intent/post?text=' + _qp('\u201c' + _q['t'] + '\u201d\n\n\u2014 ' + _q['a'] + ', ' + _q['w'] + (', ' + _q['l'] if _q['l'] else '')) + '&url=' + _qp('https://5solasquotes.github.io/quote/%s.html' % _q['id']) + '&via=5Solas'
+
 
 # ---------------------------------------------------------------- the tree
 PARTS = TREE['parts']
