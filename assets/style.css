@@ -213,3 +213,12 @@ p.more{color:var(--muted);margin:1rem 0 2rem}
 .submsg{margin:0;min-height:1.4em}.submsg.ok{color:var(--accent)}.submsg.bad{color:var(--hot)}
 p.suggest{margin:.6rem 0 1rem;font-size:.9rem}
 @media(max-width:600px){.subform{grid-template-columns:1fr}}
+
+/* ui-extras */
+#totop{position:fixed;right:1rem;bottom:1.1rem;z-index:50;width:2.9rem;height:2.9rem;border-radius:50%;border:1px solid var(--accent);background:var(--card2);color:var(--accent);font-size:1.5rem;line-height:1;cursor:pointer;box-shadow:0 4px 14px rgba(0,0,0,.35);opacity:0;visibility:hidden;transform:translateY(8px);transition:opacity .2s,transform .2s,visibility .2s}
+#totop.show{opacity:.95;visibility:visible;transform:none}
+#totop:hover{background:var(--accent);color:#120c05}
+select.worksel{max-width:100%;font:inherit;font-size:.95rem;padding:.3rem .5rem;margin-top:.3rem;background:var(--card2);color:var(--ink);border:1px solid var(--rule);border-radius:4px}
+select.worksel:focus{border-color:var(--accent);outline:none}
+.quote.flash{box-shadow:0 0 0 2px var(--accent),0 0 18px var(--glow);transition:box-shadow .3s}
+html{scroll-padding-top:5rem}
