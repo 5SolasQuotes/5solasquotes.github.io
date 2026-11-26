@@ -180,7 +180,7 @@ ready(function(){
   var on=function(){t.classList.toggle('show',(window.pageYOffset||document.documentElement.scrollTop)>500)};
   window.addEventListener('scroll',on,{passive:true});on();
  }
- // ---- author page: works list -> dropdown
+ // ---- author page: works list -> dropdown (grouped, commentaries in Bible order)
  if(!/\/authors\/[^\/]+\.html$/.test(location.pathname)||/\/authors\/index\.html$/.test(location.pathname))return;
  var sub=document.querySelector('main p.sub');if(!sub||sub.querySelector('select'))return;
  var first={},order=[];
@@ -188,13 +188,29 @@ ready(function(){
   var c=f.querySelector('.wk cite');if(!c)return;var w=c.textContent.trim();if(!w)return;
   if(!first[w]){first[w]={el:f,n:0};order.push(w)}first[w].n++;
  });
- if(order.length<2){ // one work or none: just show the count
-  var m0=sub.textContent.split('·')[0].trim();if(order.length===1)sub.textContent=m0+' · '+order[0];else sub.textContent=m0;return}
- order.sort(function(a,b){return a.toLowerCase()<b.toLowerCase()?-1:1});
  var count=sub.textContent.split('·')[0].trim();
+ if(order.length<2){sub.textContent=order.length===1?count+' · '+order[0]:count;return}
+ var BK=["Genesis","Exodus","Leviticus","Numbers","Deuteronomy","Joshua","Judges","Ruth","1 Samuel","2 Samuel","1 Kings","2 Kings","1 Chronicles","2 Chronicles","Ezra","Nehemiah","Esther","Job","Psalms","Proverbs","Ecclesiastes","Song of Solomon","Isaiah","Jeremiah","Lamentations","Ezekiel","Daniel","Hosea","Joel","Amos","Obadiah","Jonah","Micah","Nahum","Habakkuk","Zephaniah","Haggai","Zechariah","Malachi","Matthew","Mark","Luke","John","Acts","Romans","1 Corinthians","2 Corinthians","Galatians","Ephesians","Philippians","Colossians","1 Thessalonians","2 Thessalonians","1 Timothy","2 Timothy","Titus","Philemon","Hebrews","James","1 Peter","2 Peter","1 John","2 John","3 John","Jude","Revelation"];
+ function bpos(w){var r=w.replace(/^Commentary on /,'');
+  if(/^a Harmony of the Evangelists/i.test(r))return BK.indexOf('Matthew')-.5;
+  if(/^the Catholic Epistles/i.test(r))return BK.indexOf('James')-.5;
+  if(/^the Four Last Books/i.test(r))return BK.indexOf('Exodus')+.5;
+  if(/^the Gospels/i.test(r))return BK.indexOf('Matthew')-.4;
+  r=r.replace(/^1 & 2 /,'1 ');var best=-1,bl=0;
+  BK.forEach(function(b,i){if(r.indexOf(b)===0&&b.length>bl){best=i;bl=b.length}});
+  return best<0?1000:best}
+ function nk(w){return w.toLowerCase().replace(/^(a|an|the)\s+/,'').replace(/^[^a-z0-9]+/,'')}
+ var com=[],oth=[],unk=[];
+ order.forEach(function(w){
+  if(/^Other citations/.test(w))unk.push(w);
+  else if(/^Commentary on /.test(w)&&bpos(w)<1000)com.push(w);else oth.push(w)});
+ com.sort(function(a,b){return bpos(a)-bpos(b)||(a<b?-1:1)});
+ oth.sort(function(a,b){a=nk(a);b=nk(b);return a<b?-1:a>b?1:0});
  var sel=document.createElement('select');sel.className='worksel';sel.setAttribute('aria-label','Jump to a work');
  var o=document.createElement('option');o.value='';o.textContent='Jump to a work ('+order.length+') ▾';sel.appendChild(o);
- order.forEach(function(w,i){var p=document.createElement('option');p.value=i;p.textContent=w+' ('+first[w].n+')';sel.appendChild(p)});
+ function grp(label,arr){if(!arr.length)return;var g=label?document.createElement('optgroup'):sel;if(label)g.label=label;
+  arr.forEach(function(w){var p=document.createElement('option');p.value=order.indexOf(w);p.textContent=w+' ('+first[w].n+')';g.appendChild(p)});if(label)sel.appendChild(g)}
+ if(com.length){grp('Works',oth);grp('Commentaries (Genesis to Revelation)',com);grp('',unk)}else{grp('',oth.concat(unk))}
  sel.addEventListener('change',function(){
   if(sel.value==='')return;var el=first[order[+sel.value]].el;
   el.scrollIntoView({behavior:'smooth',block:'start'});
@@ -204,3 +220,4 @@ ready(function(){
  sub.textContent=count+' · ';sub.appendChild(sel);
 });
 })();
+/* /ui-extras */
