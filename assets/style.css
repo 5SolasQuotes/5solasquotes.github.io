@@ -222,3 +222,11 @@ select.worksel{max-width:100%;font:inherit;font-size:.95rem;padding:.3rem .5rem;
 select.worksel:focus{border-color:var(--accent);outline:none}
 .quote.flash{box-shadow:0 0 0 2px var(--accent),0 0 18px var(--glow);transition:box-shadow .3s}
 html{scroll-padding-top:5rem}
+
+/* quote-format */
+.quote blockquote p{white-space:pre-line}
+/* letters-wrap */
+html,body{max-width:100%;overflow-x:hidden}
+p.letters{display:flex;flex-wrap:wrap;gap:.5rem .9rem;max-width:100%;margin:.6rem 0 1rem;font-size:1.15rem;line-height:1.2}
+p.letters a{margin:0;padding:.25rem .15rem}
+main a,main li,main h1,main h2,main p{overflow-wrap:anywhere}

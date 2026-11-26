@@ -285,8 +285,8 @@ QT = rd('quote/90b2694bf6.html')
 for q in Q:
     f = f'quote/{q["id"]}.html'
     if os.path.exists(f): continue
-    s = re.sub(r'<title>.*?</title>', f'<title>{esc(q["a"])}: {esc(q["t"][:60])}… · 5 Solas Quotes</title>', QT, count=1)
-    s = re.sub(r'<meta name="description" content="[^"]*">', f'<meta name="description" content="{esc(q["t"][:150])}">', s, count=1)
+    s = re.sub(r'<title>.*?</title>', f'<title>{esc(q["a"])}: {esc(q["t"][:60].replace(chr(10), " "))}… · 5 Solas Quotes</title>', QT, count=1)
+    s = re.sub(r'<meta name="description" content="[^"]*">', f'<meta name="description" content="{esc(q["t"][:150].replace(chr(10), " "))}">', s, count=1)
     k0 = q['tags'][0]; t0 = k0.split('/')[0]
     pool = [r for r in SETS['/'.join(k0.split('/')[:2])] if r is not q]
     if len(pool) < 4: pool += [r for r in SETS[t0] if r is not q and r not in pool]
