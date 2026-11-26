@@ -3,19 +3,56 @@
 <script>try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script><link rel="icon" type="image/png" href="assets/favicon.png"><link rel="stylesheet" href="assets/style.css?v=20261125-e447a2e"></head><body>
 <header class="site"><div class="wrap"><a class="brand" href="index.html"><img src="assets/logo-96.png" alt="" width="40" height="40"><span>5 Solas Quotes</span></a>
 <nav><a href="topics/index.html">Topics</a><a href="topics/polemics.html">Polemics</a><a href="collections/index.html">Collections</a><a href="authors/index.html">Authors</a><a href="search.html">Search</a><a href="submit.html">Submit</a><a href="saved.html">Saved</a><a href="about.html">About</a><span class="themewrap"><button class="themebtn" id="themebtn" type="button" aria-label="Toggle light or dark theme"></button><span class="themelbl" aria-hidden="true"></span></span></nav></div></header>
-<main class="wrap"><h1>My Saved</h1><p class="lede">Quotations set aside for study, grouped by subject. These are not part of the main topic collection.</p><div id="savedbox"><p class="noq">Loading…</p></div><script>
+<main class="wrap"><h1>My Saved</h1><p class="lede">Quotations set aside for study, grouped by subject. These are not part of the main topic collection.</p><div id="savedctl" class="savedctl" hidden>
+<div class="sgrid">
+<label>Group by<select id="sgroup"><option value="cat">Topic</option><option value="au">Author</option><option value="wk">Work</option><option value="none">No grouping</option></select></label>
+<label>Sort by<select id="ssort"><option value="new">Newest saved</option><option value="old">Oldest saved</option><option value="au">Author A to Z</option><option value="wk">Work A to Z</option></select></label>
+<label>Topic<select id="scat"><option value="">All topics</option></select></label>
+<label>Author<select id="sau"><option value="">All authors</option></select></label>
+</div>
+<input id="sq" type="search" placeholder="Search the saved quotations" aria-label="Search the saved quotations">
+<p class="sub"><span id="scount"></span> <button type="button" id="sclear" class="copy">Clear</button></p>
+</div>
+<style>.savedctl{margin:1rem 0 .5rem}.sgrid{display:grid;grid-template-columns:1fr 1fr;gap:.6rem}.sgrid label{display:block;font-family:system-ui,sans-serif;font-size:.8rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}.sgrid select{margin-top:.2rem}#sq{width:100%;box-sizing:border-box;margin-top:.7rem;font-size:1rem;color:var(--ink);background:var(--card2);border:1px solid var(--rule);border-radius:4px;padding:.55rem .6rem}</style>
+<div id="savedbox"><p class="noq">Loading…</p></div><script>
 (function(){
-var box=document.getElementById('savedbox');
+var box=document.getElementById('savedbox'),ctl=document.getElementById('savedctl');
+var gSel=document.getElementById('sgroup'),sSel=document.getElementById('ssort'),cSel=document.getElementById('scat'),aSel=document.getElementById('sau'),qIn=document.getElementById('sq'),cnt=document.getElementById('scount');
 function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
 function fname(a){a=String(a||'').replace(/\([^)]*\)/g,'').replace(/,?\s*(ca\.|b\.|d\.|fl\.)?\s*\d{3,4}\s*[-–]?\s*\d{0,4}\??\s*$/i,'').trim();var i=a.indexOf(',');if(i<0)return a;var l=a.slice(0,i).trim(),f=a.slice(i+1).replace(/,.*$/,'').trim();return f?f+' '+l:l}
+function lname(a){a=String(a||'').replace(/\([^)]*\)/g,'').trim();var i=a.indexOf(',');return (i<0?a.split(/\s+/).slice(-1)[0]||'':a.slice(0,i)).trim()}
+function lc(s){return String(s||'').toLowerCase()}
+function cmp(x,y){return lc(x)<lc(y)?-1:lc(x)>lc(y)?1:0}
+var ALL=[];
+function card(q){
+ var au=q._au,wk=q.w||'',loc=q.l?', '+q.l:'';
+ var plain='— '+(au?au+', ':'')+wk+loc;
+ return '<figure class="quote"><blockquote><p>'+esc(q.t)+'</p></blockquote><figcaption>'+(au?'<span class="by"><span class="lbl">Author</span>'+esc(au)+'</span>':'')+'<span class="wk"><span class="lbl">Work</span><cite>'+esc(wk)+'</cite>'+esc(loc)+'</span></figcaption><div class="actions"><button class="copy" data-copy="'+esc('“'+q.t+'”\n\n'+plain)+'">Copy</button></div></figure>'}
+function fill(sel,vals,all){var cur=sel.value;sel.innerHTML='<option value="">'+all+'</option>'+vals.map(function(v){return '<option>'+esc(v)+'</option>'}).join('');sel.value=vals.indexOf(cur)>-1?cur:''}
+function render(){
+ var g=gSel.value,so=sSel.value,c=cSel.value,a=aSel.value,t=lc(qIn.value).trim();
+ var L=ALL.filter(function(q){return (!c||q._cat===c)&&(!a||q._au===a)&&(!t||lc(q.t+' '+q._au+' '+q.w+' '+q._cat).indexOf(t)>-1)});
+ L.sort(function(x,y){
+  if(so==='new')return y._i-x._i; if(so==='old')return x._i-y._i;
+  if(so==='au')return cmp(lname(x.a),lname(y.a))||cmp(x._au,y._au)||cmp(x.w,y.w);
+  return cmp(x.w,y.w)||cmp(x._au,y._au)});
+ cnt.textContent=L.length+' of '+ALL.length+' shown';
+ if(!L.length){box.innerHTML='<p class="noq">Nothing matches. Tap Clear.</p>';return}
+ if(g==='none'){box.innerHTML=L.map(card).join('');return}
+ var key=g==='cat'?'_cat':g==='au'?'_au':'_wk',groups={},order=[];
+ L.forEach(function(q){var k=q[key]||'Unknown';if(!groups[k]){groups[k]=[];order.push(k)}groups[k].push(q)});
+ order.sort(function(x,y){return g==='au'?(cmp(lname(x),lname(y))||cmp(x,y)):cmp(x,y)});
+ box.innerHTML=order.map(function(k){return '<h2 class="sect">'+esc(k)+' <span class="oh">'+groups[k].length+'</span></h2>'+groups[k].map(card).join('')}).join('');
+}
+function uniq(k){var m={};ALL.forEach(function(q){if(q[k])m[q[k]]=1});return Object.keys(m)}
 fetch('assets/saved.json?t='+Date.now()).then(function(r){return r.json()}).then(function(L){
  if(!L.length){box.innerHTML='<p class="noq">No saved quotations yet.</p>';return}
- var cats={},order=[];L.slice().reverse().forEach(function(q){var c=q.cat||'Uncategorized';if(!cats[c]){cats[c]=[];order.push(c)}cats[c].push(q)});
- order.sort(function(a,b){return a.toLowerCase()<b.toLowerCase()?-1:1});
- box.innerHTML='<p class="sub">'+L.length+' saved</p>'+order.map(function(c){return '<h2 class="sect">'+esc(c)+' <span class="oh">'+cats[c].length+'</span></h2>'+cats[c].map(function(q){
-  var au=/unknown/i.test(q.a||'')?'':fname(q.a),wk=q.w||'',loc=q.l?', '+q.l:'';
-  var plain='— '+(au?au+', ':'')+wk+loc;
-  return '<figure class="quote"><blockquote><p>'+esc(q.t)+'</p></blockquote><figcaption>'+(au?'<span class="by"><span class="lbl">Author</span>'+esc(au)+'</span>':'')+'<span class="wk"><span class="lbl">Work</span><cite>'+esc(wk)+'</cite>'+esc(loc)+'</span></figcaption><div class="actions"><button class="copy" data-copy="'+esc('“'+q.t+'”\n\n'+plain)+'">Copy</button></div></figure>'}).join('')}).join('');
+ ALL=L.map(function(q,i){q._i=i;q._cat=q.cat||'Uncategorized';q._au=/unknown/i.test(q.a||'')?'':fname(q.a);q._wk=q.w||'Unknown';return q});
+ fill(cSel,uniq('_cat').sort(cmp),'All topics');fill(aSel,uniq('_au').sort(function(x,y){return cmp(lname(x),lname(y))||cmp(x,y)}),'All authors');
+ ctl.hidden=false;
+ gSel.onchange=sSel.onchange=cSel.onchange=aSel.onchange=render;qIn.oninput=render;
+ document.getElementById('sclear').onclick=function(){cSel.value='';aSel.value='';qIn.value='';render()};
+ render();
 }).catch(function(){box.innerHTML='<p class="noq">Could not load the saved quotations. Try again in a moment.</p>'});
 })();
 </script></main>
