@@ -11,9 +11,19 @@
 <label>Author<select id="sau"><option value="">All authors</option></select></label>
 </div>
 <input id="sq" type="search" placeholder="Search the saved quotations" aria-label="Search the saved quotations">
-<p class="sub"><span id="scount"></span> <button type="button" id="sclear" class="copy">Clear</button></p>
+<div class="srow"><button type="button" id="sclear" class="copy">Clear</button><p><span id="scount"></span></p></div>
 </div>
-<style>.savedctl{margin:1rem 0 .5rem}.sgrid{display:grid;grid-template-columns:1fr 1fr;gap:.6rem}.sgrid label{display:block;font-family:system-ui,sans-serif;font-size:.8rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}.sgrid select{margin-top:.2rem}#sq{width:100%;box-sizing:border-box;margin-top:.7rem;font-size:1rem;color:var(--ink);background:var(--card2);border:1px solid var(--rule);border-radius:4px;padding:.55rem .6rem}</style>
+<style>
+#savedctl{margin:1.2rem 0 .8rem}
+#savedctl .sgrid{display:grid;grid-template-columns:1fr 1fr;gap:.9rem .8rem}
+#savedctl .sgrid label{display:block;font-family:system-ui,sans-serif;font-size:.8rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin:0}
+#savedctl .sgrid select{display:block!important;width:100%!important;box-sizing:border-box;margin-top:.35rem;font-size:1.05rem!important;min-height:3.1rem;padding:.6rem .7rem!important;border-radius:6px!important;text-transform:none;letter-spacing:0;font-weight:400}
+#savedctl #sq{display:block;width:100%;box-sizing:border-box;margin-top:1rem;font-size:1.05rem;min-height:3.1rem;color:var(--ink);background:var(--card2);border:1px solid var(--rule);border-radius:6px;padding:.6rem .8rem}
+#savedctl .srow{display:flex;align-items:center;gap:.9rem;margin:.9rem 0 0}
+#savedctl .srow p{margin:0;font-family:system-ui,sans-serif;font-size:.95rem;color:var(--muted)}
+#savedctl #sclear{font-size:1rem;min-height:2.7rem;padding:.5rem 1.2rem;margin:0}
+@media(max-width:380px){#savedctl .sgrid{grid-template-columns:1fr}}
+</style>
 <div id="savedbox"><p class="noq">Loading…</p></div><script>
 (function(){
 var box=document.getElementById('savedbox'),ctl=document.getElementById('savedctl');
